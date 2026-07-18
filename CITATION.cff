@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "hidroxmx-forecasting: probabilistic streamflow forecasting and predictive digital twin for Mexican pilot basins"
+abstract: >-
+  Model, training and evaluation code for the Paper-2 experiments of the
+  HidroXAI-MX project (streamflow/level forecasting, mechanism-governed
+  transfer, calibrated uncertainty → fuzzy alerting, and a scoped
+  predictive/assimilation-ready digital-twin loop). Input data are consumed
+  from the sibling repository hidroxai-mx (Zenodo snapshot v2026.06, DOI
+  10.5281/zenodo.21231601); no data is versioned inside this repository.
+type: software
+authors:
+  - family-names: "Sánchez-Ruiz"
+    given-names: "Daniel"
+    affiliation: "Instituto Politécnico Nacional (IPN), Unidad Profesional Interdisciplinaria de Ingeniería Campus Tlaxcala (UPIIT)"
+    email: "dsanchezro@ipn.mx"
+version: "0.1.0"
+date-released: "2026-07-07"
+license: MIT
+repository-code: "https://github.com/pantrok/hidroxmx-forecasting"
+keywords:
+  - hydrology
+  - streamflow forecasting
+  - digital twin
+  - conformal prediction
+  - fuzzy alerting
+  - regionalization
+  - deep learning
+  - Mexico
+  - CONAGUA
+notes: >-
+  Project IND-2026-0335, Instituto Politécnico Nacional (IPN), Convocatoria de
+  Proyectos de Investigación Científica y Desarrollo Tecnológico 2026.

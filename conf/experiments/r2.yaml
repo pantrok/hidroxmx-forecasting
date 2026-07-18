@@ -1,0 +1,21 @@
+# All paths are relative to the R2 bucket declared in .env (R2_BUCKET).
+# Values below use `${env:VAR}` so a runtime YAML loader can substitute
+# environment variables; ``python-dotenv`` fills the environment first.
+
+dataset:                    # provided by hidroxai-mx snapshot v2026.06
+  prefix:              "${env:R2_DATASET_PREFIX}"
+  series_hidro:        "${env:R2_DATASET_PREFIX}/processed/series_hidrometricas.parquet"
+  series_clima:        "${env:R2_DATASET_PREFIX}/processed/series_climatologicas.parquet"
+  feature_table:       "${env:R2_DATASET_PREFIX}/features/feature_table.parquet"
+  selected_hidro_csv:  "${env:R2_DATASET_PREFIX}/processed/estaciones_seleccionadas_hidrometricas.csv"
+  selected_clima_csv:  "${env:R2_DATASET_PREFIX}/processed/estaciones_seleccionadas_climatologicas.csv"
+  cuencas_gpkg_prefix: "${env:R2_DATASET_PREFIX}/processed/cuencas"
+
+paper2:                     # written by this repository
+  prefix:      "${env:R2_PAPER2_PREFIX}"
+  runs:        "${env:R2_PAPER2_PREFIX}/runs"           # per run_id checkpoints & manifests
+  artefacts:   "${env:R2_PAPER2_PREFIX}/artefacts"      # figures, tables, blind-tributary CSV
+  signatures:  "${env:R2_PAPER2_PREFIX}/signatures"     # cached response-kernel + attribute vectors
+  uq:          "${env:R2_PAPER2_PREFIX}/uq"             # calibration tables per method / fold
+  alerts:      "${env:R2_PAPER2_PREFIX}/alerts"         # exported fuzzy rules and thresholds
+  coverage:    "${env:R2_PAPER2_PREFIX}/coverage"       # Flood Hub / GloFAS overlays + tables

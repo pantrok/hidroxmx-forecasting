@@ -1,0 +1,52 @@
+# --- Data, checkpoints, artefacts (all live in Cloudflare R2, never in git) ---
+/data/
+/checkpoints/
+/artefacts/
+/outputs/
+/runs/
+*.parquet
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.tif
+*.tiff
+*.gpkg
+*.h5
+*.hdf5
+
+# --- Secrets ---
+.env
+.env.local
+*.pem
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+env/
+venv/
+*.egg-info/
+build/
+dist/
+.coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+notebooks/scratch/
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Claude Code (local allowlist of the current user) ---
+/.claude/settings.local.json
+
+# --- MS Office lock files ---
+~$*

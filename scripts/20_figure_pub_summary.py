@@ -108,9 +108,8 @@ def _panel_bars(ax, df: pd.DataFrame):
     f0pub_mean = np.array([df[f"f0pub_nse_h{h}"].mean() for h in HORIZONS])
     f0pub_std = np.array([df[f"f0pub_nse_h{h}"].std(ddof=0) for h in HORIZONS])
 
-    # Wong palette: [black, orange, sky-blue, green, yellow, blue, vermillion, purple]
     persist_color = "#7A7A7A"      # neutral gray — a naive baseline
-    f0pub_color = WONG_PALETTE[5]  # blue for the model
+    f0pub_color = WONG_PALETTE[5]  # Wong blue for the model
 
     ax.bar(x - width / 2, persist_mean, width, yerr=persist_std,
            color=persist_color, edgecolor="black", linewidth=0.6,
@@ -121,11 +120,19 @@ def _panel_bars(ax, df: pd.DataFrame):
            label="F0-PUB (multi-station)", capsize=2.5,
            error_kw={"elinewidth": 0.6, "ecolor": "black"})
 
-    # Annotate the delta above each F0-PUB bar.
-    for xi, (fm, pm) in enumerate(zip(f0pub_mean, persist_mean)):
-        delta = fm - pm
-        y_top = max(fm + f0pub_std[xi], pm + persist_std[xi]) + 0.02
-        ax.text(xi + width / 2, y_top, f"Δ={delta:+.02f}",
+    # Y-limit needs headroom to fit the error-bar caps AND the delta text
+    # above them. Compute the visual top per bar and pick a limit that
+    # clears the maximum comfortably.
+    per_top = persist_mean + persist_std
+    f0_top = f0pub_mean + f0pub_std
+    max_visual_top = float(max(per_top.max(), f0_top.max()))
+    y_max = min(1.45, max(1.15, max_visual_top + 0.20))
+
+    # Δ annotations: place above F0-PUB error-bar cap; clamp to y_max-0.02.
+    for xi in range(len(HORIZONS)):
+        delta = f0pub_mean[xi] - persist_mean[xi]
+        text_y = min(f0_top[xi] + 0.03, y_max - 0.02)
+        ax.text(xi + width / 2, text_y, f"Δ={delta:+.02f}",
                 ha="center", va="bottom", fontsize=6.5,
                 color=f0pub_color if delta > 0 else "black")
 
@@ -135,17 +142,27 @@ def _panel_bars(ax, df: pd.DataFrame):
     ax.set_xlabel("Forecast horizon")
     ax.set_title("(a) PUB mean NSE across horizons (14 folds, Alto Lerma)",
                  loc="left", fontsize=8.5)
-    ax.set_ylim(0, max(1.0, (f0pub_mean + f0pub_std).max() + 0.15))
+    ax.set_ylim(0, y_max)
     ax.axhline(0, color="black", linewidth=0.4)
     ax.legend(loc="lower left", frameon=True, framealpha=0.9)
 
 
 def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
-    """Per-station scatter of F0-PUB vs persistence NSE at horizon h."""
+    """Per-station scatter of F0-PUB vs persistence NSE at horizon h.
+
+    Labelling strategy: individual labels for the seven "interesting"
+    stations (outside the high-persistence cluster), placed with a
+    per-station offset dictionary to avoid overlap on the mid-range
+    stations that would otherwise pile up. The high-persistence cluster
+    gets one boxed annotation pinned to the empty upper-left corner
+    with a leader line to the cluster centroid.
+    """
     x = df[f"persist_nse_h{h}"].to_numpy()
     y = df[f"f0pub_nse_h{h}"].to_numpy()
+    names = df["holdout"].tolist()
     wins = y > x
 
+    # y = x reference and points
     ax.plot([-1, 1.05], [-1, 1.05], color="black", linewidth=0.5,
             linestyle="--", label="y = x")
     ax.scatter(x[wins], y[wins], s=32, color=WONG_PALETTE[3],
@@ -155,15 +172,68 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
                edgecolor="black", linewidth=0.5, zorder=3,
                label=f"Persistence wins ({int((~wins).sum())})")
 
-    # Label each station near its point, offsetting slightly.
-    for xi, yi, name in zip(x, y, df["holdout"]):
-        ax.annotate(name, (xi, yi), textcoords="offset points",
-                    xytext=(4, 3), fontsize=6, color="black")
+    # High-persistence cluster: mask points where both metrics >= 0.85.
+    cluster_x_min = 0.85
+    cluster_y_min = 0.85
+    cluster = (x >= cluster_x_min) & (y >= cluster_y_min)
+    cluster_names = [names[i] for i in range(len(names)) if cluster[i]]
 
-    lo = min(x.min(), y.min()) - 0.05
-    hi = max(x.max(), y.max()) + 0.05
-    lo = max(lo, -0.3); hi = min(hi, 1.02)
-    ax.set_xlim(lo, hi); ax.set_ylim(lo, hi)
+    # Per-station manual offsets (dx_pt, dy_pt, ha, va) for the seven
+    # non-cluster stations. Values chosen to keep labels off other
+    # markers on this specific dataset.
+    manual_offsets = {
+        "SLCGJ": ( 7,  4, "left",   "bottom"),
+        "CALMX": ( 7, -3, "left",   "top"),
+        "ECBGJ": ( 7,  4, "left",   "bottom"),
+        "LAYMX": (-8,  6, "right",  "bottom"),
+        "EGIMC": ( 7,  6, "left",   "bottom"),
+        "SL2GJ": ( 7, -3, "left",   "top"),
+        "SLVGJ": (-4, -8, "right",  "top"),
+    }
+
+    for xi, yi, name, is_cluster in zip(x, y, names, cluster):
+        if is_cluster:
+            continue
+        dx, dy, ha, va = manual_offsets.get(
+            name, (7, 3, "left", "bottom"),
+        )
+        ax.annotate(name, (xi, yi), textcoords="offset points",
+                    xytext=(dx, dy), fontsize=6, color="black",
+                    ha=ha, va=va)
+
+    # Callout box for the high-persistence cluster: pinned to the empty
+    # upper-left corner (where no station lands because that region
+    # would require F0-PUB > 0.9 with persist < 0.5, which does not
+    # occur in Alto Lerma). Arrow leads to the cluster centroid.
+    if cluster_names:
+        cx = float(np.mean(x[cluster]))
+        cy = float(np.mean(y[cluster]))
+        chunk_size = 4
+        chunked = [", ".join(cluster_names[i:i + chunk_size])
+                   for i in range(0, len(cluster_names), chunk_size)]
+        text = ("High-persistence cluster\n"
+                f"(persist NSE ≥ {cluster_x_min}, n = {len(cluster_names)}):\n"
+                + "\n".join(chunked))
+        ax.annotate(
+            text,
+            xy=(cx, cy),
+            xytext=(0.02, 0.98),
+            textcoords="axes fraction",
+            fontsize=6, ha="left", va="top",
+            bbox=dict(boxstyle="round,pad=0.35", facecolor="white",
+                      edgecolor="gray", linewidth=0.5, alpha=0.95),
+            arrowprops=dict(arrowstyle="-|>", color="gray",
+                            lw=0.6, mutation_scale=8,
+                            connectionstyle="arc3,rad=-0.15"),
+        )
+
+    # Symmetric limits with a bit of slack; clamp so the ticks stay legible.
+    lo = float(min(x.min(), y.min())) - 0.06
+    hi = float(max(x.max(), y.max())) + 0.06
+    lo = max(lo, -0.3)
+    hi = min(hi, 1.02)
+    ax.set_xlim(lo, hi)
+    ax.set_ylim(lo, hi)
     ax.set_xlabel(f"Persistence NSE (h = {h} d)")
     ax.set_ylabel(f"F0-PUB NSE (h = {h} d)")
     ax.set_title(f"(b) Per-station comparison at h = {h} d",

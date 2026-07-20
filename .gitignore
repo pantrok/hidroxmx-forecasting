@@ -4,6 +4,7 @@
 /artefacts/
 /outputs/
 /runs/
+/cache/
 *.parquet
 *.npz
 *.pt

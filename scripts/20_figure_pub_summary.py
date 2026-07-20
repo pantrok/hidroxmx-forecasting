@@ -49,14 +49,27 @@ from hidroxmx.viz import (  # noqa: E402
 )
 
 
-# Fixed station roster for the Alto Lerma basin (matches the 14 folds
-# of the PUB sweep). Order preserves alphabetical listing for legibility.
-ALTO_LERMA_CLAVES = (
-    "ATOMX", "BRAGJ", "CALMX", "CEYGJ", "CYUGJ", "ECBGJ", "EGIMC",
-    "IXCMX", "LAYMX", "SB2MX", "SL2GJ", "SLCGJ", "SLVGJ", "SMLMX",
-)
-
 HORIZONS = (1, 2, 3, 5, 7)
+
+
+def _list_folds_from_r2(r2, run_id: str) -> list[str]:
+    """List every clave with a manifest.json under paper2/runs/{run_id}/.
+
+    Basin-agnostic — the sweep script writes one folder per holdout, so
+    the presence of a manifest tells us which stations are available
+    regardless of which basin the sweep targets.
+    """
+    prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + f"/runs/{run_id}/"
+    claves: set[str] = set()
+    client = r2._client()
+    paginator = client.get_paginator("list_objects_v2")
+    for page in paginator.paginate(Bucket=r2.bucket, Prefix=prefix):
+        for obj in page.get("Contents", []):
+            rel = obj["Key"][len(prefix):]
+            parts = rel.split("/")
+            if len(parts) >= 2 and parts[-1] == "manifest.json":
+                claves.add(parts[0])
+    return sorted(claves)
 
 
 def _load_fold_from_r2(r2, prefix: str, clave: str) -> dict | None:
@@ -75,6 +88,10 @@ def _load_all_folds(run_id: str, claves) -> pd.DataFrame:
     prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + f"/runs/{run_id}"
     click.echo(f"[20_fig] R2 endpoint: {r2.endpoint_url}  bucket: {r2.bucket}")
     click.echo(f"[20_fig] prefix    : {prefix}")
+    if not claves:
+        click.echo("[20_fig] listing available folds on R2 (auto-discover)…")
+        claves = _list_folds_from_r2(r2, run_id)
+        click.echo(f"[20_fig] discovered {len(claves)} folds: {claves}")
     rows = []
     for i, clave in enumerate(claves, 1):
         click.echo(f"[20_fig]   [{i:>2d}/{len(claves)}] fetching {clave}…", nl=False)
@@ -140,7 +157,10 @@ def _panel_bars(ax, df: pd.DataFrame):
     ax.set_xticklabels([f"{h} d" for h in HORIZONS])
     ax.set_ylabel("NSE (Nash–Sutcliffe efficiency)")
     ax.set_xlabel("Forecast horizon")
-    ax.set_title("(a) PUB mean NSE across horizons (14 folds, Alto Lerma)",
+    n_folds = len(df)
+    basin_label = df.attrs.get("basin_label", "")
+    suffix = f"{n_folds} folds" + (f", {basin_label}" if basin_label else "")
+    ax.set_title(f"(a) PUB mean NSE across horizons ({suffix})",
                  loc="left", fontsize=8.5)
     ax.set_ylim(0, y_max)
     ax.axhline(0, color="black", linewidth=0.4)
@@ -178,9 +198,11 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
     cluster = (x >= cluster_x_min) & (y >= cluster_y_min)
     cluster_names = [names[i] for i in range(len(names)) if cluster[i]]
 
-    # Per-station manual offsets (dx_pt, dy_pt, ha, va) for the seven
-    # non-cluster stations. Values chosen to keep labels off other
-    # markers on this specific dataset.
+    # Per-station manual offsets (dx_pt, dy_pt, ha, va) tuned by hand for
+    # the Alto Lerma dataset. Any station not listed here falls back to
+    # a directional heuristic — winners get a right/up label, losers a
+    # left/down one — which is sensible for most datasets and can be
+    # extended per basin as visual issues arise.
     manual_offsets = {
         "SLCGJ": ( 7,  4, "left",   "bottom"),
         "CALMX": ( 7, -3, "left",   "top"),
@@ -194,9 +216,12 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
     for xi, yi, name, is_cluster in zip(x, y, names, cluster):
         if is_cluster:
             continue
-        dx, dy, ha, va = manual_offsets.get(
-            name, (7, 3, "left", "bottom"),
-        )
+        if name in manual_offsets:
+            dx, dy, ha, va = manual_offsets[name]
+        elif yi >= xi:
+            dx, dy, ha, va = 7, 3, "left", "bottom"
+        else:
+            dx, dy, ha, va = -7, -3, "right", "top"
         ax.annotate(name, (xi, yi), textcoords="offset points",
                     xytext=(dx, dy), fontsize=6, color="black",
                     ha=ha, va=va)
@@ -236,7 +261,9 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
     ax.set_ylim(lo, hi)
     ax.set_xlabel(f"Persistence NSE (h = {h} d)")
     ax.set_ylabel(f"F0-PUB NSE (h = {h} d)")
-    ax.set_title(f"(b) Per-station comparison at h = {h} d",
+    basin_label = df.attrs.get("basin_label", "")
+    suffix = f" ({basin_label})" if basin_label else ""
+    ax.set_title(f"(b) Per-station comparison at h = {h} d{suffix}",
                  loc="left", fontsize=8.5)
     ax.set_aspect("equal", adjustable="box")
     ax.legend(loc="lower right", frameon=True, framealpha=0.9)
@@ -248,13 +275,28 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
               show_default=True, help="Output path stem (no extension).")
 @click.option("--horizon-scatter", default=1, show_default=True,
               help="Horizon (days) shown in the per-station scatter panel.")
-def main(run_id: str, out: str, horizon_scatter: int):
+@click.option("--basin-label", default="", show_default=True,
+              help="Basin display name written in the panel titles "
+                   "(e.g. 'Alto Lerma'). Empty leaves it out.")
+@click.option("--claves", default="", show_default=True,
+              help="Comma-separated station keys. Empty auto-discovers "
+                   "every fold present on R2 under the run-id.")
+def main(run_id: str, out: str, horizon_scatter: int,
+         basin_label: str, claves: str):
     load_dotenv(override=False)
-    click.echo(f"[20_fig] Loading {len(ALTO_LERMA_CLAVES)} manifests from R2 "
-               f"under run-id {run_id!r}…")
-    df = _load_all_folds(run_id, ALTO_LERMA_CLAVES)
+    claves_tuple: tuple[str, ...] = tuple(
+        c.strip() for c in claves.split(",") if c.strip()
+    )
+    if claves_tuple:
+        click.echo(f"[20_fig] Loading {len(claves_tuple)} manifests from R2 "
+                   f"under run-id {run_id!r}…")
+    else:
+        click.echo(f"[20_fig] Auto-discovering folds on R2 for run-id {run_id!r}…")
+    df = _load_all_folds(run_id, claves_tuple)
     if df.empty:
         raise SystemExit("[20_fig] No manifests could be loaded; abort.")
+    if basin_label:
+        df.attrs["basin_label"] = basin_label
     click.echo(f"[20_fig] Loaded {len(df)} folds.")
 
     # Aggregate stats echo (redundant with the on-run diagnostic but useful).

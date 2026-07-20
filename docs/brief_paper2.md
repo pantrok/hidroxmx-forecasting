@@ -17,7 +17,8 @@
 | Repo código | https://github.com/pantrok/hidroxmx-forecasting |
 | Journal objetivo | *Journal of Hydrology*, SI "AI-driven digital twins for hydrological systems" |
 | Dataset | `hidroxai-mx` v2026.06 (sibling repo; snapshot en R2 en formato DVC) |
-| Cuenca piloto trabajada | **Alto Lerma** (14 estaciones hidrométricas seleccionadas) |
+| Cuencas piloto planeadas | **4 cuencas** — Alto Lerma (14), Valle de México (20), Bajo Pánuco (15), Medio Balsas (13). Total 62 estaciones. |
+| Cuencas completadas | Alto Lerma (Milestone 3 completo, 14 folds PUB) |
 | Última actualización | 2026-07-20 |
 
 **Nota sobre autoría**: nunca aparece Claude / IA como co-autora en commits, en `AUTHORS`, en `CITATION.cff` ni en headers/docstrings. Sí se declarará el uso de LLMs en la sección de disclosure del manuscrito conforme a la política Elsevier GenAI (obligatorio para figuras derivadas de LSTMs).
@@ -263,12 +264,26 @@ Ver git log completo para detalle.
 
 ---
 
+## Decisión de scoping tomada (2026-07-20)
+
+**Opción B**: extender Milestone 3 a 4 cuencas grandes (Alto Lerma ✅, Valle de México, Bajo Pánuco, Medio Balsas). Motivación:
+
+- Respeta la promesa del README original ("across four Mexican pilot basins").
+- Da robustez cross-basin que un reviewer pediría de todas formas.
+- El driver `scripts/12_train_multistation.py` ya soporta `--basin` cualquiera — no requiere código nuevo, solo 3 sweeps en Colab (~8-10 h GPU adicionales).
+- El script de figura `scripts/20_figure_pub_summary.py` es basin-agnóstico desde 2026-07-20: auto-descubre folds vía `list_objects` en R2, título parametrizado con `--basin-label`.
+- Permite el gráfico Fig. 4 cross-basin (una figura adicional que hace el paper mucho más convincente).
+
+Descartado:
+- Opción A (solo Alto Lerma) — funcionaba pero deja pregunta de reviewer abierta.
+- Opción C (todas las 15 cuencas) — muchas tienen 1-5 estaciones, PUB LOO estadísticamente débil.
+- Opción D (cross-basin transfer) — se puede añadir como fig. suplementaria si Milestone 4 sobra tiempo GPU.
+
 ## Preguntas abiertas / decisiones pendientes
 
 1. **Milestone 4 mechanism**: ¿qué mecanismo se prueba primero? Recomendación: S-SIG primero (firmas hidrológicas son más interpretables para el reviewer) y S-INV al final (technically most novel).
-2. **Extender a otras cuencas**: Alto Lerma es 1 de 4 basins piloto. ¿Se replica el sweep en Bajo Pánuco (15 estaciones), Valle de México (20), Medio Balsas (13)? Depende del budget de GPU.
-3. **F0-PUB "lumped" para todos los papers, o baseline específico**: usar F0-PUB como baseline en Path B y RQ3 también, o mantener persistencia como baseline canónico transversal.
-4. **Naming de RUN_ID**: adoptar convención `{stage}-{basin}-{config}-{yyyy-mm-dd}` para trazabilidad temporal.
+2. **F0-PUB "lumped" para todos los papers, o baseline específico**: usar F0-PUB como baseline en Path B y RQ3 también, o mantener persistencia como baseline canónico transversal.
+3. **Naming de RUN_ID**: adoptar convención `{stage}-{basin}-{config}-{yyyy-mm-dd}` para trazabilidad temporal.
 
 ---
 

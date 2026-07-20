@@ -70,6 +70,7 @@ from hidroxmx.io import (
     CheckpointStore,
     RunManifest,
     dump_manifest,
+    publish_results,
     r2_from_env,
     seed_everything,
 )
@@ -483,6 +484,16 @@ def _run_pub_fold(target_clave: str, stations_pool: pd.DataFrame,
             r2.upload_file(f"{prefix}/{f.name}", f)
             click.echo(f"[12_train]   -> r2://{r2.bucket}/{prefix}/{f.name}")
 
+    # Git-tracked copy for the paper record. Per-fold artefacts live under
+    # results/12_train_multistation/{run_id}/{holdout}/ so a --holdout '*'
+    # sweep leaves one folder per fold plus a top-level folds_summary.csv.
+    published = publish_results(
+        [out_dir / "manifest.json", out_dir / "history.json"],
+        stage="12_train_multistation", run_id=run_id, subpath=target_clave,
+    )
+    for p in published:
+        click.echo(f"[12_train]   -> git: {p.as_posix()}")
+
     del model, optimiser
     gc.collect()
     if torch.cuda.is_available():
@@ -575,6 +586,12 @@ def main(run_id, basin, holdout, lookback, horizons, hidden, layers, dropout,
             prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + f"/runs/{run_id}"
             r2.upload_file(f"{prefix}/folds_summary.csv", out_root / "folds_summary.csv")
             click.echo(f"[12_train]   -> r2://{r2.bucket}/{prefix}/folds_summary.csv")
+        published = publish_results(
+            [out_root / "folds_summary.csv"],
+            stage="12_train_multistation", run_id=run_id,
+        )
+        for p in published:
+            click.echo(f"[12_train]   -> git: {p.as_posix()}")
 
     click.echo("[12_train] Done.")
 

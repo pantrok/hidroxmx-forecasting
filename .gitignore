@@ -5,6 +5,7 @@
 /outputs/
 /runs/
 /cache/
+/.sync_tmp/
 *.parquet
 *.npz
 *.pt

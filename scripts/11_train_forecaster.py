@@ -56,6 +56,7 @@ from hidroxmx.io import (
     CheckpointStore,
     RunManifest,
     dump_manifest,
+    publish_results,
     r2_from_env,
     seed_everything,
 )
@@ -570,6 +571,14 @@ def main(
         for local in (out_dir / "history.json", out_dir / "manifest.json"):
             r2.upload_file(f"{prefix}/{local.name}", local)
             click.echo(f"[11_train]   -> r2://{r2.bucket}/{prefix}/{local.name}")
+
+    # Copy text-only artefacts into results/ so git tracks the paper record.
+    published = publish_results(
+        [out_dir / "manifest.json", out_dir / "history.json"],
+        stage="11_train_forecaster", run_id=run_id,
+    )
+    for p in published:
+        click.echo(f"[11_train]   -> git: {p.as_posix()}")
 
     del model, optimiser
     gc.collect()

@@ -281,8 +281,13 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
 @click.option("--claves", default="", show_default=True,
               help="Comma-separated station keys. Empty auto-discovers "
                    "every fold present on R2 under the run-id.")
+@click.option("--upload-to-r2", is_flag=True,
+              help="Mirror the rendered TIFF, PDF and PNG to R2 under "
+                   "{R2_PAPER2_PREFIX}/figures/. Recommended for every "
+                   "figure the paper cites so the durable source lives "
+                   "on R2 alongside the run manifests it derives from.")
 def main(run_id: str, out: str, horizon_scatter: int,
-         basin_label: str, claves: str):
+         basin_label: str, claves: str, upload_to_r2: bool):
     load_dotenv(override=False)
     claves_tuple: tuple[str, ...] = tuple(
         c.strip() for c in claves.split(",") if c.strip()
@@ -321,15 +326,22 @@ def main(run_id: str, out: str, horizon_scatter: int,
     written = save_figure(
         fig, stem, kind="combination",
         metadata={
-            "Title": "Milestone 3 PUB summary — Alto Lerma",
+            "Title": f"Milestone 3 PUB summary{(' — ' + basin_label) if basin_label else ''}",
             "Author": "Daniel Sánchez-Ruiz",
-            "Subject": "F0-PUB vs persistence, 14-fold leave-one-out",
+            "Subject": f"F0-PUB vs persistence, {len(df)}-fold leave-one-out",
         },
     )
     plt.close(fig)
     for p in written:
         click.echo(f"[20_fig] wrote {p.as_posix()}  "
                    f"({p.stat().st_size / 1024:.1f} KB)")
+
+    if upload_to_r2:
+        r2 = r2_from_env()
+        prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + "/figures"
+        for p in written:
+            r2.upload_file(f"{prefix}/{p.name}", p)
+            click.echo(f"[20_fig]   -> r2://{r2.bucket}/{prefix}/{p.name}")
 
 
 if __name__ == "__main__":

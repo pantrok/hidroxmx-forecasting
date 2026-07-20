@@ -411,14 +411,17 @@ def main(
     resumed = ckpt_store.restore(name="last.ckpt")
     start_epoch = 0
     best_val = float("inf")
+    best_epoch = -1
     if resumed is not None:
         try:
             model.load_state_dict(resumed["model"])
             optimiser.load_state_dict(resumed["optimizer"])
             start_epoch = int(resumed.get("epoch", 0)) + 1
             best_val = float(resumed.get("best_val", best_val))
+            best_epoch = int(resumed.get("best_epoch", -1))
             restore_rng_state(resumed.get("rng", {}))
-            click.echo(f"[11_train] Resumed from epoch {start_epoch}; best_val={best_val:.4f}")
+            click.echo(f"[11_train] Resumed from epoch {start_epoch}; "
+                       f"best_val={best_val:.4f} at epoch {best_epoch}")
         except Exception as exc:  # noqa: BLE001
             click.echo(f"[11_train] Failed to resume ({exc}); starting fresh.")
 
@@ -428,7 +431,6 @@ def main(
     test_x = torch.from_numpy(windows_test["x"]).to(device)
 
     history = []
-    best_epoch = -1
     epochs_since_improved = 0
     for epoch in range(start_epoch, epochs):
         model.train()
@@ -463,6 +465,7 @@ def main(
             "optimizer": optimiser.state_dict(),
             "epoch": epoch,
             "best_val": min(best_val, val_loss),
+            "best_epoch": best_epoch if not improved else epoch,
             "config": {"hidden": hidden, "layers": layers, "dropout": dropout,
                        "lookback": lookback, "horizons": horizons_list,
                        "lr": lr, "batch_size": batch_size, "seed": seed,

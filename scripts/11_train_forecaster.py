@@ -277,6 +277,8 @@ def _eval_metrics(y_true: np.ndarray, y_pred: np.ndarray,
 @click.option("--batch-size", default=64, show_default=True)
 @click.option("--epochs", default=30, show_default=True)
 @click.option("--lr", default=5e-4, show_default=True)
+@click.option("--patience", default=5, show_default=True,
+              help="Early-stopping patience (in epochs) on val loss. 0 disables it.")
 @click.option("--use-clima/--no-clima", default=True, show_default=True,
               help="Join the mean of the station's climatological neighbours as exogenous features.")
 @click.option("--seed", default=20260101, show_default=True)
@@ -285,7 +287,7 @@ def _eval_metrics(y_true: np.ndarray, y_pred: np.ndarray,
               help="Mirror checkpoints and manifest under {R2_PAPER2_PREFIX}/runs/{run_id}/.")
 def main(
     run_id, basin, clave, lookback, horizons, hidden, layers, dropout,
-    batch_size, epochs, lr, use_clima, seed, out_dir, upload_to_r2,
+    batch_size, epochs, lr, patience, use_clima, seed, out_dir, upload_to_r2,
 ):
     load_dotenv(override=False)
     seed_everything(seed)
@@ -426,6 +428,8 @@ def main(
     test_x = torch.from_numpy(windows_test["x"]).to(device)
 
     history = []
+    best_epoch = -1
+    epochs_since_improved = 0
     for epoch in range(start_epoch, epochs):
         model.train()
         epoch_loss, n_seen = 0.0, 0
@@ -449,8 +453,10 @@ def main(
             val_loss = float(loss_fn(val_pred, val_y).item())
         entry = {"epoch": epoch, "train_loss": train_loss, "val_loss": val_loss}
         history.append(entry)
+        improved = val_loss < best_val
+        marker = " *" if improved else ""
         click.echo(f"[11_train] epoch {epoch:03d} "
-                   f"train_loss={train_loss:.4f}  val_loss={val_loss:.4f}")
+                   f"train_loss={train_loss:.4f}  val_loss={val_loss:.4f}{marker}")
 
         state = {
             "model": model.state_dict(),
@@ -467,9 +473,26 @@ def main(
             "rng": collect_rng_state(),
         }
         ckpt_store.save(state, name="last.ckpt")
-        if val_loss < best_val:
+        if improved:
             best_val = val_loss
+            best_epoch = epoch
+            epochs_since_improved = 0
             ckpt_store.save(state, name="best.ckpt")
+        else:
+            epochs_since_improved += 1
+            if patience and epochs_since_improved >= patience:
+                click.echo(f"[11_train] Early stopping at epoch {epoch:03d} "
+                           f"(no val improvement for {patience} epochs; best epoch {best_epoch:03d} "
+                           f"with val_loss={best_val:.4f}).")
+                break
+
+    # Restore best checkpoint for evaluation so we report the model that
+    # actually generalises rather than the last-epoch overfit.
+    best_ckpt = ckpt_store.restore(name="best.ckpt")
+    if best_ckpt is not None:
+        model.load_state_dict(best_ckpt["model"])
+        click.echo(f"[11_train] Restored best.ckpt (epoch {int(best_ckpt.get('epoch', -1)):03d}, "
+                   f"val_loss={float(best_ckpt.get('best_val', float('nan'))):.4f}) for test evaluation.")
 
     # 7. Test-set predictions in physical units ----------------------------
     #    The model was trained on standardised log1p(gasto). Undo in two
@@ -504,13 +527,15 @@ def main(
     metrics["train_windows"] = len(windows_train["x"])
     metrics["val_windows"] = len(windows_val["x"])
     metrics["test_windows"] = len(windows_test["x"])
-    click.echo("[11_train] === Test metrics (physical units) ===")
+    metrics["best_epoch"] = int(best_epoch)
+    metrics["best_val_loss"] = float(best_val)
+    click.echo("[11_train] === Test metrics (physical units, best.ckpt) ===")
     for h in horizons_list:
         click.echo(
             f"[11_train]   h={h:>2d}d  "
-            f"F0 NSE={metrics[f'nse_h{h}']:+.3f}  KGE={metrics[f'kge_h{h}']:+.3f}  "
-            f"RMSE={metrics[f'rmse_h{h}_m3s']:.3f} m3/s  "
-            f"|  persist NSE={metrics[f'persist_nse_h{h}']:+.3f}  "
+            f"F0 NSE={metrics[f'nse_h{h}']:+.3f} KGE={metrics[f'kge_h{h}']:+.3f} "
+            f"RMSE={metrics[f'rmse_h{h}_m3s']:6.2f} m3/s  |  "
+            f"persist NSE={metrics[f'persist_nse_h{h}']:+.3f} KGE={metrics[f'persist_kge_h{h}']:+.3f}  |  "
             f"clim NSE={metrics[f'clim_nse_h{h}']:+.3f}"
         )
 

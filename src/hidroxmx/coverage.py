@@ -125,27 +125,40 @@ def plot_coverage_map(
     *,
     flood_hub_reaches=None,
     glofas_reaches=None,
-    dpi: int = 300,
     title: str | None = None,
+    kind: str = "combination",
+    column: str = "double",
 ):
-    """Render the coverage map (Figure 1)."""
+    """Render the coverage map (Figure 1) at J. Hydrology submission spec.
+
+    Saves TIFF (500 dpi for combination), PDF (vector), and PNG (500 dpi
+    for preview) in one pass through :func:`hidroxmx.viz.save_figure`.
+    ``out_path`` is treated as a *stem* — the extension you supply is
+    stripped and the helper appends ``.tif``, ``.pdf`` and ``.png``.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.lines import Line2D
     from matplotlib.patches import Patch
 
+    from .viz import figure_size, save_figure, set_publication_defaults
+
+    set_publication_defaults()
+
+    # Category colours — colour-blind accessible (Wong-style pairing kept
+    # here to preserve semantic mapping used in Paper 1's Fig. 1).
     palette = {
-        "both": "#2E7D5B",
+        "both":           "#2E7D5B",
         "flood_hub_only": "#1F3D5C",
-        "glofas_only": "#C9971B",
-        "none": "#B23A48",
+        "glofas_only":    "#C9971B",
+        "none":           "#B23A48",
     }
 
     merged = subbasins.merge(per_subbasin[["subbasin_id", "coverage_status"]], on="subbasin_id")
     merged["_color"] = merged["coverage_status"].map(palette)
 
-    fig, ax = plt.subplots(figsize=(9.5, 8.5))
+    fig, ax = plt.subplots(figsize=figure_size(column=column, height_ratio=0.85))
     for status, colour in palette.items():
         piece = merged[merged["coverage_status"] == status]
         if len(piece) == 0:
@@ -161,7 +174,6 @@ def plot_coverage_map(
     ax.set_ylabel("Latitude")
     ax.set_title(title or "Global-model coverage over the Hidro-MX pilot sub-basins")
     ax.set_aspect("equal", adjustable="datalim")
-    ax.grid(alpha=0.3)
 
     legend_items = [
         Patch(facecolor=palette["both"], label="Covered by both providers"),
@@ -173,9 +185,11 @@ def plot_coverage_map(
         legend_items.append(Line2D([], [], color="#111111", lw=1.2, label="Flood Hub reaches"))
     if glofas_reaches is not None and len(glofas_reaches) > 0:
         legend_items.append(Line2D([], [], color="#4c72b0", lw=1.2, label="GloFAS reaches"))
-    ax.legend(handles=legend_items, loc="lower left", fontsize=8, frameon=True)
+    ax.legend(handles=legend_items, loc="lower left", frameon=True)
 
     fig.tight_layout()
-    fig.savefig(out_path, dpi=dpi, bbox_inches="tight")
+    from pathlib import Path
+    stem = Path(out_path).with_suffix("")
+    written = save_figure(fig, stem, kind=kind)
     plt.close(fig)
-    return out_path
+    return written

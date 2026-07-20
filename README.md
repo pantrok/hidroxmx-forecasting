@@ -86,6 +86,26 @@ Open `notebooks/00_colab_entrypoint.ipynb` in Colab. The notebook:
 
 Any GPU timeout / disconnect costs at most `checkpoint_every_n_steps`.
 
+## Figure export policy
+
+Every figure in this repository is produced through
+`hidroxmx.viz.save_figure`, which writes each artefact at the exact
+resolution the *Journal of Hydrology* (Elsevier) submission guide
+requires:
+
+| kind          | dpi  | typical use                                        |
+|---------------|-----:|----------------------------------------------------|
+| `halftone`    |  300 | choropleths, heatmaps, satellite composites        |
+| `combination` |  500 | plots with lines + fill, most maps and hydrographs |
+| `line`        | 1000 | pure line art (schematics, bar charts, boxplots)   |
+
+Column widths follow the Elsevier layout: 90 mm (single), 140 mm (1.5),
+190 mm (double); use `hidroxmx.viz.figure_size(column=...)`. Every call
+writes one TIFF at the required dpi, one vector PDF, and one PNG
+preview in the same directory. The default categorical palette is the
+Wong (2011) 8-colour colour-blind-accessible set; sequential defaults
+are `viridis` and `cividis`.
+
 ## Compute policy
 
 - **Data at rest** in Cloudflare R2 (S3-compatible), streamed on demand.

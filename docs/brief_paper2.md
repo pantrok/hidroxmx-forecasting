@@ -300,11 +300,29 @@ Ver git log completo para detalle.
 
 **Análisis de sensibilidad**: se re-corre el filtro con el umbral estricto `median coverage ≥ 0.70` reportado en CAMELS (Kratzert et al. 2019). Bajo ese umbral Medio Balsas queda excluida (mediana 0.68) y la muestra se reduce a 3 cuencas / 49 estaciones. La sección de resultados del manuscrito debe reportar tanto la muestra base (4 cuencas) como la sensitivity a 3 cuencas para demostrar robustez del hallazgo principal (F0-PUB bate a persistencia en cada cuenca).
 
-**Exclusiones post-hoc a nivel estación**: dentro de cada cuenca incluida, algunas estaciones producen NSE indefinido (test series casi plana → denominador 0) o catastrófico (F0-PUB divergido). Estas se filtran del cómputo de agregados (`SCATTER_NSE_FLOOR = −1.0` en `scripts/20_figure_pub_summary.py`) y se reportan explícitamente:
+**Exclusiones post-hoc a nivel estación** (dos causas distintas, ambas se reportan por transparencia):
 
-- **Valle de México (6 de 20 excluidas post-hoc)**: CHPMX, GDLMX, OBSMX, SLAMX (NaN en ambas — series test casi planas, canales regulados de la ZMVM); ARBMX (F0-PUB = −28.04, model divergence); TTLMX (ambas < −1).
-- **Alto Lerma**: 0 exclusiones post-hoc (14/14 folds válidos).
-- **Bajo Pánuco / Medio Balsas**: pendiente (por completar).
+**Causa 1 — sin datos en el período de referencia (fold no evaluable, se salta antes del entrenamiento)**. La columna `cobertura` del manifest CONAGUA se computa sobre el *lifetime completo* de la estación, no sobre 2010-2025. Estaciones que reportaron abundantemente en los 60-80s pero descontinuaron antes de 2010 aparecen con `cobertura` alta (75-92 %) pero producen 0 windows train/val/test en el pipeline. El driver `scripts/12_train_multistation.py` (commit `e98ead2`) las salta gracefully y reporta el `holdout` por stderr. **Este es un hallazgo metodológico secundario del paper**: la métrica `cobertura` del catálogo CONAGUA es un proxy inválido de cobertura en el período de análisis, y se recomienda re-curación o reporting windowed.
+
+- **Bajo Pánuco (8 de 15 excluidas por esta causa)**: SVTSL, LSRTP, MGSTP, RFRTP, SBNTP, SGBTP, TMSTP, TMPVC. Folds efectivos: **7/15**.
+- **Valle de México, Alto Lerma, Medio Balsas**: 0 excluidas por esta causa.
+
+**Causa 2 — NSE indefinido o catastrófico al momento de la evaluación** (fold sí se corrió, pero produce NSE = NaN por serie test plana, o NSE < −1 por divergencia del modelo). Se filtran del cómputo de agregados con `SCATTER_NSE_FLOOR = −1.0` en `scripts/20_figure_pub_summary.py`:
+
+- **Valle de México (6 de 20 excluidas)**: CHPMX, GDLMX, OBSMX, SLAMX (NaN en ambas — canales regulados de la ZMVM con serie casi plana); ARBMX (F0-PUB = −28.04, divergencia del modelo); TTLMX (ambas < −1). Folds efectivos: **14/20**.
+- **Alto Lerma**: 0 exclusiones. Folds efectivos: **14/14**.
+- **Bajo Pánuco**: pendiente de verificar tras completar sweep. Folds efectivos: subset de 7.
+- **Medio Balsas (13 evaluados)**: pendiente de verificar tras la Fig. 3.
+
+**Fold budget final del paper** (a documentar en Table 2 del manuscrito):
+
+| Cuenca | Nominal (n) | Skipped: no ref. data | Skipped: NSE indef./< −1 | Efectivos | % |
+|---|---:|---:|---:|---:|---:|
+| Valle de México | 20 | 0 | 6 | 14 | 70 % |
+| Bajo Pánuco | 15 | 8 | ? | 7 | 47 % |
+| Alto Lerma | 14 | 0 | 0 | 14 | 100 % |
+| Medio Balsas | 13 | 0 | ? | 13 | 87–100 % |
+| **Total** | **62** | **8** | **≥ 6** | **≥ 48** | **≥ 77 %** |
 
 Estas exclusiones NO son criterios de inclusión — son fallas del modelado que se reportan como fold-count efectivo en las tablas del paper: "20 folds ejecutados, 14 con NSE finito a h=1".
 

@@ -1,0 +1,16 @@
+basin,n_stations,median_coverage,stations_with_clima,min_climate_neighbours,included,exclusion_reasons
+Valle de México,20,0.783025325119781,20,3,True,
+Bajo Pánuco,15,0.8276865160848734,15,3,True,
+Alto Lerma,14,0.767624914442163,14,3,True,
+Medio Balsas,13,0.6774469541409993,13,3,True,
+Bajo Lerma,7,0.7340862422997947,7,3,False,N=7 < 10
+Río Alto Santiago,7,0.676933607118412,7,3,False,N=7 < 10
+Medio Lerma,5,0.905201916495551,5,3,False,N=5 < 10
+Rio Bajo Santiago,5,0.7224503764544832,5,3,False,N=5 < 10
+Bajo Balsas (Tepalcatepec),4,0.7227926078028748,4,3,False,N=4 < 10
+La Laja,4,0.9084531143052703,4,3,False,N=4 < 10
+Río Alto Pánuco,3,0.7845653661875428,3,3,False,N=3 < 10
+Alto Balsas,1,0.6346680355920602,1,3,False,N=1 < 10
+Presidio San Pedro,1,0.62217659137577,1,3,False,N=1 < 10
+Río Soto la Marina,1,0.6937029431895961,1,3,False,N=1 < 10
+San Pedro - Rosa Morada,1,0.7547912388774812,1,3,False,N=1 < 10

@@ -194,6 +194,15 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
     stations that would otherwise pile up. The high-persistence cluster
     gets one boxed annotation pinned to the empty upper-left corner
     with a leader line to the cluster centroid.
+
+    TODO(post-M4): the per-station offset dictionary is hand-tuned for
+    Alto Lerma. Other basins (notably Valle de México, where 7-8
+    stations cluster near persist~0.6-0.8, F0-PUB~0.6-0.75) still
+    exhibit label overlap in the mid-range. Replace the dictionary with
+    a collision-aware placement (adjustText, or a simple radial-sweep
+    algorithm around each point that avoids other markers) once the
+    modelling milestones are done and the exact station roster stops
+    changing.
     """
     x_all = df[f"persist_nse_h{h}"].to_numpy()
     y_all = df[f"f0pub_nse_h{h}"].to_numpy()

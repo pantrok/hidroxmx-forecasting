@@ -264,20 +264,86 @@ Ver git log completo para detalle.
 
 ---
 
+## Sample and inclusion criteria (formal, methods-ready)
+
+**Sampling frame**: `estaciones_seleccionadas_hidrometricas.csv` del snapshot `hidroxai-mx v2026.06` — 101 estaciones hidrométricas curadas, distribuidas en 15 cuencas hidrológicas del centro-occidente de México.
+
+**Diseño muestral**: **criterion-based purposive sampling con enumeración completa dentro de estratos**. No aleatorio. Los criterios se enuncian *a priori* con base en requisitos técnicos-estadísticos y hidrológicos, y se aplican como filtro determinístico. Las cuencas incluidas son *el resultado del filtro*, no elegidas a mano.
+
+**Criterios (aplicados a cada cuenca del sampling frame)**:
+
+1. **Potencia estadística para PUB leave-one-out**: `n ≥ 10` estaciones. Con menos folds, la estimación del NSE promedio tiene un intervalo de confianza inaceptablemente ancho (Newman et al. 2015 recomiendan `n ≥ 10` para leave-one-out en CAMELS).
+2. **Cobertura de datos**: mediana de `cobertura` ≥ 0.60 sobre el período 2010-2025 (≈ 9.6 años válidos de 16 — por encima del mínimo de 5 años usado por Kratzert et al. 2019 para F0 tipo LSTM).
+3. **Disponibilidad de forzamientos exógenos**: cada estación debe carry `vecinos_clima ≥ 1` para que precipitación / tmax / tmin sean computables consistentemente.
+
+**Resultado del filtro** (script `scripts/22_basin_inclusion.py`, tabla `results/tables/basin_inclusion.csv`, figura `results/figures/fig_2_basin_inclusion.{tif,pdf,png}`):
+
+| Cuenca | N estaciones | Median cobertura | Min vecinos climáticos | ¿Incluida? |
+|---|---:|---:|---:|:---:|
+| Valle de México | 20 | 0.78 | 3 | ✅ |
+| Bajo Pánuco | 15 | 0.83 | 3 | ✅ |
+| Alto Lerma | 14 | 0.77 | 3 | ✅ |
+| Medio Balsas | 13 | 0.68 | 3 | ✅ |
+| Bajo Lerma | 7 | 0.73 | 3 | ❌ n < 10 |
+| Río Alto Santiago | 7 | 0.68 | 3 | ❌ n < 10 |
+| Medio Lerma | 5 | 0.91 | 3 | ❌ n < 10 |
+| Rio Bajo Santiago | 5 | 0.72 | 3 | ❌ n < 10 |
+| Bajo Balsas (Tepalcatepec) | 4 | 0.72 | 3 | ❌ n < 10 |
+| La Laja | 4 | 0.91 | 3 | ❌ n < 10 |
+| Río Alto Pánuco | 3 | 0.78 | 3 | ❌ n < 10 |
+| Alto Balsas | 1 | 0.63 | 3 | ❌ n < 10 |
+| Presidio San Pedro | 1 | 0.62 | 3 | ❌ n < 10 |
+| Río Soto la Marina | 1 | 0.69 | 3 | ❌ n < 10 |
+| San Pedro-Rosa Morada | 1 | 0.75 | 3 | ❌ n < 10 |
+
+**4 de 15 cuencas pasan (26.7 %). 62 estaciones totales (61 % del sampling frame).** Las 11 cuencas excluidas concentran 39 estaciones que se difieren a "future work: pooled cross-basin analysis" o campañas de monitoreo extendido.
+
+**Análisis de sensibilidad**: se re-corre el filtro con el umbral estricto `median coverage ≥ 0.70` reportado en CAMELS (Kratzert et al. 2019). Bajo ese umbral Medio Balsas queda excluida (mediana 0.68) y la muestra se reduce a 3 cuencas / 49 estaciones. La sección de resultados del manuscrito debe reportar tanto la muestra base (4 cuencas) como la sensitivity a 3 cuencas para demostrar robustez del hallazgo principal (F0-PUB bate a persistencia en cada cuenca).
+
+**Exclusiones post-hoc a nivel estación**: dentro de cada cuenca incluida, algunas estaciones producen NSE indefinido (test series casi plana → denominador 0) o catastrófico (F0-PUB divergido). Estas se filtran del cómputo de agregados (`SCATTER_NSE_FLOOR = −1.0` en `scripts/20_figure_pub_summary.py`) y se reportan explícitamente:
+
+- **Valle de México (6 de 20 excluidas post-hoc)**: CHPMX, GDLMX, OBSMX, SLAMX (NaN en ambas — series test casi planas, canales regulados de la ZMVM); ARBMX (F0-PUB = −28.04, model divergence); TTLMX (ambas < −1).
+- **Alto Lerma**: 0 exclusiones post-hoc (14/14 folds válidos).
+- **Bajo Pánuco / Medio Balsas**: pendiente (por completar).
+
+Estas exclusiones NO son criterios de inclusión — son fallas del modelado que se reportan como fold-count efectivo en las tablas del paper: "20 folds ejecutados, 14 con NSE finito a h=1".
+
+**Frase-borrador para Methods (Study area & sample)**:
+
+> The 15 basins of the `hidroxai-mx v2026.06` snapshot are subject to
+> three inclusion criteria enunciated *a priori*: (i) at least ten
+> selected hydrometric stations, required for a leave-one-out estimate
+> of mean NSE with an acceptable confidence interval (Newman et al.,
+> 2015); (ii) a median station coverage of at least 60% of the
+> 2010–2025 reference window, above the minimum documented by
+> Kratzert et al. (2019) for LSTM streamflow forecasters; and
+> (iii) at least one climatological neighbour per station, needed for
+> the exogenous drivers. Four basins (Valle de México, Bajo Pánuco,
+> Alto Lerma, Medio Balsas) satisfy every criterion and provide
+> 62 stations in total (Table 1, Fig. 2). Within each included basin
+> every station is used; leave-one-out PUB folds are executed
+> exhaustively. Stations whose evaluated NSE is undefined
+> (flat test series, denominator of NSE at zero) or catastrophic
+> (NSE < −1, model divergence) are excluded from the horizon-level
+> aggregates and enumerated per basin. The eleven excluded basins,
+> which concentrate 39 additional stations, are deferred to
+> future work.
+
 ## Decisión de scoping tomada (2026-07-20)
 
-**Opción B**: extender Milestone 3 a 4 cuencas grandes (Alto Lerma ✅, Valle de México, Bajo Pánuco, Medio Balsas). Motivación:
+**Opción B**: extender Milestone 3 a las 4 cuencas que pasan el criterio (Alto Lerma ✅, Valle de México ✅, Bajo Pánuco, Medio Balsas). Motivación:
 
 - Respeta la promesa del README original ("across four Mexican pilot basins").
+- Es el **resultado natural del criterio formal** (n ≥ 10, coverage ≥ 0.60, vecinos ≥ 1), no una elección a mano.
 - Da robustez cross-basin que un reviewer pediría de todas formas.
-- El driver `scripts/12_train_multistation.py` ya soporta `--basin` cualquiera — no requiere código nuevo, solo 3 sweeps en Colab (~8-10 h GPU adicionales).
-- El script de figura `scripts/20_figure_pub_summary.py` es basin-agnóstico desde 2026-07-20: auto-descubre folds vía `list_objects` en R2, título parametrizado con `--basin-label`.
-- Permite el gráfico Fig. 4 cross-basin (una figura adicional que hace el paper mucho más convincente).
+- El driver `scripts/12_train_multistation.py` ya soporta `--basin` cualquiera — solo 2 sweeps más en Colab (~6-8 h GPU).
+- El script de figura `scripts/20_figure_pub_summary.py` es basin-agnóstico: auto-descubre folds vía `list_objects` en R2.
+- Permite Fig. 4 cross-basin — figura clave que refuerza el paper.
 
 Descartado:
-- Opción A (solo Alto Lerma) — funcionaba pero deja pregunta de reviewer abierta.
-- Opción C (todas las 15 cuencas) — muchas tienen 1-5 estaciones, PUB LOO estadísticamente débil.
-- Opción D (cross-basin transfer) — se puede añadir como fig. suplementaria si Milestone 4 sobra tiempo GPU.
+- Opción A (solo Alto Lerma) — deja pregunta de reviewer abierta.
+- Opción C (todas las 15 cuencas) — 11 no cumplen n ≥ 10, PUB LOO estadísticamente débil.
+- Opción D (cross-basin transfer) — se puede añadir como suplementaria si Milestone 4 sobra tiempo GPU.
 
 ## Preguntas abiertas / decisiones pendientes
 

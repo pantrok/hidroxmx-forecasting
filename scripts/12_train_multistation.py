@@ -278,14 +278,25 @@ def _run_pub_fold(target_clave: str, stations_pool: pd.DataFrame,
     target_prep = _prepare_station(r2, layout, target_row, use_clima, split,
                                    ref_spec, feature_cols_ref=None)
     if target_prep is None:
-        raise SystemExit(f"[12_train] holdout {target_clave!r} has too little data")
+        click.echo(f"[12_train] holdout {target_clave!r} has too little data — skipping fold.")
+        return {"target_clave": target_clave, "metrics": {}, "n_donors": 0, "skipped": True}
     ref_features = target_prep["feature_cols"]
+    n_test = len(target_prep["windows_test"]["x"])
     click.echo(f"[12_train] Target {target_clave} ({target_prep['name']}): "
                f"coverage={target_prep['coverage']:.2%}  "
                f"features={len(ref_features)}  "
                f"windows train/val/test={len(target_prep['windows_train']['x'])}/"
                f"{len(target_prep['windows_val']['x'])}/"
-               f"{len(target_prep['windows_test']['x'])}")
+               f"{n_test}")
+    # A holdout with zero test windows cannot be evaluated. This happens
+    # when the station reported historical data (raising 'cobertura' on
+    # the manifest) but discontinued observations before the 2010-2025
+    # reference window. Skip the fold gracefully so the sweep continues.
+    if n_test == 0:
+        click.echo(f"[12_train] holdout {target_clave} has 0 test windows "
+                   f"in {split.test[0].date()}..{split.test[1].date()} — "
+                   f"skipping fold (probably discontinued before 2010).")
+        return {"target_clave": target_clave, "metrics": {}, "n_donors": 0, "skipped": True}
 
     # 2. Prepare donors with the same feature vector.
     donor_rows = stations_pool[stations_pool["clave"].astype(str) != target_clave]
@@ -293,17 +304,26 @@ def _run_pub_fold(target_clave: str, stations_pool: pd.DataFrame,
     for _, row in donor_rows.iterrows():
         prep = _prepare_station(r2, layout, row, use_clima, split, ref_spec,
                                 feature_cols_ref=ref_features)
-        if prep is not None:
-            donor_preps.append(prep)
-            click.echo(f"[12_train]   donor {prep['clave']:<8s} "
-                       f"cov={prep['coverage']:.2%}  "
-                       f"tr/va/te={len(prep['windows_train']['x'])}/"
-                       f"{len(prep['windows_val']['x'])}/"
-                       f"{len(prep['windows_test']['x'])}")
-        else:
-            click.echo(f"[12_train]   donor {row['clave']} skipped (insufficient data)")
+        if prep is None:
+            click.echo(f"[12_train]   donor {row['clave']} skipped (insufficient train rows)")
+            continue
+        # A donor with 0 train windows contributes nothing to the pooled
+        # training set even if its manifest 'cobertura' is high. Skip.
+        if len(prep["windows_train"]["x"]) == 0:
+            click.echo(f"[12_train]   donor {prep['clave']} skipped "
+                       f"(0 train windows after NaN filter; "
+                       f"cov={prep['coverage']:.2%} refers to lifetime, "
+                       f"not 2010–2025)")
+            continue
+        donor_preps.append(prep)
+        click.echo(f"[12_train]   donor {prep['clave']:<8s} "
+                   f"cov={prep['coverage']:.2%}  "
+                   f"tr/va/te={len(prep['windows_train']['x'])}/"
+                   f"{len(prep['windows_val']['x'])}/"
+                   f"{len(prep['windows_test']['x'])}")
     if not donor_preps:
-        raise SystemExit("[12_train] No usable donors after filtering.")
+        click.echo(f"[12_train] No usable donors for holdout {target_clave} — skipping fold.")
+        return {"target_clave": target_clave, "metrics": {}, "n_donors": 0, "skipped": True}
 
     # 3. Concatenate donor windows for train / val.
     train_stack = _stack([d["windows_train"] for d in donor_preps])
@@ -563,10 +583,17 @@ def main(run_id, basin, holdout, lookback, horizons, hidden, layers, dropout,
         )
         fold_summaries.append(result)
 
-    # Aggregate.
-    if len(fold_summaries) > 1:
+    # Aggregate — skipped folds (no test data in the reference window)
+    # are excluded from the summary but listed to stderr so the reader
+    # knows why the effective fold count is smaller than |holdouts|.
+    skipped = [fs["target_clave"] for fs in fold_summaries if fs.get("skipped")]
+    if skipped:
+        click.echo(f"[12_train] Skipped {len(skipped)} fold(s) with no evaluable data: "
+                   f"{skipped}", err=True)
+    completed = [fs for fs in fold_summaries if not fs.get("skipped")]
+    if len(completed) > 1:
         rows = []
-        for fs in fold_summaries:
+        for fs in completed:
             row = {"holdout": fs["target_clave"], "n_donors": fs["n_donors"]}
             for h in horizons_list:
                 row[f"nse_h{h}"] = fs["metrics"][f"nse_h{h}"]

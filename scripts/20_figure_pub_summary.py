@@ -51,6 +51,12 @@ from hidroxmx.viz import (  # noqa: E402
 
 HORIZONS = (1, 2, 3, 5, 7)
 
+# Folds with NSE below this threshold are excluded from the scatter panel.
+# NSE < −1 means the model is worse than the training-window mean by more
+# than the total variance of the test series — usually a degenerate output,
+# not an honest comparison against persistence.
+SCATTER_NSE_FLOOR = -1.0
+
 
 def _list_folds_from_r2(r2, run_id: str) -> list[str]:
     """List every clave with a manifest.json under paper2/runs/{run_id}/.
@@ -116,14 +122,28 @@ def _load_all_folds(run_id: str, claves) -> pd.DataFrame:
 # Rendering
 # --------------------------------------------------------------------------- #
 def _panel_bars(ax, df: pd.DataFrame):
-    """Grouped bar chart of persist vs F0-PUB NSE across horizons."""
+    """Grouped bar chart of persist vs F0-PUB NSE across horizons.
+
+    Uses the **mean + std** (across folds) so the paper's headline
+    number matches what most readers expect. Values below
+    ``SCATTER_NSE_FLOOR`` (typically catastrophic model failures) are
+    dropped from the mean *per horizon* so a single broken fold does
+    not sink the average — same filter as the scatter panel. The
+    diagnostic printed by ``main`` reports both mean and median for
+    full transparency; the caption should note the number of folds
+    excluded per horizon.
+    """
     x = np.arange(len(HORIZONS))
     width = 0.36
 
-    persist_mean = np.array([df[f"persist_nse_h{h}"].mean() for h in HORIZONS])
-    persist_std = np.array([df[f"persist_nse_h{h}"].std(ddof=0) for h in HORIZONS])
-    f0pub_mean = np.array([df[f"f0pub_nse_h{h}"].mean() for h in HORIZONS])
-    f0pub_std = np.array([df[f"f0pub_nse_h{h}"].std(ddof=0) for h in HORIZONS])
+    def _clean(col: str) -> pd.Series:
+        s = df[col]
+        return s.where(s >= SCATTER_NSE_FLOOR)
+
+    persist_mean = np.array([np.nanmean(_clean(f"persist_nse_h{h}")) for h in HORIZONS])
+    persist_std = np.array([np.nanstd(_clean(f"persist_nse_h{h}"), ddof=0) for h in HORIZONS])
+    f0pub_mean = np.array([np.nanmean(_clean(f"f0pub_nse_h{h}")) for h in HORIZONS])
+    f0pub_std = np.array([np.nanstd(_clean(f"f0pub_nse_h{h}"), ddof=0) for h in HORIZONS])
 
     persist_color = "#7A7A7A"      # neutral gray — a naive baseline
     f0pub_color = WONG_PALETTE[5]  # Wong blue for the model
@@ -137,15 +157,15 @@ def _panel_bars(ax, df: pd.DataFrame):
            label="F0-PUB (multi-station)", capsize=2.5,
            error_kw={"elinewidth": 0.6, "ecolor": "black"})
 
-    # Y-limit needs headroom to fit the error-bar caps AND the delta text
-    # above them. Compute the visual top per bar and pick a limit that
-    # clears the maximum comfortably.
     per_top = persist_mean + persist_std
     f0_top = f0pub_mean + f0pub_std
-    max_visual_top = float(max(per_top.max(), f0_top.max()))
+    per_bot = persist_mean - persist_std
+    f0_bot = f0pub_mean - f0pub_std
+    max_visual_top = float(np.nanmax(np.concatenate([per_top, f0_top])))
+    min_visual_bot = float(np.nanmin(np.concatenate([per_bot, f0_bot])))
     y_max = min(1.45, max(1.15, max_visual_top + 0.20))
+    y_min = max(-1.0, min(0.0, min_visual_bot - 0.05))
 
-    # Δ annotations: place above F0-PUB error-bar cap; clamp to y_max-0.02.
     for xi in range(len(HORIZONS)):
         delta = f0pub_mean[xi] - persist_mean[xi]
         text_y = min(f0_top[xi] + 0.03, y_max - 0.02)
@@ -158,11 +178,9 @@ def _panel_bars(ax, df: pd.DataFrame):
     ax.set_ylabel("NSE (Nash–Sutcliffe efficiency)")
     ax.set_xlabel("Forecast horizon")
     n_folds = len(df)
-    basin_label = df.attrs.get("basin_label", "")
-    suffix = f"{n_folds} folds" + (f", {basin_label}" if basin_label else "")
-    ax.set_title(f"(a) PUB mean NSE across horizons ({suffix})",
+    ax.set_title(f"(a) NSE by horizon — mean ± std ({n_folds} folds)",
                  loc="left", fontsize=8.5)
-    ax.set_ylim(0, y_max)
+    ax.set_ylim(y_min, y_max)
     ax.axhline(0, color="black", linewidth=0.4)
     ax.legend(loc="lower left", frameon=True, framealpha=0.9)
 
@@ -177,9 +195,34 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
     gets one boxed annotation pinned to the empty upper-left corner
     with a leader line to the cluster centroid.
     """
-    x = df[f"persist_nse_h{h}"].to_numpy()
-    y = df[f"f0pub_nse_h{h}"].to_numpy()
-    names = df["holdout"].tolist()
+    x_all = df[f"persist_nse_h{h}"].to_numpy()
+    y_all = df[f"f0pub_nse_h{h}"].to_numpy()
+    names_all = df["holdout"].tolist()
+
+    # Exclude folds with undefined NSE (flat test series) or catastrophic
+    # divergence (< NSE_FLOOR). Report them so the reader knows which
+    # stations were suppressed from the scatter and can find them in the
+    # per-fold manifests.
+    valid = (np.isfinite(x_all) & np.isfinite(y_all)
+             & (x_all >= SCATTER_NSE_FLOOR) & (y_all >= SCATTER_NSE_FLOOR))
+    skipped = [names_all[i] for i in range(len(names_all)) if not valid[i]]
+    if skipped:
+        skipped_desc = ", ".join(
+            f"{n}(persist={x_all[i]:+.2f}, F0pub={y_all[i]:+.2f})"
+            for i, n in enumerate(names_all) if not valid[i]
+        )
+        click.echo(f"[20_fig] scatter (h={h}d): skipping {len(skipped)} folds "
+                   f"with NaN or NSE<{SCATTER_NSE_FLOOR:g}: {skipped_desc}",
+                   err=True)
+
+    x = x_all[valid]
+    y = y_all[valid]
+    names = [names_all[i] for i in range(len(names_all)) if valid[i]]
+    if len(x) == 0:
+        ax.text(0.5, 0.5, f"No finite folds to plot at h = {h} d",
+                transform=ax.transAxes, ha="center", va="center")
+        ax.set_axis_off()
+        return
     wins = y > x
 
     # y = x reference and points
@@ -255,15 +298,13 @@ def _panel_scatter(ax, df: pd.DataFrame, h: int = 1):
     # Symmetric limits with a bit of slack; clamp so the ticks stay legible.
     lo = float(min(x.min(), y.min())) - 0.06
     hi = float(max(x.max(), y.max())) + 0.06
-    lo = max(lo, -0.3)
+    lo = max(lo, SCATTER_NSE_FLOOR - 0.05)
     hi = min(hi, 1.02)
     ax.set_xlim(lo, hi)
     ax.set_ylim(lo, hi)
     ax.set_xlabel(f"Persistence NSE (h = {h} d)")
     ax.set_ylabel(f"F0-PUB NSE (h = {h} d)")
-    basin_label = df.attrs.get("basin_label", "")
-    suffix = f" ({basin_label})" if basin_label else ""
-    ax.set_title(f"(b) Per-station comparison at h = {h} d{suffix}",
+    ax.set_title(f"(b) F0-PUB vs persistence, h = {h} d",
                  loc="left", fontsize=8.5)
     ax.set_aspect("equal", adjustable="box")
     ax.legend(loc="lower right", frameon=True, framealpha=0.9)
@@ -304,23 +345,48 @@ def main(run_id: str, out: str, horizon_scatter: int,
         df.attrs["basin_label"] = basin_label
     click.echo(f"[20_fig] Loaded {len(df)} folds.")
 
-    # Aggregate stats echo (redundant with the on-run diagnostic but useful).
-    click.echo("[20_fig] Aggregate NSE (14 folds):")
+    # Aggregate stats echo. Uses nan-aware stats and reports both mean
+    # and median so an outlier fold is visible in the diff between the
+    # two. Flags folds with NSE < SCATTER_NSE_FLOOR at h=1 as candidates
+    # for exclusion in the paper (worth investigating in their per-fold
+    # manifest.json).
+    click.echo(f"[20_fig] Aggregate NSE ({len(df)} folds):")
     for h in HORIZONS:
-        f0 = df[f"f0pub_nse_h{h}"].mean()
-        pe = df[f"persist_nse_h{h}"].mean()
-        wins = int((df[f"f0pub_nse_h{h}"] > df[f"persist_nse_h{h}"]).sum())
-        click.echo(f"[20_fig]   h={h}d  F0pub={f0:+.3f}  persist={pe:+.3f}  "
-                   f"wins={wins}/{len(df)}")
+        f0_series = df[f"f0pub_nse_h{h}"]
+        pe_series = df[f"persist_nse_h{h}"]
+        f0 = np.nanmean(f0_series)
+        f0_med = np.nanmedian(f0_series)
+        pe = np.nanmean(pe_series)
+        pe_med = np.nanmedian(pe_series)
+        wins = int((f0_series > pe_series).sum())
+        n_valid = int(f0_series.notna().sum())
+        click.echo(f"[20_fig]   h={h}d  "
+                   f"F0pub mean={f0:+.3f} med={f0_med:+.3f}  "
+                   f"persist mean={pe:+.3f} med={pe_med:+.3f}  "
+                   f"wins={wins}/{n_valid}")
+    # Identify problem folds (NSE < floor at h=1 in either baseline or model).
+    problem_mask = ((df["f0pub_nse_h1"] < SCATTER_NSE_FLOOR)
+                    | (df["persist_nse_h1"] < SCATTER_NSE_FLOOR)
+                    | df["f0pub_nse_h1"].isna()
+                    | df["persist_nse_h1"].isna())
+    if problem_mask.any():
+        click.echo(f"[20_fig] Problem folds at h=1 (NSE<{SCATTER_NSE_FLOOR:g} or NaN):",
+                   err=True)
+        for _, row in df[problem_mask].iterrows():
+            click.echo(f"[20_fig]   {row['holdout']:<8s}  "
+                       f"persist={row['persist_nse_h1']:+.3f}  "
+                       f"F0pub={row['f0pub_nse_h1']:+.3f}", err=True)
 
     set_publication_defaults()
     # Double-column width, tall enough to keep the scatter square.
     fig, (ax_a, ax_b) = plt.subplots(
-        1, 2, figsize=figure_size(column="double", height_ratio=0.48),
+        1, 2, figsize=figure_size(column="double", height_ratio=0.50),
     )
     _panel_bars(ax_a, df)
     _panel_scatter(ax_b, df, h=horizon_scatter)
-    fig.tight_layout(pad=1.2, w_pad=2.0)
+    if basin_label:
+        fig.suptitle(basin_label, fontsize=10, fontweight="bold", y=0.995)
+    fig.tight_layout(pad=1.2, w_pad=2.0, rect=(0, 0, 1, 0.96 if basin_label else 1.0))
 
     stem = Path(out)
     written = save_figure(

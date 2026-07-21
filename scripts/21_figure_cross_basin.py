@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 """Stage 21 — Cross-basin summary figure for Milestone 3 (Fig. 4).
 
+TODO(post-M4): visual polish pass on this figure. The current layout
+suffers from (a) overlapping ±1 SD shaded bands in panel (a) that
+obscure basin comparisons when three basins converge at the same y,
+and (b) a legend that eats ~25% of panel (a). Options for the polish
+pass: replace shaded bands with box-and-whiskers per (basin, horizon),
+move the legend outside the axes, or split panel (a) into two rows
+(F0-PUB on top, persistence at bottom) so lines never overlap. Batch
+this with the other paper-figure polish items after Milestone 4 lands.
+
+
 Assembles one figure that summarises the entire Milestone 3 sweep
 across the four included basins (Alto Lerma, Valle de México,
 Bajo Pánuco, Medio Balsas). The paper's headline claim — F0-PUB

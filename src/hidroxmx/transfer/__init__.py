@@ -1,11 +1,29 @@
-"""Transfer stubs: process signatures, donor matching, invariance tests.
+"""Donor-matching mechanisms for Path A (Milestone 4)."""
+from .signatures import (
+    DEFAULT_SIGNATURE_KEYS,
+    baseflow_index,
+    compute_signatures,
+    cv_flow,
+    fdc_slope,
+    flow_percentile,
+    high_flow_frequency,
+    low_flow_frequency,
+    mean_flow,
+    signature_vector,
+)
+from .similarity import SimilarityResult, score_donors
 
-Modules to be filled in Milestones 3–4 (§12.3, §12.4):
-
-- ``signatures.py`` — response-kernel features (recession constant, lag-to-peak,
-  baseflow index, runoff ratio, flow-duration-curve shape).
-- ``donor_matching.py`` — selectors ``S-ATTR``, ``S-PERF``, ``S-SIG``, ``S-INV``.
-- ``invariance.py`` — ICP / FAIR-style invariance-across-environments test.
-- ``causal.py`` — conditional Granger / partial transfer entropy, precipitation
-  as conditioning variable (Abbasizadeh et al. 2025).
-"""
+__all__ = [
+    "DEFAULT_SIGNATURE_KEYS",
+    "SimilarityResult",
+    "baseflow_index",
+    "compute_signatures",
+    "cv_flow",
+    "fdc_slope",
+    "flow_percentile",
+    "high_flow_frequency",
+    "low_flow_frequency",
+    "mean_flow",
+    "score_donors",
+    "signature_vector",
+]

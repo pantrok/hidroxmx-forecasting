@@ -391,7 +391,65 @@ El fuzzy salva **Bajo Pánuco** aunque el UQ conformal estaba estructuralmente r
 
 Esto NO es un pivot — Path B ES la contribución central del paper; el resultado condicional refuerza la honestidad metodológica que se espera en J. Hydrology.
 
-## Milestones 6-7 — RQ3 digital twin, evaluación
+## Milestone 7 — paired bootstrap consolidation (COMPLETO)
+
+**Estado**: ✅ tablas + figura maestra generadas.
+
+### 7a — bootstrap engine + CSVs
+
+`src/hidroxmx/eval/bootstrap.py` implementa el paired bootstrap no-paramétrico (percentile CI, 10 000 replicates, seed 20260721). `scripts/18_bootstrap_analysis.py` lee todos los manifests de R2 y produce 3 tablas en `results/tables/` con **ambas estadísticas mean y median** para transparencia metodológica.
+
+**Kill condition al nivel de IC** (más estricto que kill sobre el punto): `CI_low ≥ +0.05`.
+
+### 7b — figura maestra (Fig. 5 del paper)
+
+`scripts/19_paper_master_figure.py` renderiza 3 paneles forest plot verticales apilados:
+- (a) M3 F0-PUB − persistence (20 filas, 4 basins × 5 horizontes)
+- (b) M4 mecanismo − lumped (15 filas, 3 mecanismos × 5 horizontes)
+- (c) M5c fuzzy − baseline (20 filas)
+
+Salida `results/figures/fig_5_master_bootstrap.{tif,pdf,png}` a spec J. Hydrology.
+
+### Hallazgos del bootstrap — refinamiento de las conclusiones previas
+
+**M3 con estadística median**: 3 de 4 cuencas kill-cleared en horizontes ≥ 5 d. Alto Lerma es null (median) porque su gain M3 se concentra en pocas star-folds (SLCGJ, CALMX, ECBGJ) que la mediana filtra. **Sorpresa metodológica**: usar mean muestra Valle de México con Δ NSE = −11 por folds catastróficos; median lo transforma a Δ = +0.20-0.50 con CI robusto. La discusión del manuscrito debe reportar ambas estadísticas y explicar la diferencia como evidencia de skew fuerte por outliers.
+
+**M4 mecanismo**: null result con evidencia BLINDADA — todos los mecanismos, ambos estadísticos, todos los horizontes: CIs cruzan cero con márgenes < 0.05. **Ningún reviewer va a cuestionar esto**.
+
+**M5c fuzzy**: kill-cleared robustamente en Bajo Pánuco h=3,5,7 (CIs de +0.078 a +0.311) y Alto Lerma h=5. Bajo Pánuco h=3,5,7 es la evidencia más limpia del paper para Path B.
+
+### Frase-borrador Discussion (post-bootstrap)
+
+> A paired non-parametric bootstrap (10 000 replicates, percentile
+> 95 % CI, paired by holdout fold) is used to attach a confidence
+> interval to every headline comparison in the manuscript. For the
+> Milestone-3 F0-PUB vs persistence comparison we report both mean
+> and median statistics because the mean is broken by a small set of
+> catastrophic folds in Valle de México (Δ NSE = −11 at h = 7 d due
+> to two folds where F0-PUB diverged and produced NSE < −20); the
+> median NSE difference recovers the honest per-station comparison
+> and shows F0-PUB significantly outperforming persistence at
+> horizons ≥ 5 d in three of the four included basins (Valle de
+> México, Bajo Pánuco, Medio Balsas). Alto Lerma is the exception:
+> its per-station median Δ NSE is null (95 % CI straddles zero at
+> every horizon), because the F0-PUB advantage there is concentrated
+> in three regulated tributaries (SLCGJ, CALMX, ECBGJ) whose gains
+> pull the mean positive but are filtered out by the median. For
+> the Path A mechanism comparison, every mechanism × horizon CI
+> straddles zero at bounds tighter than ±0.05 — the strongest
+> statistical evidence a paired bootstrap can produce for null
+> effect at basin scale. For Milestone 5c the kill-condition
+> improvement Δ Value ≥ +0.05 is cleared with CI-lower above
+> threshold in Bajo Pánuco at horizons 3, 5 and 7 days
+> (CI-lower +0.078, +0.125, +0.079 respectively) and in Alto Lerma
+> at horizon 5 days (+0.069). Valle de México and Medio Balsas
+> either don't clear the CI-lower threshold or straddle it at
+> zero — consistent with the low test-window event rates that
+> characterise those basins in the 2023-2025 evaluation period.
+
+## Milestones 6 — RQ3 digital twin (opcional / diferido)
+
+Path B ya es la contribución central; Milestone 6 se puede reportar como "predictive digital twin precursor" con lo que ya tenemos, o extenderse con retrospective data assimilation demo en una sesión posterior. No bloquea la escritura del paper.
 
 Path B (Milestone 5) es ahora la **línea principal del paper** dado el cierre de Path A. Milestone 5 (UQ + fuzzy alerting) es funcionalmente independiente y trabaja sobre F0-PUB lumped como forecaster base (validado en Milestone 3). Milestone 7 (paired bootstrap, figuras) reutiliza toda la infraestructura de `results/` y `viz/journal.py`.
 

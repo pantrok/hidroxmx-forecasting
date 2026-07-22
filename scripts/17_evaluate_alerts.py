@@ -432,7 +432,8 @@ def main(run_id, base_run_id, basin, holdout, alpha, lookback, horizons,
     if len(completed) > 1:
         rows = []
         for fs in completed:
-            row = {"holdout": fs["target_clave"]}
+            row = {"holdout": fs["target_clave"],
+                   "event_rate": fs["metrics"].get("event_rate", float("nan"))}
             for h in horizons_list:
                 row[f"baseline_pod_h{h}"] = fs["metrics"][f"baseline_pod_h{h}"]
                 row[f"baseline_far_h{h}"] = fs["metrics"][f"baseline_far_h{h}"]
@@ -444,18 +445,45 @@ def main(run_id, base_run_id, basin, holdout, alpha, lookback, horizons,
             rows.append(row)
         summary_df = pd.DataFrame(rows)
         summary_df.to_csv(out_root / "folds_summary.csv", index=False)
+
+        # Aggregate reporting — mean is corrupted by folds with 0 events
+        # (metrics undefined) and by folds with < 2 % event rate where a
+        # single false alarm swings Value by up to 2 units. Report:
+        #   * mean including all folds (paper transparency),
+        #   * median (robust central tendency),
+        #   * win rate = fraction of folds where best-cutoff fuzzy beats
+        #     baseline by ≥ 0.
+        # The kill condition of §5c compares median Δ against +0.05.
+        evaluable = summary_df[
+            (summary_df["event_rate"] > 0.0) & summary_df["event_rate"].notna()
+        ].copy()
+        n_eval = len(evaluable)
         click.echo("\n[17_alerts] === Aggregate alert summary (Value @ C/L=0.2) ===")
+        click.echo(f"[17_alerts] Effective folds with events > 0: {n_eval}/{len(summary_df)}")
+        click.echo(f"[17_alerts] {'h':>4}  "
+                   f"{'base_med':>9} {'best_c':>7} {'fuz_med':>9}  "
+                   f"{'Δ_med':>7} {'Δ_mean':>8} {'wins':>7}")
         for h in horizons_list:
-            base = float(summary_df[f"baseline_value_cl0.2_h{h}"].mean())
-            best_cutoff = max(ALERT_CUTOFFS,
-                              key=lambda c: float(summary_df[f"fuzzy_{c}_value_cl0.2_h{h}"].mean()))
-            fuzzy = float(summary_df[f"fuzzy_{best_cutoff}_value_cl0.2_h{h}"].mean())
-            delta = fuzzy - base
-            marker = " *" if delta >= 0.05 else ""
-            click.echo(f"[17_alerts]   h={h:>2d}d  "
-                       f"baseline Value={base:+.3f}  "
-                       f"best fuzzy ({best_cutoff}) Value={fuzzy:+.3f}  "
-                       f"Δ={delta:+.3f}{marker}")
+            base_col = f"baseline_value_cl0.2_h{h}"
+            best_cutoff, best_med = None, -np.inf
+            for cutoff in ALERT_CUTOFFS:
+                fcol = f"fuzzy_{cutoff}_value_cl0.2_h{h}"
+                med = float(evaluable[fcol].median()) if n_eval else float("nan")
+                if med > best_med:
+                    best_cutoff, best_med = cutoff, med
+            fcol = f"fuzzy_{best_cutoff}_value_cl0.2_h{h}"
+            base_med = float(evaluable[base_col].median()) if n_eval else float("nan")
+            delta_med = best_med - base_med
+            delta_mean = (
+                float(evaluable[fcol].mean() - evaluable[base_col].mean())
+                if n_eval else float("nan")
+            )
+            wins = int((evaluable[fcol] > evaluable[base_col]).sum())
+            marker = " *" if delta_med >= 0.05 else ""
+            click.echo(f"[17_alerts] {h:>3d}d  "
+                       f"{base_med:>+9.3f} {best_cutoff:>7s} {best_med:>+9.3f}  "
+                       f"{delta_med:>+7.3f} {delta_mean:>+8.3f} "
+                       f"{wins:>3d}/{n_eval:<3d}{marker}")
         if upload_to_r2:
             prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + f"/runs/{run_id}"
             r2.upload_file(f"{prefix}/folds_summary.csv", out_root / "folds_summary.csv")

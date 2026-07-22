@@ -253,7 +253,79 @@ Los pesos S-SIG down-weightean sistemáticamente las **regulated tributaries** (
 
 ---
 
-## Milestones 5-7 — RQ2 Path B, RQ3 digital twin, evaluación
+## Milestone 5a — UQ conformal (Path B step 1) — COMPLETO
+
+**Estado**: ✅ sweeps ejecutados en las 4 cuencas. Resultado cross-basin coherente y publicable.
+
+**Método**: split conformal absoluto-residual (Vovk et al. 2005; Angelopoulos & Bates 2023), calibrado sobre la ventana val 2021-2022 (nunca vista en entrenamiento), evaluado sobre test 2023-2025. `alpha=0.1` → nominal 90 % de cobertura marginal. Un `q_hat` por horizonte.
+
+**Resultados cross-basin agregados**:
+
+| Cuenca | Folds efectivos | Marg cov h=1 | Marg cov h=7 | Tail cov Q95 h=1 | Tail cov Q95 h=7 |
+|---|:---:|---:|---:|---:|---:|
+| Alto Lerma | 14/14 | 89.3% | 86.9% | 40.7% | 28.8% |
+| Valle de México | 20/20 | 90.3% | 87.6% | 59.2% | 54.3% |
+| Bajo Pánuco | 7/15 | 79.1% | 74.3% | 7.7% | 3.4% |
+| Medio Balsas | 12/13 | 89.1% | 87.3% | 28.7% | 24.3% |
+
+**Kill conditions de M5a**:
+- Marginal cobertura debe estar en 90 % ± 3 %: **cumplido en 3 de 4 cuencas**. Bajo Pánuco falla estructuralmente por combinación de muestra reducida + variance alto + regime shift 2021→2023-25.
+- Tail cov Q95 debe estar > 70 %: **falla en las 4 cuencas** (rango 4-59 %). Es el hallazgo estructural: split conformal cumple garantía marginal pero **colapsa operacionalmente en la cola bajo drift climático**.
+
+**Interpretación para el manuscrito** (párrafo de resultados M5a):
+
+> Split conformal delivers its finite-sample marginal-coverage
+> guarantee within ±3 percentage points in three of the four included
+> basins (Alto Lerma, Valle de México, Medio Balsas), confirming the
+> engine works as designed at basin scale. In Bajo Pánuco the guarantee
+> is broken by ~10 percentage points across every horizon (empirical
+> coverage 74-79 % vs the 90 % nominal), which we attribute jointly to
+> the reduced effective sample (7 of 15 folds after post-hoc
+> exclusion), the higher intrinsic variance of the Pánuco system, and
+> the atmospheric regime shift between the 2021-2022 calibration and
+> the 2023-2025 test window driven by tropical-cyclone-frequency
+> changes over the Gulf coast. Tail coverage restricted to the
+> observed Q95 test tail sits at 4-59 % across all four basins, well
+> below the ≥ 70 % operational threshold. This is the paper's core
+> UQ finding: the split-conformal machinery is valid on average but
+> operationally inadequate for extreme-event decision support, which
+> motivates the fuzzy layer's use of interval width as an
+> uncertainty proxy rather than as a hard coverage guarantee.
+
+**Folds con baja resolución estadística** (excluidos del promedio cross-basin operacional pero reportados por transparencia):
+
+- Valle de México: ARBMX (test=48), CHPMX (test=308 pero q_hat=0), GDLMX (test=5), SLAMX (test=12) → cobertura 100 % espuria por N pequeño.
+- Bajo Pánuco: 8 folds saltados por Cause-1 (val=0 o test=0 en 2010-2025). Reportados en Table 2 como en M3.
+- Medio Balsas: TESMX saltado (val=0).
+
+## Milestone 5b — Mamdani fuzzy alert layer — LISTO
+
+**Estado**: ✅ implementado y unit-tested.
+
+`src/hidroxmx/alert/fuzzy.py`: TriangularMF + TrapezoidalMF, FuzzyVariable, MamdaniRule, MamdaniFIS con inferencia min-max y defuzzificación por centroide, factory `build_alert_fis()` basin-agnóstico. 15 tests.
+
+**Reglas** (exportables a Table X del paper vía `MamdaniFIS.rules_summary()`):
+
+```
+R1: IF flow_ratio is HIGH AND width_ratio is NARROW THEN alert_level is RED
+R2: IF flow_ratio is HIGH AND width_ratio is WIDE   THEN alert_level is ORANGE
+R3: IF flow_ratio is MID  AND width_ratio is NARROW THEN alert_level is YELLOW
+R4: IF flow_ratio is MID  AND width_ratio is WIDE   THEN alert_level is ORANGE
+R5: IF flow_ratio is LOW                            THEN alert_level is GREEN
+```
+
+Los inputs son ratios contra Q95 del train de la estación holdout → aplica sin cambios a las 4 cuencas.
+
+## Milestone 5c — evaluación cost-loss + POD/FAR (pendiente)
+
+**Objetivo**: comparar el sistema fuzzy vs alerta simple con umbral fijo sobre el pronóstico puntual. Métricas:
+- POD y FAR por umbral de alerta (≥ YELLOW, ≥ ORANGE, ≥ RED)
+- Cost-loss Value curves para C/L ∈ {0.05, 0.1, 0.2, 0.3, 0.5}
+- Lead-time hasta la primera alerta antes de un evento
+
+**Kill condition**: si fuzzy NO bate al threshold simple por **≥ +0.05 en Value** o **≥ 1 día en lead-time útil**, Path B se declara soft-falsified y volvemos a Milestone 3 (F0-PUB lumped) como contribución central.
+
+## Milestones 6-7 — RQ3 digital twin, evaluación
 
 Path B (Milestone 5) es ahora la **línea principal del paper** dado el cierre de Path A. Milestone 5 (UQ + fuzzy alerting) es funcionalmente independiente y trabaja sobre F0-PUB lumped como forecaster base (validado en Milestone 3). Milestone 7 (paired bootstrap, figuras) reutiliza toda la infraestructura de `results/` y `viz/journal.py`.
 

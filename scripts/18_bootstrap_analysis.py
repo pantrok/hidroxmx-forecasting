@@ -105,6 +105,14 @@ M3_RUNS = {
 
 
 def _bootstrap_m3(r2) -> pd.DataFrame:
+    """Compute mean and median bootstrap for M3.
+
+    Mean is the traditional reporting statistic for NSE aggregates
+    (matches Kratzert et al. 2019). Median is robust to catastrophic
+    folds (F0-PUB NSE < −1) that appear in Valle de México and Bajo
+    Pánuco — the paper reports both so the reader can see the
+    outlier sensitivity directly.
+    """
     rows = []
     for basin, run_id in M3_RUNS.items():
         click.echo(f"[18_boot] M3 loading {basin} ({run_id})…")
@@ -113,18 +121,19 @@ def _bootstrap_m3(r2) -> pd.DataFrame:
         for h in HORIZONS:
             a = np.array([f.get(f"nse_h{h}", np.nan) for f in folds], dtype=float)
             b = np.array([f.get(f"persist_nse_h{h}", np.nan) for f in folds], dtype=float)
-            res, kill = paired_bootstrap_kill_check(
-                a, b, threshold=KILL_THRESHOLD_M3,
-                statistic="mean", n_boot=N_BOOT, ci=CI_LEVEL, seed=SEED,
-            )
-            rows.append({
-                "basin": basin, "horizon_d": h, "metric": "NSE",
-                "statistic": "mean",
-                "n_folds": res.n,
-                "delta": res.delta, "ci_low": res.ci_low, "ci_high": res.ci_high,
-                "significant": res.significant,
-                "kill_cleared": kill,
-            })
+            for statistic in ("mean", "median"):
+                res, kill = paired_bootstrap_kill_check(
+                    a, b, threshold=KILL_THRESHOLD_M3,
+                    statistic=statistic, n_boot=N_BOOT, ci=CI_LEVEL, seed=SEED,
+                )
+                rows.append({
+                    "basin": basin, "horizon_d": h, "metric": "NSE",
+                    "statistic": statistic,
+                    "n_folds": res.n,
+                    "delta": res.delta, "ci_low": res.ci_low, "ci_high": res.ci_high,
+                    "significant": res.significant,
+                    "kill_cleared": kill,
+                })
     return pd.DataFrame(rows)
 
 
@@ -145,22 +154,22 @@ def _bootstrap_m4(r2) -> pd.DataFrame:
     for mechanism, run_id in M4_RUNS.items():
         click.echo(f"[18_boot] M4 loading {mechanism} ({run_id})…")
         folds = _fold_metrics(r2, run_id)
-        # Align by holdout so pairing is exact.
         paired = [(f, baseline.get(f["holdout"])) for f in folds
                   if baseline.get(f["holdout"]) is not None]
         click.echo(f"[18_boot]   {len(paired)} paired folds")
         for h in HORIZONS:
             a = np.array([f.get(f"nse_h{h}", np.nan) for f, _ in paired], dtype=float)
             b = np.array([lump.get(f"nse_h{h}", np.nan) for _, lump in paired], dtype=float)
-            res = paired_bootstrap(a, b, statistic="mean",
-                                    n_boot=N_BOOT, ci=CI_LEVEL, seed=SEED)
-            rows.append({
-                "mechanism": mechanism, "horizon_d": h, "metric": "NSE",
-                "statistic": "mean",
-                "n_folds": res.n,
-                "delta": res.delta, "ci_low": res.ci_low, "ci_high": res.ci_high,
-                "significant": res.significant,
-            })
+            for statistic in ("mean", "median"):
+                res = paired_bootstrap(a, b, statistic=statistic,
+                                        n_boot=N_BOOT, ci=CI_LEVEL, seed=SEED)
+                rows.append({
+                    "mechanism": mechanism, "horizon_d": h, "metric": "NSE",
+                    "statistic": statistic,
+                    "n_folds": res.n,
+                    "delta": res.delta, "ci_low": res.ci_low, "ci_high": res.ci_high,
+                    "significant": res.significant,
+                })
     return pd.DataFrame(rows)
 
 
@@ -233,15 +242,17 @@ def main(out_dir: str, upload_to_r2: bool):
     m3_path = out_root / "bootstrap_m3_pub.csv"
     df_m3.to_csv(m3_path, index=False)
     click.echo(f"[18_boot] wrote {m3_path.as_posix()}")
-    for basin in df_m3["basin"].unique():
-        sub = df_m3[df_m3["basin"] == basin]
-        click.echo(f"[18_boot]   {basin}:")
-        for _, r in sub.iterrows():
-            marker = " *" if r["kill_cleared"] else ""
-            click.echo(f"[18_boot]     h={int(r['horizon_d']):>2d}d  "
-                       f"ΔNSE={r['delta']:+.3f} "
-                       f"CI [{r['ci_low']:+.3f}, {r['ci_high']:+.3f}]"
-                       f"  n={int(r['n_folds'])}{marker}")
+    for statistic in ("mean", "median"):
+        click.echo(f"[18_boot] --- statistic: {statistic} ---")
+        for basin in df_m3["basin"].unique():
+            sub = df_m3[(df_m3["basin"] == basin) & (df_m3["statistic"] == statistic)]
+            click.echo(f"[18_boot]   {basin}:")
+            for _, r in sub.iterrows():
+                marker = " *" if r["kill_cleared"] else ""
+                click.echo(f"[18_boot]     h={int(r['horizon_d']):>2d}d  "
+                           f"ΔNSE={r['delta']:+.3f} "
+                           f"CI [{r['ci_low']:+.3f}, {r['ci_high']:+.3f}]"
+                           f"  n={int(r['n_folds'])}{marker}")
 
     # M4 -----
     click.echo("\n[18_boot] === Milestone 4 — mechanism vs lumped (Alto Lerma) ===")
@@ -249,15 +260,17 @@ def main(out_dir: str, upload_to_r2: bool):
     m4_path = out_root / "bootstrap_m4_mechanisms.csv"
     df_m4.to_csv(m4_path, index=False)
     click.echo(f"[18_boot] wrote {m4_path.as_posix()}")
-    for mech in df_m4["mechanism"].unique():
-        sub = df_m4[df_m4["mechanism"] == mech]
-        click.echo(f"[18_boot]   {mech}:")
-        for _, r in sub.iterrows():
-            marker = " sig" if r["significant"] else ""
-            click.echo(f"[18_boot]     h={int(r['horizon_d']):>2d}d  "
-                       f"ΔNSE={r['delta']:+.4f} "
-                       f"CI [{r['ci_low']:+.4f}, {r['ci_high']:+.4f}]"
-                       f"  n={int(r['n_folds'])}{marker}")
+    for statistic in ("mean", "median"):
+        click.echo(f"[18_boot] --- statistic: {statistic} ---")
+        for mech in df_m4["mechanism"].unique():
+            sub = df_m4[(df_m4["mechanism"] == mech) & (df_m4["statistic"] == statistic)]
+            click.echo(f"[18_boot]   {mech}:")
+            for _, r in sub.iterrows():
+                marker = " sig" if r["significant"] else ""
+                click.echo(f"[18_boot]     h={int(r['horizon_d']):>2d}d  "
+                           f"ΔNSE={r['delta']:+.4f} "
+                           f"CI [{r['ci_low']:+.4f}, {r['ci_high']:+.4f}]"
+                           f"  n={int(r['n_folds'])}{marker}")
 
     # M5c -----
     click.echo("\n[18_boot] === Milestone 5c — fuzzy vs baseline (Value @ C/L=0.2) ===")

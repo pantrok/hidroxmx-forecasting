@@ -1,11 +1,26 @@
-"""Auditable Mamdani fuzzy alert layer + rule export.
+"""Auditable Mamdani fuzzy alert layer (Milestone 5b)."""
+from .fuzzy import (
+    CATEGORIES,
+    FuzzyVariable,
+    MamdaniFIS,
+    MamdaniRule,
+    MembershipFunction,
+    TrapezoidalMF,
+    TriangularMF,
+    build_alert_fis,
+    category_to_index,
+    score_to_category,
+)
 
-Module to be filled in Milestone 5 (§12.5) :
-
-- ``fuzzy.py`` — Mamdani FIS mapping (forecast percentile, interval width /
-  exceedance probability) to alert class (none / watch / warning / emergency);
-  membership functions anchored to local action thresholds (co-designed with
-  CONAGUA / Protección Civil).
-- ``rules.py`` — export the IF–THEN rule table in a human-readable file for
-  auditability and for the paper's supplementary material.
-"""
+__all__ = [
+    "CATEGORIES",
+    "FuzzyVariable",
+    "MamdaniFIS",
+    "MamdaniRule",
+    "MembershipFunction",
+    "TrapezoidalMF",
+    "TriangularMF",
+    "build_alert_fis",
+    "category_to_index",
+    "score_to_category",
+]

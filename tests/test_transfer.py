@@ -123,3 +123,73 @@ def test_score_donors_rejects_unknown_method():
         score_donors(target, donors, ["A"], method="bogus")
     with pytest.raises(ValueError):
         score_donors(target, donors, ["A"], metric="bogus")
+
+
+# --------------------------------------------------------------------------- #
+# Static attributes (S-ATTR)
+# --------------------------------------------------------------------------- #
+def test_extract_attributes_from_valid_row():
+    import pandas as pd
+    from hidroxmx.transfer import DEFAULT_ATTRIBUTE_KEYS, extract_attributes
+
+    row = pd.Series({
+        "clave": "ABCXY",
+        "nombre": "Test station",
+        "latitud": 20.216667,
+        "longitud": -100.885833,
+        "altitud": 1758,
+        "region_hidrologica": 12,
+    })
+    attrs = extract_attributes(row)
+    for k in DEFAULT_ATTRIBUTE_KEYS:
+        assert k in attrs
+    assert attrs["altitud"] == 1758.0
+    assert attrs["region_hidrologica"] == 12.0
+
+
+def test_extract_attributes_nan_safe_on_missing():
+    import pandas as pd
+    from hidroxmx.transfer import extract_attributes
+
+    row = pd.Series({"clave": "X", "latitud": None, "altitud": ""})
+    attrs = extract_attributes(row)
+    assert np.isnan(attrs["latitud"])
+    assert np.isnan(attrs["altitud"])
+    assert np.isnan(attrs["longitud"])
+    assert np.isnan(attrs["region_hidrologica"])
+
+
+def test_attribute_vector_order_matches_default_keys():
+    import pandas as pd
+    from hidroxmx.transfer import DEFAULT_ATTRIBUTE_KEYS, attribute_vector, extract_attributes
+
+    row = pd.Series({
+        "latitud": 20.0, "longitud": -100.0, "altitud": 1500,
+        "region_hidrologica": 12,
+    })
+    v = attribute_vector(extract_attributes(row))
+    assert len(v) == len(DEFAULT_ATTRIBUTE_KEYS)
+    assert v[0] == 20.0
+    assert v[1] == -100.0
+    assert v[2] == 1500.0
+    assert v[3] == 12.0
+
+
+def test_score_donors_works_with_attribute_vectors():
+    """Same score_donors API should handle attribute vectors, not just signatures."""
+    import pandas as pd
+    from hidroxmx.transfer import attribute_vector, extract_attributes
+
+    rows = [
+        {"clave": "T", "latitud": 20.0, "longitud": -100.0, "altitud": 1500, "region_hidrologica": 12},
+        {"clave": "A", "latitud": 20.1, "longitud": -100.1, "altitud": 1520, "region_hidrologica": 12},  # very close
+        {"clave": "B", "latitud": 25.0, "longitud": -105.0, "altitud": 800,  "region_hidrologica": 18},  # far
+    ]
+    target = attribute_vector(extract_attributes(pd.Series(rows[0])))
+    donors = np.vstack([
+        attribute_vector(extract_attributes(pd.Series(r))) for r in rows[1:]
+    ])
+    res = score_donors(target, donors, ["A", "B"], method="soft", temperature=0.5)
+    # A should score higher than B because it is closer in every coord.
+    assert res.raw_scores[0] > res.raw_scores[1]
+    assert res.weights[0] > res.weights[1]

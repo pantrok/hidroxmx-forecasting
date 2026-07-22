@@ -71,8 +71,11 @@ from hidroxmx.io import (
 )
 from hidroxmx.io.checkpoint import collect_rng_state, restore_rng_state
 from hidroxmx.transfer import (
+    DEFAULT_ATTRIBUTE_KEYS,
     DEFAULT_SIGNATURE_KEYS,
+    attribute_vector,
     compute_signatures,
+    extract_attributes,
     score_donors,
     signature_vector,
 )
@@ -162,10 +165,13 @@ def _prepare_station(r2, layout, station_row, use_clima, split,
     win_val = collect_windows(series_std.loc[mask_val], aligned_spec)
     win_test = collect_windows(series_std.loc[mask_test], aligned_spec)
 
-    # For similarity scoring — compute signatures from the RAW post-clip
-    # streamflow, restricted to the training window (no leakage).
+    # For S-SIG — signatures from the RAW post-clip streamflow, restricted
+    # to the training window (no leakage).
     train_target_m3s = series.loc[mask_train, TARGET_COL].to_numpy(dtype=np.float64)
     signatures = compute_signatures(train_target_m3s)
+    # For S-ATTR — static attributes lifted directly from the manifest
+    # row (no leakage possible).
+    attributes = extract_attributes(station_row)
 
     return {
         "clave": clave,
@@ -175,6 +181,7 @@ def _prepare_station(r2, layout, station_row, use_clima, split,
         "stats": stats,
         "target_stats": tgt_stats,
         "signatures": signatures,
+        "attributes": attributes,
         "windows_train": win_train,
         "windows_val": win_val,
         "windows_test": win_test,
@@ -261,14 +268,35 @@ def _persistence_and_climatology(target_prep, horizons):
 # --------------------------------------------------------------------------- #
 # One PUB fold with signature-weighted donors
 # --------------------------------------------------------------------------- #
+def _select_similarity_vector(prep: dict, mechanism: str) -> np.ndarray:
+    """Return the vector used for donor-similarity scoring under ``mechanism``.
+
+    ``sig``  → hydrological signatures only.
+    ``attr`` → static manifest attributes only.
+    ``both`` → concatenation of signature + attribute vectors, standardised
+                per-block by :func:`hidroxmx.transfer.similarity.score_donors`.
+    """
+    if mechanism == "sig":
+        return signature_vector(prep["signatures"])
+    if mechanism == "attr":
+        return attribute_vector(prep["attributes"])
+    if mechanism == "both":
+        return np.concatenate([
+            signature_vector(prep["signatures"]),
+            attribute_vector(prep["attributes"]),
+        ])
+    raise ValueError(f"unknown mechanism {mechanism!r}")
+
+
 def _run_transfer_fold(target_clave, stations_pool, *,
                        r2, layout, split, lookback, horizons, use_clima,
                        hidden, layers, dropout, batch_size, epochs, lr,
                        patience, seed, run_id, out_root, upload_to_r2,
+                       mechanism,
                        similarity_method, similarity_metric,
                        similarity_temperature, similarity_top_k):
     click.echo(f"\n[14_train] === Fold: holdout={target_clave} "
-               f"(mechanism={similarity_method}) ===")
+               f"(mechanism=S-{mechanism.upper()}, weighting={similarity_method}) ===")
 
     target_row = stations_pool[stations_pool["clave"].astype(str) == target_clave]
     if target_row.empty:
@@ -310,9 +338,9 @@ def _run_transfer_fold(target_clave, stations_pool, *,
         return {"target_clave": target_clave, "metrics": {}, "n_donors": 0, "skipped": True}
 
     # ----- SIMILARITY SCORING (the mechanism) ------------------------------
-    target_vec = signature_vector(target_prep["signatures"])
+    target_vec = _select_similarity_vector(target_prep, mechanism)
     donor_vecs = np.vstack([
-        signature_vector(prep["signatures"]) for prep in donor_preps
+        _select_similarity_vector(prep, mechanism) for prep in donor_preps
     ])
     donor_claves = [prep["clave"] for prep in donor_preps]
     sim = score_donors(
@@ -320,8 +348,8 @@ def _run_transfer_fold(target_clave, stations_pool, *,
         method=similarity_method, metric=similarity_metric,
         temperature=similarity_temperature, top_k=similarity_top_k,
     )
-    click.echo(f"[14_train] Similarity ({similarity_method}, {similarity_metric}) "
-               f"weights (mean=1.0):")
+    click.echo(f"[14_train] S-{mechanism.upper()} similarity "
+               f"({similarity_method}, {similarity_metric}) weights (mean=1.0):")
     for c, s, w in sorted(zip(donor_claves, sim.raw_scores, sim.weights),
                           key=lambda x: -x[2]):
         click.echo(f"[14_train]   {c:<8s}  sim={s:.3f}  w={w:.3f}")
@@ -421,6 +449,7 @@ def _run_transfer_fold(target_clave, stations_pool, *,
                        "donors": donor_claves,
                        "donor_weights": sim.weights.tolist(),
                        "donor_scores": sim.raw_scores.tolist(),
+                       "mechanism": mechanism,
                        "similarity_method": similarity_method,
                        "similarity_metric": similarity_metric,
                        "similarity_temperature": similarity_temperature,
@@ -485,12 +514,15 @@ def _run_transfer_fold(target_clave, stations_pool, *,
             "donors": donor_claves,
             "donor_weights": sim.weights.tolist(),
             "donor_scores": sim.raw_scores.tolist(),
+            "mechanism": mechanism,
             "similarity_method": similarity_method,
             "similarity_metric": similarity_metric,
             "similarity_temperature": similarity_temperature,
             "similarity_top_k": similarity_top_k,
             "signature_keys": list(DEFAULT_SIGNATURE_KEYS),
+            "attribute_keys": list(DEFAULT_ATTRIBUTE_KEYS),
             "target_signatures": target_prep["signatures"],
+            "target_attributes": target_prep["attributes"],
             "holdout": target_clave,
             "holdout_name": target_prep["name"],
             "use_clima": use_clima, "lookback": lookback, "horizons": horizons,
@@ -543,6 +575,11 @@ def _run_transfer_fold(target_clave, stations_pool, *,
 @click.option("--patience", default=6, show_default=True)
 @click.option("--use-clima/--no-clima", default=True, show_default=True)
 @click.option("--seed", default=20260101, show_default=True)
+@click.option("--mechanism", default="sig",
+              type=click.Choice(["sig", "attr", "both"]), show_default=True,
+              help="Donor-similarity mechanism. 'sig' uses hydrological "
+                   "signatures; 'attr' uses static manifest attributes "
+                   "(lat/lon/altitud/region); 'both' concatenates both.")
 @click.option("--similarity-method", default="soft",
               type=click.Choice(["soft", "top_k"]), show_default=True)
 @click.option("--similarity-metric", default="euclidean",
@@ -553,8 +590,8 @@ def _run_transfer_fold(target_clave, stations_pool, *,
 @click.option("--upload-to-r2", is_flag=True)
 def main(run_id, basin, holdout, lookback, horizons, hidden, layers, dropout,
          batch_size, epochs, lr, patience, use_clima, seed,
-         similarity_method, similarity_metric, similarity_temperature,
-         similarity_top_k, out_dir, upload_to_r2):
+         mechanism, similarity_method, similarity_metric,
+         similarity_temperature, similarity_top_k, out_dir, upload_to_r2):
     load_dotenv(override=False)
     seed_everything(seed)
 
@@ -568,7 +605,8 @@ def main(run_id, basin, holdout, lookback, horizons, hidden, layers, dropout,
 
     stations_pool = _load_basin_stations(r2, layout, basin)
     click.echo(f"[14_train] Basin: {basin}  stations available: "
-               f"{len(stations_pool)}  mechanism: S-SIG ({similarity_method})")
+               f"{len(stations_pool)}  "
+               f"mechanism: S-{mechanism.upper()} ({similarity_method})")
 
     all_claves = stations_pool["clave"].astype(str).tolist()
     if holdout == "*":
@@ -588,6 +626,7 @@ def main(run_id, basin, holdout, lookback, horizons, hidden, layers, dropout,
             batch_size=batch_size, epochs=epochs, lr=lr, patience=patience,
             seed=seed, run_id=run_id, out_root=out_root,
             upload_to_r2=upload_to_r2,
+            mechanism=mechanism,
             similarity_method=similarity_method,
             similarity_metric=similarity_metric,
             similarity_temperature=similarity_temperature,

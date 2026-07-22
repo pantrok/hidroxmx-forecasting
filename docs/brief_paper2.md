@@ -200,27 +200,73 @@ ECBGJ, CALMX, SLCGJ son **tramos regulados o canalizados** donde el flujo no sig
 
 ---
 
-## Milestone 4 — Path A con mecanismo (pendiente)
+## Milestone 4 — Path A con mecanismo (FALSIFICADA)
 
-**Objetivo**: mostrar que **selección de donantes gobernada por mecanismo** (S-ATTR / S-PERF / S-SIG / S-INV) mejora sobre el F0-PUB "lumped" que Milestone 3 acaba de validar.
+**Estado**: ❌ **Kill condition activada** con dos mecanismos independientes probados en Alto Lerma. Path A no procede al resto de las cuencas.
 
-- **S-ATTR**: similitud por atributos estáticos (área, pendiente, geología).
-- **S-PERF**: similitud por desempeño agregado del F0 mono-estación en el donante.
-- **S-SIG**: similitud por firmas hidrológicas (flow duration curve, baseflow index).
-- **S-INV**: invariance-gated (conditional Granger / PTE, ICP-style).
+**Objetivo original**: mostrar que **selección de donantes gobernada por mecanismo** mejora sobre el F0-PUB lumped validado en Milestone 3. La spec (§4.3) exigía Δ ≥ +0.05 NSE en al menos un horizonte para no falsificar la hipótesis.
 
-**Condición de kill**: si el mejor mecanismo NO bate al F0-PUB lumped por ≥ +0.05 NSE en al menos un horizonte, Path A queda falsificada y pivoteamos a Path B como línea principal.
+### Mecanismos implementados y probados
 
-**Diseño en agenda**:
-- Nuevo `scripts/13_donor_matching.py` con `--criterion {attr,perf,sig,inv}`.
-- Nuevo `scripts/14_transfer_train.py` que pesa los windows por score de mecanismo.
-- Evaluar con el mismo test set (fold PUB) para comparación pareada.
+**S-SIG (hydrological signatures)** — `src/hidroxmx/transfer/signatures.py`. Vector de 9 firmas por estación computado sobre la ventana de entrenamiento raw (mean, CV, Q05/Q50/Q95, FDC slope, BFI, high/low flow frequency). Estandariza pool + softmax temperatura-escalada.
+
+Sweeps ejecutados en Alto Lerma:
+- `F0txfr-sig-alto-lerma-sweep-01` (temperature=1.0)
+- `F0txfr-sig-alto-lerma-temp03-01` (temperature=0.3, concentración agresiva)
+
+**S-ATTR (static attributes)** — `src/hidroxmx/transfer/attributes.py`. Vector de 4 atributos del manifest CONAGUA: `latitud`, `longitud`, `altitud`, `region_hidrologica`. Misma infraestructura de scoring.
+
+Sweep ejecutado en Alto Lerma:
+- `F0txfr-attr-alto-lerma-sweep-01` (temperature=1.0)
+
+### Resultados Alto Lerma — matriz completa (14 folds)
+
+| h | persist | lumped M3 | S-SIG t=1.0 | S-SIG t=0.3 | S-ATTR t=1.0 |
+|---|---:|---:|---:|---:|---:|
+| 1d | 0.678 | 0.736 | 0.735 | 0.731 | 0.730 |
+| 2d | 0.600 | 0.657 | 0.653 | 0.651 | 0.655 |
+| 3d | 0.538 | 0.611 | 0.608 | 0.601 | 0.608 |
+| 5d | 0.434 | 0.522 | 0.523 | 0.514 | 0.521 |
+| 7d | 0.322 | 0.444 | 0.443 | 0.427 | 0.436 |
+
+**Δ mecanismo − lumped** (target del kill: ≥ +0.05 en algún horizonte):
+- S-SIG t=1.0: {−0.001, −0.004, −0.003, +0.001, −0.001} — ruido
+- S-SIG t=0.3: {−0.005, −0.006, −0.010, −0.008, **−0.017**} — pérdida creciente
+- S-ATTR t=1.0: {−0.006, −0.002, −0.003, −0.001, −0.008} — null
+
+Ningún horizonte supera al lumped por ≥ +0.05 en ningún mecanismo. **Kill activada.**
+
+### Observaciones per-fold (críticas para interpretación)
+
+Los pesos S-SIG down-weightean sistemáticamente las **regulated tributaries** (SLCGJ, CALMX, ECBGJ) — precisamente las estaciones donde el lumped M3 dio el salto de valor (Δ vs persistencia +0.53, +0.37, +0.24 respectivamente). S-ATTR upweightea esas mismas estaciones por proximidad geográfica pero también termina neutralizándose porque el modelo aprende de los mismos ~26 000 windows independientemente del peso.
+
+### Interpretación para el manuscrito (hallazgo de Milestone 4)
+
+> With pools of ~14 stations per basin, lumped multi-station training already captures the transferable information; neither hydrological-signature nor static-attribute similarity extracted a marginal gain (|Δ mean NSE| ≤ 0.008 across all forecast horizons for both mechanisms). Concentrating donor weights (softmax temperature 0.3) further eroded performance on the most-autocorrelated stations. This scale-dependent finding is consistent with the CAMELS literature, where donor-selection mechanisms operate on pools of 500+ basins and can afford to exclude many donors without impoverishing the training signal. At basin-scale PUB (N < 20), the multi-station lumped baseline is a strong ceiling that mechanism-guided transfer does not exceed.
+
+**Path A cerrada con evidencia de dos mecanismos independientes en el mismo test set. No se ejecuta en las otras 3 cuencas** — los recursos de GPU se redirigen a Path B (Milestone 5).
+
+### Mecanismos pendientes NO probados (documentar como future work)
+
+- **S-PERF** — requiere entrenar F0 mono-estación por donante para computar similitud por desempeño. Costo GPU alto (14 F0 mono × N cuencas). Deferido salvo que Milestone 5 lo motive.
+- **S-INV (invariance-gated)** — más sofisticado (conditional Granger / PTE, ICP-style). Deferido a follow-up paper si los tres anteriores fallan; con dos ya falsificados, S-INV probablemente comparte el ceiling.
 
 ---
 
 ## Milestones 5-7 — RQ2 Path B, RQ3 digital twin, evaluación
 
-Pendientes. Milestone 5 (UQ + fuzzy) es funcionalmente independiente de M4 y puede paralelizarse. Milestone 7 (paired bootstrap, figuras) reutiliza toda la infraestructura de `results/` y `viz/journal.py`.
+Path B (Milestone 5) es ahora la **línea principal del paper** dado el cierre de Path A. Milestone 5 (UQ + fuzzy alerting) es funcionalmente independiente y trabaja sobre F0-PUB lumped como forecaster base (validado en Milestone 3). Milestone 7 (paired bootstrap, figuras) reutiliza toda la infraestructura de `results/` y `viz/journal.py`.
+
+### Pivote narrativo del paper (post-Milestone 4)
+
+Antes del M4 esperábamos que la contribución central fuera Path A ("mecanismo de selección de donantes"). Con Path A falsificada, la narrativa se reorganiza:
+
+- **Contribución 1 (metodológica)**: pipeline reproducible de F0-PUB lumped para PUB leave-one-out en 4 cuencas mexicanas (Milestones 1-3, validado).
+- **Contribución 2 (empírica negativa)**: null result de mecanismos S-SIG y S-ATTR, con interpretación hidrológica sobre por qué fallan a escala N=14 (Milestone 4). Reviewer-defendible como *scale-dependent falsification*.
+- **Contribución 3 (Path B, principal)**: UQ calibrada + alerta borrosa sobre F0-PUB (Milestone 5, por ejecutar).
+- **Contribución 4 (digital twin scoped)**: retrospective assimilation demonstrator (Milestone 6, alcance reducido si el tiempo aprieta).
+
+Este pivote es común en papers empíricos: el null result de M4 fortalece el paper si se reporta rigurosamente, y libera GPU para la contribución principal (M5).
 
 ---
 

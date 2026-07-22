@@ -1,4 +1,9 @@
 """Evaluation utilities: metrics registry, decision-frontier tools, figures."""
+from .bootstrap import (
+    PairedBootstrapResult,
+    paired_bootstrap,
+    paired_bootstrap_kill_check,
+)
 from .metrics import (
     METRICS,
     brier_score,
@@ -18,6 +23,7 @@ from .metrics import (
 
 __all__ = [
     "METRICS",
+    "PairedBootstrapResult",
     "brier_score",
     "crps_sample",
     "empirical_coverage",
@@ -26,6 +32,8 @@ __all__ = [
     "lead_time_at",
     "mean_interval_width",
     "nse",
+    "paired_bootstrap",
+    "paired_bootstrap_kill_check",
     "pbias",
     "peak_timing_error",
     "pod_far",

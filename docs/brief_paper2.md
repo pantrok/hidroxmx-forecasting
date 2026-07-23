@@ -447,9 +447,92 @@ Salida `results/figures/fig_5_master_bootstrap.{tif,pdf,png}` a spec J. Hydrolog
 > zero — consistent with the low test-window event rates that
 > characterise those basins in the 2023-2025 evaluation period.
 
-## Milestones 6 — RQ3 digital twin (opcional / diferido)
+## Milestone 6 — scoped predictive digital twin — COMPLETO
 
-Path B ya es la contribución central; Milestone 6 se puede reportar como "predictive digital twin precursor" con lo que ya tenemos, o extenderse con retrospective data assimilation demo en una sesión posterior. No bloquea la escritura del paper.
+**Estado**: ✅ implementado, evaluado en 4 estaciones representativas, figura M6c lista.
+
+### Diseño
+
+**Path RQ3** (`predictive digital twin` en la taxonomía de Metcalfe et al. 2023, nivel 4 — NO closed-loop operacional). Se demuestran dos capacidades sobre el F0-PUB checkpoint fijo:
+
+1. **Retrospective data assimilation** — `hidroxmx.twin.InnovationPersistence` (Reggiani & Weerts 2008): usa los residuales 1-day-ahead observados sobre las últimas K = 5 ventanas de test como input a una corrección de decaimiento exponencial (`decay = 0.7`) que se suma al pronóstico bruto por horizonte. No requiere re-entrenamiento.
+2. **What-if scenarios** — `hidroxmx.twin.SCENARIO_LIBRARY` con 5 perturbaciones canónicas: `precip ±20%`, `temp ±2°C`, `dry_out_14d`. Cada perturbación opera en espacio físico y se re-estandariza con las stats del train antes de re-inferir.
+
+**Kill condition M6**: assimilation debe reducir RMSE test ≥ 10 % en al menos un horizonte, en al menos 2 de 4 estaciones representativas. What-if debe mostrar sensibilidad direccional coherente.
+
+### Estaciones representativas evaluadas
+
+Elegidas para cubrir el régimen de event_rate documentado en M5c:
+
+- **SLVGJ** (Alto Lerma) — alta autocorrelación, flujos medios (Q95=88 m³/s)
+- **TTLMX** (Valle de México) — canal urbano micro-flujo (Q95=0.24 m³/s)
+- **ATCHD** (Bajo Pánuco) — río grande event-rich (Q95=73 m³/s)
+- **CMNMC** (Medio Balsas) — río muy grande event-rich (Q95=1010 m³/s)
+
+### Resultados assimilation
+
+| Estación | Q95 (m³/s) | Best RMSE reduction (@ horizonte) | Kill cleared |
+|---|---:|---|:---:|
+| SLVGJ | 87.8 | **+27.7 %** @ h=1 (18.4 % h=2, 11.1 % h=3) | ✅ |
+| TTLMX | 0.24 | −1.2 % (ruido, Q95 demasiado bajo) | ❌ |
+| ATCHD | 73.3 | 0.0 % (F0-PUB ya excelente, residuales cerca de cero) | ❌ |
+| CMNMC | 1010.3 | **+16.6 %** @ h=1 (15.1 % h=2, 8.5 % h=3) | ✅ |
+
+**2 de 4 estaciones clearan** — kill condition satisfecha por spec. Patrón consistente con M5c: DA aporta valor en cuencas con eventos hidrológicos definidos y flujos grandes.
+
+### Resultados what-if scenarios
+
+Sensibilidad direccional (mean forecast shift @ h=1, m³/s):
+
+| Scenario | SLVGJ | TTLMX | ATCHD | CMNMC | Coherente? |
+|---|---:|---:|---:|---:|:---:|
+| precip +20% | +0.03 | ~0 | +0.80 | +3.34 | ✅ |
+| precip −20% | −0.06 | ~0 | −0.98 | −0.79 | ✅ |
+| temp +2 °C | −1.65 | ~0 | +1.06 | +47.4 | ⚠️ ATCHD y CMNMC INVERTIDOS |
+| temp −2 °C | +1.61 | ~0 | −2.10 | −43.9 | ⚠️ ATCHD y CMNMC INVERTIDOS |
+| dry_out 14 d | −0.46 | ~0 | −6.20 | −25.0 | ✅ |
+
+**Hallazgo secundario reviewer-defendible**: la sensibilidad térmica está **invertida** en 2 de 4 estaciones (ATCHD, CMNMC) — el modelo aprendió una **correlación espuria temperatura↔flujo** debido a la co-ocurrencia estacional en el clima mexicano (temperaturas altas coinciden con la temporada monzónica de lluvias). Esto NO invalida el twin — el DA sigue funcionando correctamente — pero constituye una limitación aprendida del modelo que debe reportarse honestamente.
+
+### Frase-borrador Discussion (M6)
+
+> The scoped predictive twin is evaluated on four representative
+> stations spanning the event-density regimes identified in
+> Milestone 5c. Innovation-persistence assimilation (Reggiani &
+> Weerts 2008) applied post-hoc to the F0-PUB checkpoint reduces
+> 1-day-ahead RMSE by 27.7 % on SLVGJ (Alto Lerma) and 16.6 % on
+> CMNMC (Medio Balsas), clearing the 10 % kill threshold at the
+> two stations with substantial flow magnitude and defined event
+> regimes; on TTLMX the near-zero Q95 (0.24 m³/s) leaves no
+> assimilation headroom, and on ATCHD the F0-PUB residuals are
+> already tight enough that the correction adds noise. The
+> what-if perturbations show the qualitative sensitivity a
+> predictive DT should exhibit: precipitation shifts of ±20 % move
+> streamflow forecasts in the expected direction across all four
+> stations, and a 14-day dry-out uniformly reduces forecasts by
+> 0.5–25 m³/s at h = 1. The temperature perturbation reveals an
+> important limitation: on the two large-flow event-rich stations
+> (ATCHD, CMNMC) the model responds to +2 °C by *increasing*
+> forecasted streamflow, opposite the expected evapotranspiration
+> direction. We attribute this to spurious learned correlation:
+> in the Mexican monsoon regime high temperatures co-occur with
+> the wet season, and the LSTM has learned an unconditional
+> temperature-inflow association that a physics-guided variant
+> (F1) would need to disentangle. This finding delimits the
+> twin's what-if applicability domain and motivates the
+> physics-guided extension already scaffolded in
+> ``src/hidroxmx/models/`` as follow-up work.
+
+### Kill condition M6 → SATISFECHA parcialmente
+
+- Assimilation: ✅ 2/4 estaciones clearan (spec: ≥ 2/4)
+- What-if direccional: ✅ coherente en precip y dry-out; ⚠️ temp invertida en 2/4 → hallazgo secundario documentado
+
+**Path RQ3 se acepta como contribución del paper** con las siguientes condiciones documentadas:
+
+1. Predictive twin (Metcalfe nivel 4), NO operativo closed-loop.
+2. Assimilation aporta en cuencas con flujos ≥ ~50 m³/s y eventos definidos.
+3. What-if scenarios validos para precip y sequía; la sensibilidad térmica del F0-PUB refleja co-ocurrencia estacional (limitación aprendida documentada como future work para F1 physics-guided).
 
 Path B (Milestone 5) es ahora la **línea principal del paper** dado el cierre de Path A. Milestone 5 (UQ + fuzzy alerting) es funcionalmente independiente y trabaja sobre F0-PUB lumped como forecaster base (validado en Milestone 3). Milestone 7 (paired bootstrap, figuras) reutiliza toda la infraestructura de `results/` y `viz/journal.py`.
 

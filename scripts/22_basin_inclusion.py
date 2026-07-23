@@ -151,7 +151,7 @@ def _plot_inclusion(table: pd.DataFrame, out_stem: Path) -> list[Path]:
     ax.set_yticklabels(table["basin"].tolist())
     ax.invert_yaxis()  # largest basin at the top
     ax.set_xlabel("Selected hydrometric stations")
-    ax.set_title("Basin inclusion for Milestone 3 PUB leave-one-out",
+    ax.set_title("Basin sample: hydrometric stations per basin and inclusion status",
                  loc="left", fontsize=9)
     from matplotlib.patches import Patch
     handles = [
@@ -164,7 +164,7 @@ def _plot_inclusion(table: pd.DataFrame, out_stem: Path) -> list[Path]:
     written = save_figure(fig, out_stem, kind="combination",
                           metadata={"Title": "Basin inclusion criteria",
                                     "Author": "Daniel Sánchez-Ruiz",
-                                    "Subject": "Milestone 3 basin sample rationale"})
+                                    "Subject": "Basin sample rationale (PUB leave-one-out)"})
     plt.close(fig)
     return written
 

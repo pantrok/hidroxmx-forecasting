@@ -401,7 +401,7 @@ def main(run_id: str, out: str, horizon_scatter: int,
     written = save_figure(
         fig, stem, kind="combination",
         metadata={
-            "Title": f"Milestone 3 PUB summary{(' — ' + basin_label) if basin_label else ''}",
+            "Title": f"PUB leave-one-out summary{(' — ' + basin_label) if basin_label else ''}",
             "Author": "Daniel Sánchez-Ruiz",
             "Subject": f"F0-PUB vs persistence, {len(df)}-fold leave-one-out",
         },

@@ -270,7 +270,7 @@ def main(run_ids: str, basin_labels: str, out: str, upload_to_r2: bool):
     )
     _panel_lines(ax_a, agg_by_basin)
     _panel_heatmap(ax_b, agg_by_basin)
-    fig.suptitle("Milestone 3 — F0-PUB vs persistence across four basins",
+    fig.suptitle("F0-PUB vs persistence across four Mexican pilot basins",
                  fontsize=10, fontweight="bold", y=0.995)
     fig.tight_layout(pad=1.1, w_pad=2.5, rect=(0, 0, 1, 0.96))
 
@@ -278,7 +278,7 @@ def main(run_ids: str, basin_labels: str, out: str, upload_to_r2: bool):
     written = save_figure(
         fig, stem, kind="combination",
         metadata={
-            "Title": "Milestone 3 cross-basin PUB summary",
+            "Title": "Cross-basin F0-PUB summary",
             "Author": "Daniel Sánchez-Ruiz",
             "Subject": f"F0-PUB vs persistence across {len(agg_by_basin)} basins",
         },

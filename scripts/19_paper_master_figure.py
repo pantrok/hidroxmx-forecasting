@@ -187,27 +187,27 @@ def main(tables_dir: str, from_r2: bool, out: str, upload_to_r2: bool):
         axes[0], rows_m3,
         x_label="Δ NSE median (F0-PUB − persistence), 95 % CI",
         kill_threshold=KILL_M3,
-        title="(a) Milestone 3 — F0-PUB vs persistence, four basins × five horizons",
+        title="(a) F0-PUB vs persistence — four basins × five forecast horizons",
     )
     _plot_forest(
         axes[1], rows_m4,
         x_label="Δ NSE median (mechanism − lumped) on Alto Lerma, 95 % CI",
         kill_threshold=0.0,  # no kill threshold on M4; we want CI-crosses-0
-        title="(b) Milestone 4 — Path A mechanism vs lumped (Alto Lerma); "
+        title="(b) Mechanism-guided transfer vs lumped baseline (Alto Lerma); "
               "every CI straddles zero → null result",
     )
     _plot_forest(
         axes[2], rows_m5c,
         x_label="Δ Value @ C/L=0.2 median (fuzzy best-cutoff − baseline threshold), 95 % CI",
         kill_threshold=KILL_M5c,
-        title="(c) Milestone 5c — fuzzy alert vs simple-threshold baseline",
+        title="(c) Fuzzy uncertainty-aware alerting vs simple-threshold baseline",
     )
     for ax in axes:
         handles, labels = ax.get_legend_handles_labels()
         if handles:
             ax.legend(loc="lower right", frameon=True, fontsize=6.5)
 
-    fig.suptitle("Paper 2 — bootstrap confidence intervals on the three core comparisons",
+    fig.suptitle("Paired-bootstrap 95 % confidence intervals for the three core comparisons",
                  fontsize=10.5, fontweight="bold", y=0.995)
     fig.tight_layout(pad=1.1, h_pad=1.5, rect=(0, 0, 1, 0.98))
 
@@ -215,9 +215,9 @@ def main(tables_dir: str, from_r2: bool, out: str, upload_to_r2: bool):
     written = save_figure(
         fig, stem, kind="combination",
         metadata={
-            "Title": "Paper 2 master bootstrap figure",
+            "Title": "Bootstrap CI forest plots for the three core comparisons",
             "Author": "Daniel Sánchez-Ruiz",
-            "Subject": "Milestones 3, 4 and 5c with 95 % paired-bootstrap CIs",
+            "Subject": "F0-PUB vs persistence, mechanism vs lumped, fuzzy vs threshold — 95 % CI",
         },
     )
     plt.close(fig)

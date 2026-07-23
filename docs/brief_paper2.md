@@ -7,6 +7,78 @@
 
 ---
 
+## Inventario para la sesión de escritura (Claude no-Code)
+
+Este brief se usa para escribir el manuscrito. Los artefactos numéricos y figuras están en dos lugares — **Cloudflare R2** (fuente de verdad, versión oficial) y **git-tracked results** (para navegar sin credenciales). Los números de las tablas se corresponden 1-a-1; las figuras son idénticas (mismos scripts producen ambos destinos).
+
+### Tablas de resultados (git-tracked, `results/`)
+
+Están en el repo bajo `results/`. Rutas relativas:
+
+| Tabla | Ruta relativa | Contenido |
+|---|---|---|
+| Basin inclusion criteria | `results/tables/basin_inclusion.csv` | 15 cuencas × 5 columnas (n_stations, median_coverage, min_climate_neighbours, included, exclusion_reasons) |
+| Bootstrap M3 (F0-PUB vs persist) | `results/tables/bootstrap_m3_pub.csv` | 4 basins × 5 horizontes × 2 estadísticas (mean, median); columnas: delta, ci_low, ci_high, significant, kill_cleared |
+| Bootstrap M4 (mechanism vs lumped) | `results/tables/bootstrap_m4_mechanisms.csv` | 3 mecanismos × 5 horizontes × 2 estadísticas; CIs para null result |
+| Bootstrap M5c (fuzzy vs baseline) | `results/tables/bootstrap_m5c_alerts.csv` | 4 basins × 5 horizontes; kill_cleared para Value @ C/L=0.2 |
+| Bootstrap consolidated (R2 mirror) | `results/18_bootstrap/paper2-bootstrap/*.csv` | Copia exacta de las anteriores |
+| DT summary (M6) | `results/20_dt_demo/dt-demo-01/dt_summary.csv` | 4 estaciones × RMSE raw/assim/reduction por horizonte + kill flag |
+
+Todas también están en R2 bajo `paper2/tables/` y `paper2/runs/*/`.
+
+### Figuras (git-tracked, `results/figures/`)
+
+| Fig # | Ruta local | Formato | Contenido |
+|---|---|---|---|
+| Fig. 1 (Coverage) | `results/figures/fig_1_coverage_map*.{tif,pdf,png}` (Milestone 1) | 3 archivos | 123 sub-cuencas piloto vs cobertura Flood Hub + GloFAS |
+| Fig. 2 (Basin inclusion) | `results/figures/fig_2_basin_inclusion.{tif,pdf,png}` | 3 archivos | 15 cuencas ordenadas por N estaciones, coloreadas por inclusión |
+| Fig. 3 × 4 (per-basin PUB) | `results/figures/fig_3_pub_summary_{alto_lerma,valle_de_mexico,bajo_panuco,medio_balsas}.{tif,pdf,png}` | 12 archivos | Bar chart NSE por horizonte + scatter por-fold |
+| Fig. 4 (cross-basin PUB) | `results/figures/fig_4_cross_basin_milestone_3.{tif,pdf,png}` | 3 archivos | Line chart + heatmap Δ NSE de las 4 cuencas |
+| Fig. 5 (Bootstrap CIs) | `results/figures/fig_5_master_bootstrap.{tif,pdf,png}` | 3 archivos | 3 forest plots: F0-PUB, mecanismo, fuzzy con IC 95 % |
+| Fig. 6 (DT demo) | `results/figures/fig_6_dt_demo.{tif,pdf,png}` | 3 archivos | 2×2: hidrograma + what-if fan para SLVGJ y CMNMC |
+
+También en R2 bajo `paper2/figures/`.
+
+### Datos crudos por corrida (R2 authoritative)
+
+Cada corrida experimental (M3, M4, M5a, M5c, M6) produjo un `manifest.json` por fold con config + metrics denormalizadas. Están en R2 bajo `paper2/runs/{run_id}/{clave}/manifest.json`. La lista de run_ids relevantes:
+
+- **M3 PUB**: `F0pub-{alto-lerma,valle-de-mexico,bajo-panuco,medio-balsas}-sweep-01`
+- **M4 mecanismos**: `F0txfr-sig-alto-lerma-sweep-01`, `F0txfr-sig-alto-lerma-temp03-01`, `F0txfr-attr-alto-lerma-sweep-01`
+- **M5a UQ**: `UQ-conformal-{alto-lerma,valle-de-mexico,bajo-panuco,medio-balsas}-sweep-01`
+- **M5c fuzzy**: `alerts-{alto-lerma,valle-de-mexico,bajo-panuco,medio-balsas}-sweep-01`
+- **M6 DT**: `dt-demo-01/{SLVGJ,TTLMX,ATCHD,CMNMC}` + `dt-demo-01/dt_summary.csv`
+
+### Cómo re-generar tablas y figuras (para verificación o revisión)
+
+Todos los scripts son reproducibles y viven en `scripts/` del repo. Los relevantes para Claude no-Code son los que consumen artefactos ya generados (no requieren GPU):
+
+| Script | Genera | Entrada | Comando (local o Colab) |
+|---|---|---|---|
+| `scripts/18_bootstrap_analysis.py` | Los 3 CSVs bootstrap | Manifests R2 M3+M4+M5c | `python -u scripts/18_bootstrap_analysis.py --upload-to-r2` |
+| `scripts/19_paper_master_figure.py` | Fig. 5 (bootstrap forest plots) | Los 3 CSVs bootstrap | `python -u scripts/19_paper_master_figure.py --from-r2 --upload-to-r2` |
+| `scripts/21_figure_cross_basin.py` | Fig. 4 | Manifests M3 | `python -u scripts/21_figure_cross_basin.py --upload-to-r2` |
+| `scripts/22_basin_inclusion.py` | Fig. 2 + tabla inclusion | CSV manifest estaciones | `python -u scripts/22_basin_inclusion.py --upload-to-r2` |
+| `scripts/21_dt_paper_figure.py` | Fig. 6 | `forecast_arrays.npz` per station (R2) | `python -u scripts/21_dt_paper_figure.py --from-r2 --upload-to-r2` |
+
+**Scripts que sí requieren GPU (no rerunning necesario ya que resultados están en R2)**:
+- `scripts/12_train_multistation.py` — M3 sweeps (~2-3 h por cuenca)
+- `scripts/14_train_transfer.py` — M4 mecanismo (~2 h)
+- `scripts/15_conformal_uq.py` — M5a UQ (~5 min por cuenca)
+- `scripts/17_evaluate_alerts.py` — M5c fuzzy eval (~5 min por cuenca)
+- `scripts/20_dt_demo.py` — M6 twin (~8-15 min total)
+
+### Instrucciones específicas para la sesión de escritura
+
+1. **Leer este brief completo** antes de escribir cualquier sección.
+2. **Verificar números** contra los CSVs de `results/tables/` — no re-inventar.
+3. **Citar figuras por nombre canónico** (Fig. 1, Fig. 2, …, Fig. 6) que corresponde al orden de este inventario.
+4. **Frases-borrador (marcadas "Frase-borrador ..." en las secciones de cada milestone) son insumos** — reformular al estilo del journal, no copiar verbatim.
+5. **Disclosures Elsevier GenAI**: cada figura derivada de un modelo aprendido (F0-PUB, fuzzy, DT) requiere la sentencia estándar de divulgación en su caption.
+6. **NUNCA acreditar Claude/IA como autor/co-autor** ni en agradecimientos técnicos ni en trailers de commit.
+
+---
+
 ## Metadatos
 
 | Campo | Valor |

@@ -168,8 +168,7 @@ def main(run_id, stations, basins, arrays_dir, from_r2, slice_len, out, upload_t
             title=f"(b{col + 1}) {basin} · {clave} — what-if scenarios",
             slice_len=slice_len,
         )
-    fig.suptitle("Milestone 6 — scoped predictive digital twin: "
-                 "assimilation and what-if scenarios",
+    fig.suptitle("Scoped predictive digital twin: assimilation and what-if scenarios",
                  fontsize=10.5, fontweight="bold", y=0.995)
     fig.tight_layout(pad=1.1, h_pad=1.5, w_pad=2.0, rect=(0, 0, 1, 0.97))
 
@@ -177,7 +176,7 @@ def main(run_id, stations, basins, arrays_dir, from_r2, slice_len, out, upload_t
     written = save_figure(
         fig, stem, kind="combination",
         metadata={
-            "Title": "Scoped predictive digital twin — Milestone 6",
+            "Title": "Scoped predictive digital twin",
             "Author": "Daniel Sánchez-Ruiz",
             "Subject": (f"Assimilation and what-if scenarios on "
                         f"{', '.join(stations_list)}"),

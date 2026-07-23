@@ -205,21 +205,21 @@ def _run_station(basin, clave, base_run_id, *,
     y_true_m3s = denorm(prep["windows_test"]["y"])
     y_pred_m3s = denorm(raw_pred)
 
-    # 2. Recent residuals per window (use the last column-0 feature which is
-    #    log-target, denormalised, minus a 1-day-ahead in-sample "prediction"
-    #    of persistence for simplicity — a rough proxy for recent 1-day errors).
-    #    For a proper implementation the residual history should come from
-    #    running the model on the training windows too; here we use the
-    #    concurrent-day gap in the lookback series as a lightweight proxy.
+    # 2. Recent residuals — use the model's own 1-day-ahead residuals from
+    #    earlier test windows. The 1-day forecast of test_window[k] targets
+    #    day k+1 of the test period, so residuals_1d[k] = y_true[k, 0] − ŷ[k, 0]
+    #    is known BEFORE test_window[k + 1] is issued and can inform its
+    #    correction. This is the standard operational DA setup — no data
+    #    leakage because the residual at time t is only used to correct
+    #    forecasts issued after t.
+    residuals_1d = y_true_m3s[:, 0] - y_pred_m3s[:, 0]   # shape [N]
     residuals_history = np.zeros((n_test, history_days), dtype=float)
-    x_full = prep["windows_test"]["x"]
-    log_col_idx = 0  # by convention target_log_col is first feature
     for i in range(n_test):
-        recent_log_std = x_full[i, -history_days - 1:-1, log_col_idx]
-        recent_next_log_std = x_full[i, -history_days:, log_col_idx]
-        recent_pred = np.expm1(recent_log_std * sigma_t + mu_t)
-        recent_true = np.expm1(recent_next_log_std * sigma_t + mu_t)
-        residuals_history[i] = recent_true - recent_pred
+        start = max(0, i - history_days)
+        hist = residuals_1d[start:i]
+        if hist.size < history_days:
+            hist = np.concatenate([np.zeros(history_days - hist.size), hist])
+        residuals_history[i] = hist
 
     # 3. Assimilated forecast
     assim_pred = assimilate_forecasts(
@@ -254,6 +254,9 @@ def _run_station(basin, clave, base_run_id, *,
             scen_name, prep["windows_test"]["x"],
             prep["feature_cols"], prep["stats"],
         )
+        # scenarios return float64 from NumPy ops; the model weights are
+        # float32 — cast before passing to the LSTM.
+        perturbed_x = perturbed_x.astype(np.float32)
         with torch.no_grad():
             per_pred = model(torch.from_numpy(perturbed_x).to(device)).cpu().numpy()
         per_pred_m3s = denorm(per_pred)

@@ -1,6 +1,6 @@
-"""Data-layer stubs: R2-backed loaders for the hidroxai-mx snapshot.
+"""Data-layer: R2-backed loaders for the hidroxai-mx snapshot.
 
-Modules to be filled in Milestone 2 (§12.2):
+Modules:
 
 - ``streams.py`` — lazy Parquet readers for ``series_hidrometricas.parquet``,
   ``series_climatologicas.parquet`` and ``feature_table.parquet``, scanning only

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Stage 16 — Coverage / blind-spot map (Milestone 1, §12.1 of the spec).
+"""Coverage / blind-spot map for the pilot sub-basins (see docs/experiment-spec.md §12.1).
 
 Overlays the reach coverage of the two global forecasting providers we compare
 against (Google Flood Hub and GloFAS-CEMS) with the 123 pilot sub-basins

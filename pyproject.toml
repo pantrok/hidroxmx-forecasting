@@ -1,7 +1,7 @@
 [project]
 name = "hidroxmx-forecasting"
 version = "0.1.0"
-description = "Probabilistic streamflow forecasting and a scoped predictive digital-twin loop for Mexican pilot basins (Paper 2 of the HidroXAI-MX project)."
+description = "Probabilistic streamflow forecasting and a scoped predictive digital-twin loop for Mexican pilot basins — HidroXAI-MX modelling code."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

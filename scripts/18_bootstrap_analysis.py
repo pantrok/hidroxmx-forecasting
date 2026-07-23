@@ -1,17 +1,18 @@
 #!/usr/bin/env python
-"""Stage 18 — paired-bootstrap consolidation of Milestones 3, 4, 5c.
+"""Paired-bootstrap consolidation of the paper's three core comparisons.
 
-Reads every fold manifest from R2 for the four PUB sweeps (M3 lumped),
-the two mechanism sweeps (M4 S-SIG, S-ATTR on Alto Lerma) and the
-four M5c alert sweeps, then computes a **paired non-parametric
-bootstrap** with 95 % confidence intervals for the paper's central
-comparisons:
+Reads every fold manifest from R2 for the four PUB sweeps, the two
+mechanism sweeps (S-SIG, S-ATTR on Alto Lerma) and the four alert
+sweeps, then computes a **paired non-parametric bootstrap** with 95 %
+confidence intervals for the paper's central comparisons:
 
-- **M3**: F0-PUB mean NSE − persistence mean NSE, per (basin, horizon).
-- **M4**: F0-txfr mean NSE − F0-PUB lumped mean NSE, per (mechanism,
-  horizon) on Alto Lerma.
-- **M5c**: fuzzy Value @ C/L=0.2 (best cutoff per fold) − baseline
-  Value, per (basin, horizon), on folds with test event_rate > 0.
+- **PUB (F0-PUB vs persistence)**: F0-PUB mean NSE − persistence mean
+  NSE, per (basin, horizon).
+- **Mechanism (Path A) vs lumped**: F0-txfr mean NSE − F0-PUB lumped
+  mean NSE, per (mechanism, horizon) on Alto Lerma.
+- **Fuzzy alert vs threshold baseline**: fuzzy Value @ C/L=0.2 (best
+  cutoff per fold) − baseline Value, per (basin, horizon), on folds
+  with test event_rate > 0.
 
 Every table is written to ``results/tables/`` (git-tracked) so the
 manuscript can cite the CI on numeric estimates directly.
@@ -28,7 +29,7 @@ Output layout
 ``results/tables/bootstrap_m5c_alerts.csv``
     Δ median Value and 95 % CI for the four alert sweeps × 5
     horizons; ``kill_cleared`` flags rows whose CI-lower is at or
-    above the +0.05 threshold from §5c of the brief.
+    above the +0.05 kill threshold (see docs/experiment-spec.md).
 """
 from __future__ import annotations
 
@@ -94,7 +95,7 @@ def _fold_metrics(r2, run_id: str) -> list[dict]:
 
 
 # --------------------------------------------------------------------------- #
-# Milestone 3 — F0-PUB vs persistence
+# F0-PUB vs persistence (per basin × horizon)
 # --------------------------------------------------------------------------- #
 M3_RUNS = {
     "Alto Lerma":      "F0pub-alto-lerma-sweep-01",
@@ -105,7 +106,7 @@ M3_RUNS = {
 
 
 def _bootstrap_m3(r2) -> pd.DataFrame:
-    """Compute mean and median bootstrap for M3.
+    """Compute mean and median bootstrap for F0-PUB vs persistence.
 
     Mean is the traditional reporting statistic for NSE aggregates
     (matches Kratzert et al. 2019). Median is robust to catastrophic
@@ -115,7 +116,7 @@ def _bootstrap_m3(r2) -> pd.DataFrame:
     """
     rows = []
     for basin, run_id in M3_RUNS.items():
-        click.echo(f"[18_boot] M3 loading {basin} ({run_id})…")
+        click.echo(f"[18_boot] PUB loading {basin} ({run_id})…")
         folds = _fold_metrics(r2, run_id)
         click.echo(f"[18_boot]   {len(folds)} folds")
         for h in HORIZONS:
@@ -138,7 +139,7 @@ def _bootstrap_m3(r2) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- #
-# Milestone 4 — mechanism vs lumped (Alto Lerma)
+# Mechanism-guided transfer vs lumped baseline (Alto Lerma)
 # --------------------------------------------------------------------------- #
 M4_RUNS = {
     "S-SIG_t1.0": "F0txfr-sig-alto-lerma-sweep-01",
@@ -152,7 +153,7 @@ def _bootstrap_m4(r2) -> pd.DataFrame:
     rows = []
     baseline = {f["holdout"]: f for f in _fold_metrics(r2, M4_BASELINE_RUN)}
     for mechanism, run_id in M4_RUNS.items():
-        click.echo(f"[18_boot] M4 loading {mechanism} ({run_id})…")
+        click.echo(f"[18_boot] mechanism loading {mechanism} ({run_id})…")
         folds = _fold_metrics(r2, run_id)
         paired = [(f, baseline.get(f["holdout"])) for f in folds
                   if baseline.get(f["holdout"]) is not None]
@@ -174,7 +175,7 @@ def _bootstrap_m4(r2) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- #
-# Milestone 5c — fuzzy vs baseline threshold
+# Fuzzy alert vs simple-threshold baseline
 # --------------------------------------------------------------------------- #
 M5C_RUNS = {
     "Alto Lerma":      "alerts-alto-lerma-sweep-01",
@@ -197,7 +198,7 @@ def _best_fuzzy_value(fold: dict, h: int) -> float:
 def _bootstrap_m5c(r2) -> pd.DataFrame:
     rows = []
     for basin, run_id in M5C_RUNS.items():
-        click.echo(f"[18_boot] M5c loading {basin} ({run_id})…")
+        click.echo(f"[18_boot] fuzzy loading {basin} ({run_id})…")
         folds = _fold_metrics(r2, run_id)
         # Restrict to folds with events on test (else Value is degenerate).
         folds = [f for f in folds
@@ -236,8 +237,8 @@ def main(out_dir: str, upload_to_r2: bool):
     out_root = Path(out_dir)
     out_root.mkdir(parents=True, exist_ok=True)
 
-    # M3 -----
-    click.echo("\n[18_boot] === Milestone 3 — F0-PUB vs persistence ===")
+    # PUB (F0-PUB vs persistence) --------------------------------------------
+    click.echo("\n[18_boot] === F0-PUB vs persistence ===")
     df_m3 = _bootstrap_m3(r2)
     m3_path = out_root / "bootstrap_m3_pub.csv"
     df_m3.to_csv(m3_path, index=False)
@@ -254,8 +255,8 @@ def main(out_dir: str, upload_to_r2: bool):
                            f"CI [{r['ci_low']:+.3f}, {r['ci_high']:+.3f}]"
                            f"  n={int(r['n_folds'])}{marker}")
 
-    # M4 -----
-    click.echo("\n[18_boot] === Milestone 4 — mechanism vs lumped (Alto Lerma) ===")
+    # Mechanism-guided transfer vs lumped -----------------------------------
+    click.echo("\n[18_boot] === Mechanism-guided transfer vs lumped (Alto Lerma) ===")
     df_m4 = _bootstrap_m4(r2)
     m4_path = out_root / "bootstrap_m4_mechanisms.csv"
     df_m4.to_csv(m4_path, index=False)
@@ -272,8 +273,8 @@ def main(out_dir: str, upload_to_r2: bool):
                            f"CI [{r['ci_low']:+.4f}, {r['ci_high']:+.4f}]"
                            f"  n={int(r['n_folds'])}{marker}")
 
-    # M5c -----
-    click.echo("\n[18_boot] === Milestone 5c — fuzzy vs baseline (Value @ C/L=0.2) ===")
+    # Fuzzy alert vs simple-threshold baseline -------------------------------
+    click.echo("\n[18_boot] === Fuzzy alert vs threshold baseline (Value @ C/L=0.2) ===")
     df_m5c = _bootstrap_m5c(r2)
     m5c_path = out_root / "bootstrap_m5c_alerts.csv"
     df_m5c.to_csv(m5c_path, index=False)

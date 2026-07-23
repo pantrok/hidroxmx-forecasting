@@ -1,4 +1,4 @@
-"""Donor-matching mechanisms for Path A (Milestone 4)."""
+"""Donor-matching mechanisms for Path A."""
 from .attributes import (
     DEFAULT_ATTRIBUTE_KEYS,
     attribute_vector,

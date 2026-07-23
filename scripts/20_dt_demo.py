@@ -1,15 +1,14 @@
 #!/usr/bin/env python
-"""Stage 20 — scoped predictive digital twin demonstrator (Milestone 6).
+"""Scoped predictive digital twin demonstrator.
 
-For one representative station per basin, restore the M3 F0-PUB
+For one representative station per basin, restore the F0-PUB
 checkpoint, regenerate the test-window forecasts and evaluate two
 digital-twin capabilities on top:
 
 1. **Retrospective assimilation** via
    :class:`hidroxmx.twin.InnovationPersistence`. Compare test-window
    RMSE before and after applying the innovation-persistence
-   correction. Kill condition of §6: reduction ≥ 10 % at some
-   horizon.
+   correction. Kill condition: RMSE reduction ≥ 10 % at some horizon.
 2. **What-if scenarios** — apply the five perturbations in
    :data:`hidroxmx.twin.SCENARIO_LIBRARY` (precip ±20 %, temp ±2 °C,
    14-day dry-out) to the test feature windows and report the
@@ -22,9 +21,9 @@ regimes are covered):
 - Bajo Pánuco     → ATCHD  (Atlapexco, event-rich)
 - Medio Balsas    → CMNMC  (Caimanera, large-flow event-rich)
 
-Reuses the M3/M5 data pipeline (same features, standardisation and
-window builder) so every number here is directly comparable to the
-manuscript's Table 3 / Figure 5.
+Reuses the F0-PUB / conformal-UQ data pipeline (same features,
+standardisation and window builder) so every number here is directly
+comparable to the manuscript's forecast-skill tables and figures.
 """
 from __future__ import annotations
 

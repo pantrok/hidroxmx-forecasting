@@ -1,19 +1,19 @@
 #!/usr/bin/env python
-"""Stage 12 — Multi-station F0 training with PUB leave-one-out (Milestone 3).
+"""Multi-station F0 training with PUB leave-one-out (F0-PUB).
 
-The single-station F0 baseline (stage 11) is fundamentally limited by
-daily autocorrelation: persistence on SLVGJ achieves NSE=0.93 at h=1
-and no reasonable network trained on 3 000 windows can beat it. Stage
-12 tests the alternative: pool the training windows of every station
-in a basin and train one shared F0 on the concatenation, then evaluate
-on a **held-out** station that the model never saw.
+The single-station F0 baseline (11_train_forecaster.py) is fundamentally
+limited by daily autocorrelation: persistence on SLVGJ achieves NSE=0.93
+at h=1 and no reasonable network trained on ~3 000 windows can beat it.
+This script tests the alternative: pool the training windows of every
+station in a basin and train one shared F0 on the concatenation, then
+evaluate on a **held-out** station that the model never saw.
 
-This is the Pseudo-Ungauged Basin (PUB) protocol from §2 of the paper's
-experiment spec. It is also the first load-bearing test of Path A: if a
+This is the Pseudo-Ungauged Basin (PUB) protocol (see docs/experiment-
+spec.md §2). It is also the first load-bearing test of Path A: if a
 lumped multi-station F0 does not beat single-station F0 (and does not
 close the gap to persistence at short horizons), then transferability
-in this basin is weak and the mechanism-based transfer in Milestone 4
-inherits that ceiling.
+in this basin is weak and the mechanism-based transfer in
+14_train_transfer.py inherits that ceiling.
 
 Design decisions:
 

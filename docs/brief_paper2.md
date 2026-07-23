@@ -33,7 +33,7 @@ Todas también están en R2 bajo `paper2/tables/` y `paper2/runs/*/`.
 | Fig. 1 (Coverage) | `results/figures/fig_1_coverage_map*.{tif,pdf,png}` (Milestone 1) | 3 archivos | 123 sub-cuencas piloto vs cobertura Flood Hub + GloFAS |
 | Fig. 2 (Basin inclusion) | `results/figures/fig_2_basin_inclusion.{tif,pdf,png}` | 3 archivos | 15 cuencas ordenadas por N estaciones, coloreadas por inclusión |
 | Fig. 3 × 4 (per-basin PUB) | `results/figures/fig_3_pub_summary_{alto_lerma,valle_de_mexico,bajo_panuco,medio_balsas}.{tif,pdf,png}` | 12 archivos | Bar chart NSE por horizonte + scatter por-fold |
-| Fig. 4 (cross-basin PUB) | `results/figures/fig_4_cross_basin_milestone_3.{tif,pdf,png}` | 3 archivos | Line chart + heatmap Δ NSE de las 4 cuencas |
+| Fig. 4 (cross-basin PUB) | `results/figures/fig_4_cross_basin_pub.{tif,pdf,png}` | 3 archivos | Line chart + heatmap Δ NSE de las 4 cuencas |
 | Fig. 5 (Bootstrap CIs) | `results/figures/fig_5_master_bootstrap.{tif,pdf,png}` | 3 archivos | 3 forest plots: F0-PUB, mecanismo, fuzzy con IC 95 % |
 | Fig. 6 (DT demo) | `results/figures/fig_6_dt_demo.{tif,pdf,png}` | 3 archivos | 2×2: hidrograma + what-if fan para SLVGJ y CMNMC |
 

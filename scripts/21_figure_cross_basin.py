@@ -1,21 +1,10 @@
 #!/usr/bin/env python
-"""Stage 21 — Cross-basin summary figure for Milestone 3 (Fig. 4).
+"""Cross-basin summary figure for the PUB leave-one-out experiment.
 
-TODO(post-M4): visual polish pass on this figure. The current layout
-suffers from (a) overlapping ±1 SD shaded bands in panel (a) that
-obscure basin comparisons when three basins converge at the same y,
-and (b) a legend that eats ~25% of panel (a). Options for the polish
-pass: replace shaded bands with box-and-whiskers per (basin, horizon),
-move the legend outside the axes, or split panel (a) into two rows
-(F0-PUB on top, persistence at bottom) so lines never overlap. Batch
-this with the other paper-figure polish items after Milestone 4 lands.
-
-
-Assembles one figure that summarises the entire Milestone 3 sweep
-across the four included basins (Alto Lerma, Valle de México,
-Bajo Pánuco, Medio Balsas). The paper's headline claim — F0-PUB
-outperforms persistence *at every horizon and in every basin* — is
-built here.
+Assembles one figure that summarises the PUB sweep across the four
+included basins (Alto Lerma, Valle de México, Bajo Pánuco, Medio
+Balsas). Backs the headline claim that F0-PUB outperforms persistence
+at every horizon and in every basin.
 
 Two panels, side by side (double-column layout):
 
@@ -26,15 +15,13 @@ Two panels, side by side (double-column layout):
   ± 1 SD.
 - Panel (b): heatmap of the mean NSE difference (F0-PUB − persist),
   rows = basins, columns = horizons. Diverging colormap centred at
-  zero. Cells annotated with the numeric ∆. Green above the
-  diagonal (F0-PUB wins), red below (persistence wins).
+  zero. Cells annotated with the numeric ∆.
 
-Data source: per-fold manifests live in
-``paper2/runs/{run_id}/{fold}/manifest.json``. Auto-discovers folds
-via ``list_objects_v2`` (same idiom the per-basin figure uses). Folds
-with NSE < ``SCATTER_NSE_FLOOR`` or NaN at a given horizon are
-excluded from that horizon's aggregate — same filter as the per-basin
-Fig. 3 so numbers are directly comparable between the two figures.
+Data source: per-fold manifests under the run prefix on R2. Auto-
+discovers folds via ``list_objects_v2`` (same idiom the per-basin
+figure uses). Folds with NSE < ``SCATTER_NSE_FLOOR`` or NaN at a
+given horizon are excluded from that horizon's aggregate — same
+filter as the per-basin figure so numbers are directly comparable.
 
 Usage
 -----
@@ -42,7 +29,7 @@ Usage
         --run-ids "F0pub-alto-lerma-sweep-01,F0pub-valle-de-mexico-sweep-01,\\
                    F0pub-bajo-panuco-sweep-01,F0pub-medio-balsas-sweep-01" \\
         --basin-labels "Alto Lerma,Valle de México,Bajo Pánuco,Medio Balsas" \\
-        --out results/figures/fig_4_cross_basin_milestone_3 \\
+        --out results/figures/fig_4_cross_basin_pub \\
         --upload-to-r2
 """
 from __future__ import annotations
@@ -213,10 +200,10 @@ DEFAULT_LABELS = "Alto Lerma,Valle de México,Bajo Pánuco,Medio Balsas"
 
 @click.command()
 @click.option("--run-ids", default=DEFAULT_RUN_IDS, show_default=True,
-              help="Comma-separated Milestone 3 run identifiers, one per basin.")
+              help="Comma-separated run identifiers, one per basin.")
 @click.option("--basin-labels", default=DEFAULT_LABELS, show_default=True,
               help="Comma-separated display names in the same order as --run-ids.")
-@click.option("--out", default="results/figures/fig_4_cross_basin_milestone_3",
+@click.option("--out", default="results/figures/fig_4_cross_basin_pub",
               show_default=True, help="Output stem (no extension).")
 @click.option("--upload-to-r2", is_flag=True,
               help="Mirror the rendered figure to R2 under paper2/figures/.")

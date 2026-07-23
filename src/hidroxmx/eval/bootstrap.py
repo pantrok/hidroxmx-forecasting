@@ -1,22 +1,22 @@
 """Paired bootstrap confidence intervals for hydrological model comparisons.
 
-Milestone 7 consolidates the paper's central comparisons (M3 F0-PUB vs
-persistence, M4 mechanism vs lumped, M5c fuzzy vs point-threshold
-baseline) with **paired non-parametric bootstrap** confidence intervals.
-Pairing is critical here: the two methods are evaluated on the *same*
-folds and horizons, so a paired resample controls fold-level nuisance
-variation that would otherwise inflate the interval width.
+Consolidates the paper's central comparisons (F0-PUB vs persistence,
+mechanism vs lumped, fuzzy vs point-threshold baseline) with
+**paired non-parametric bootstrap** confidence intervals. Pairing is
+critical here: the two methods are evaluated on the *same* folds and
+horizons, so a paired resample controls fold-level nuisance variation
+that would otherwise inflate the interval width.
 
 The engine here is intentionally 40 lines of NumPy — the paper's
 contribution is not the resampling recipe but its downstream use in
-the kill-condition tables (Milestones 3, 4, 5c).
+the kill-condition tables.
 
 Statistical notes
 -----------------
 - Default statistic is the **median**, matching the aggregate reporting
-  we settled on in Milestone 5c after outlier folds distorted the mean.
-  ``mean`` is also supported for tables where the manuscript prefers
-  it (e.g., NSE aggregates in Milestone 3).
+  chosen for the fuzzy-alert comparison after outlier folds distorted
+  the mean. ``mean`` is also supported for tables where the manuscript
+  prefers it (e.g., NSE aggregates for F0-PUB vs persistence).
 - The confidence interval is the **percentile** interval at level
   ``ci`` — simplest and cleanest for a paper. BCa can be added later
   as an ablation if a reviewer asks.
@@ -145,9 +145,9 @@ def paired_bootstrap_kill_check(a: np.ndarray, b: np.ndarray, *,
 
     Returns ``(result, kill_cleared)`` where ``kill_cleared`` is True
     when the ``lower CI end`` of ``a − b`` is at or above ``threshold``.
-    Stricter than mere significance: for Milestones 3 and 5c the paper
-    reports whether the ≥ +0.05 improvement is *guaranteed* (CI-lower
-    above threshold) rather than merely *plausible* (point estimate).
+    Stricter than mere significance: the paper reports whether a
+    minimum-effect improvement is *guaranteed* (CI-lower above the
+    threshold) rather than merely *plausible* (point estimate above 0).
     """
     result = paired_bootstrap(a, b, n_boot=n_boot, ci=ci,
                               statistic=statistic, seed=seed)

@@ -1,22 +1,22 @@
 #!/usr/bin/env python
-"""Stage 21 — paper figure for Milestone 6 (scoped predictive digital twin).
+"""Paper figure for the scoped predictive digital twin.
 
 Assembles a 2×2 grid at J. Hydrology submission spec:
 
 - **Row 1**: 1-day-ahead hydrograph slice comparing observed streamflow,
   raw F0-PUB forecast and innovation-persistence-assimilated forecast.
   One column per station (SLVGJ ‖ CMNMC by default — the two stations
-  where the assimilation kill condition cleared in Milestone 6).
+  where the assimilation kill condition cleared).
 - **Row 2**: what-if 1-day-ahead fan chart on the same time window,
   showing the baseline forecast and the five perturbation scenarios
   (precip ±20 %, temp ±2 °C, 14-day dry-out) as coloured lines. Reveals
   the model's differential sensitivity to precipitation, temperature and
   antecedent-precipitation loss.
 
-Data come from the ``forecast_arrays.npz`` files that stage 20 writes
-per station under ``outputs/dt_demo/{run_id}/{clave}/``. Pass
-``--from-r2`` to pull them instead from
-``paper2/runs/{run_id}/{clave}/forecast_arrays.npz``.
+Data come from the ``forecast_arrays.npz`` files that
+``scripts/20_dt_demo.py`` writes per station under
+``outputs/dt_demo/{run_id}/{clave}/``. Pass ``--from-r2`` to pull them
+from the R2 mirror instead.
 """
 from __future__ import annotations
 

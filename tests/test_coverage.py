@@ -1,4 +1,4 @@
-"""Unit tests for the coverage-analysis step (Milestone 1)."""
+"""Unit tests for the coverage-analysis step."""
 from __future__ import annotations
 
 import pytest

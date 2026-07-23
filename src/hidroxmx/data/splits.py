@@ -1,4 +1,4 @@
-"""Temporal and spatial folds for Paper 2 experiments (§2 of the spec).
+"""Temporal and spatial folds (see docs/experiment-spec.md §2).
 
 Temporal split (frozen, reported verbatim in the paper):
 

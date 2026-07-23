@@ -10,8 +10,8 @@ Two backends, one API:
 - **R2 streaming** — same API, streamed from a *hierarchical* R2 prefix
   (defaults to ``R2_DATASET_PREFIX``). Use this when the dataset is
   re-published to R2 under a stable, logical layout (e.g. mirrored into
-  ``paper2-inputs/processed/…``) or in Colab once a small bootstrap
-  fetches the snapshot outside DVC.
+  a stable ``inputs/processed/…`` mirror) or in Colab once a small
+  bootstrap fetches the snapshot outside DVC.
 
 The backend is chosen at call time by :func:`resolve_source`:
 

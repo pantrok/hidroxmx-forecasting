@@ -1,20 +1,19 @@
 #!/usr/bin/env python
-"""Stage 14 — F0 transfer training with donor-similarity weighting (Path A).
+"""F0 transfer training with donor-similarity weighting (Path A).
 
-Milestone 4 slice 1: takes the Milestone-3 lumped multi-station
-pipeline (stage 12) and adds a **donor-similarity mechanism**. Instead
-of treating every donor's samples equally, the loss on each training
-sample is weighted by how similar the donor is to the held-out target
-in hydrological signature space (S-SIG). This is the first mechanism
-of the Path A family enumerated in §4.3 of the experiment spec.
+Takes the F0-PUB lumped multi-station pipeline (12_train_multistation.py)
+and adds a **donor-similarity mechanism**. Instead of treating every
+donor's samples equally, the loss on each training sample is weighted by
+how similar the donor is to the held-out target in hydrological signature
+space (S-SIG). This is the first mechanism of the Path A family
+enumerated in docs/experiment-spec.md §4.3.
 
-If the similarity-weighted model beats the lumped baseline (Milestone
-3, stage 12) on paired PUB folds, the Path A hypothesis clears its
-first load-bearing test. If it merely ties, Path A is soft-falsified
-and Path B carries the paper.
+If the similarity-weighted model beats the lumped baseline on paired PUB
+folds, the Path A hypothesis clears its first load-bearing test. If it
+merely ties, Path A is soft-falsified and Path B carries the paper.
 
-Key differences vs stage 12
----------------------------
+Key differences vs 12_train_multistation.py
+--------------------------------------------
 1. Signatures are computed from each donor's *training-window* raw
    streamflow (not the full series — respects the temporal split).
 2. Similarity is computed against the target's signature (same
@@ -25,8 +24,8 @@ Key differences vs stage 12
    are auditable and reproducible.
 
 The rest of the pipeline (checkpoint resume, R2 mirroring, per-fold
-outputs) is identical to stage 12 so results at both stages can be
-compared fold-for-fold.
+outputs) is identical to the lumped pipeline so results at both
+scripts can be compared fold-for-fold.
 """
 from __future__ import annotations
 

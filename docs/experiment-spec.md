@@ -1,14 +1,14 @@
-# Paper 2 — Experimental Design Specification
+# Experimental design specification
 
 **HidroXAI-MX · IPN grant IND-2026-0335 · target: *Journal of Hydrology*, SI "AI-driven digital twins for hydrological systems"**
 
-This file mirrors the runnable blueprint agreed for Paper 2. It fixes *what to
-build, what to compare, and what would falsify each claim* **before** writing
-model code. Every experiment maps to a claim and to a kill condition.
-Streamflow / water-level only (drought / SPI–SPEI is out of scope for Paper 2,
-that is Paper 3). The digital-twin claim is scoped to
-**predictive / assimilation-ready** maturity (Metcalfe et al., 2023), not
-operational closed-loop.
+This file is the runnable blueprint for the modelling code in this
+repository. It fixes *what to build, what to compare, and what would
+falsify each claim* **before** writing model code. Every experiment
+maps to a claim and to a kill condition. Streamflow / water-level
+only (drought / SPI–SPEI is deliberately out of scope). The
+digital-twin claim is scoped to **predictive / assimilation-ready**
+maturity (Metcalfe et al., 2023), not operational closed-loop.
 
 ## Compute policy
 
@@ -220,7 +220,7 @@ Also positioned vs the closest DT comparator **Rápalo et al. 2024**
   fuzzy vs crisp threshold; with / without tail-adaptive conformal.
 - **DT**: with / without assimilation update.
 
-## 11. Execution order (milestones)
+## 11. Execution order
 
 1. `scripts/16_coverage_map.py` → Figure 1 + blind-tributary table
    (de-risks the Introduction hook).

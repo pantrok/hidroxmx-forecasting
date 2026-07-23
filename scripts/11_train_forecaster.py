@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""Stage 11 — Train the F0 forecaster on one station of the pilot basin.
+"""Train the F0 forecaster on one hydrometric station of a pilot basin.
 
-Milestone 2 slice: end-to-end train / val / test loop that exercises every
-layer the later paths reuse:
+End-to-end train / val / test loop that exercises every layer the later
+transfer, UQ and twin experiments reuse:
 
 - streaming from R2 (or a local mirror via ``HIDROXAI_MX_ROOT``);
 - reindexing to a continuous daily calendar and building lags / moving
@@ -24,9 +24,8 @@ The station is auto-selected as the station in ``--basin`` with the
 highest observed target coverage inside the reference window
 (2010-01-01 through 2025-12-31); override with ``--clave``. ``--basin``
 matches the ``cuenca`` column of the selected-stations manifest (case-
-insensitive substring). Cutzamala is not a labelled basin in the CONAGUA
-selection — Alto Lerma is the default because it exposes 14 stations for
-Milestone-3 PUB leave-one-out.
+insensitive substring). Alto Lerma is the default because it exposes
+14 stations, which supports downstream PUB leave-one-out evaluation.
 """
 from __future__ import annotations
 

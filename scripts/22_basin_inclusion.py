@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-"""Stage 22 — Formalise the basin sample via explicit inclusion criteria.
+"""Formalise the basin sample via explicit inclusion criteria.
 
-The 4 basins on which Milestone 3 is executed (Alto Lerma, Valle de
-México, Bajo Pánuco, Medio Balsas) are not a random or convenience
-sample — they are the set of basins that satisfies three inclusion
-criteria enunciated **a priori**:
+The 4 basins on which the modelling experiments are executed (Alto
+Lerma, Valle de México, Bajo Pánuco, Medio Balsas) are not a random
+or convenience sample — they are the set of basins that satisfies
+three inclusion criteria enunciated **a priori**:
 
 1. **Statistical power for PUB leave-one-out** (``MIN_STATIONS_PUB``):
    the basin must contain at least ``MIN_STATIONS_PUB`` selected

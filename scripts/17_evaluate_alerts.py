@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-"""Stage 17 — evaluate the fuzzy alert layer (Milestone 5c).
+"""Evaluate the fuzzy alert layer against a simple-threshold baseline.
 
-Combines the M3 point forecast, the M5a conformal interval width and
-the M5b Mamdani fuzzy inference system into an operational alert
-signal, then benchmarks it against a **simple-threshold baseline**
-(``alert if ŷ > Q95_train``) that any hydrologist would build without
-the UQ machinery.
+Combines the F0-PUB point forecast, the conformal interval width and
+the Mamdani fuzzy inference system into an operational alert signal,
+then benchmarks it against a **simple-threshold baseline** (``alert if
+ŷ > Q95_train``) that any hydrologist would build without the UQ
+machinery.
 
 Per fold, per horizon, the script computes:
 
@@ -18,10 +18,10 @@ Per fold, per horizon, the script computes:
   correctly precedes the event, averaged across true events,
 
 and the deltas against the simple-threshold baseline. The kill
-condition of §5c of the brief is checked at the aggregate level.
+condition on Δ Value @ C/L=0.2 is checked at the aggregate level.
 
-Reuses the M5a data pipeline verbatim so predictions are byte-identical
-to those the paper's UQ table already reports.
+Reuses the conformal-UQ data pipeline verbatim so predictions are
+byte-identical to those the UQ table already reports.
 """
 from __future__ import annotations
 
@@ -237,7 +237,7 @@ def _run_fold(target_clave, stations_pool, *,
         click.echo(f"[17_alerts] {target_clave}: train Q95 undefined — skipping.")
         return {"target_clave": target_clave, "metrics": {}, "skipped": True}
 
-    # ------------- Restore M3 best.ckpt and regenerate predictions. ---------
+    # ------------- Restore F0-PUB best.ckpt and regenerate predictions. -----
     import torch
     from hidroxmx.models.forecaster import LSTMEncDecConfig, LSTMEncoderDecoder
 

@@ -1,15 +1,15 @@
 """Mamdani fuzzy inference system for flood-alert level assignment.
 
-Path B step 2 (Milestone 5b). Takes a *point* streamflow forecast from
-F0-PUB (Milestone 3) plus an *interval width* from the conformal UQ
-layer (Milestone 5a) and returns a crisp alert level in ``[0, 4]``
-that discretises into the four operational categories
+Path B step 2. Takes a *point* streamflow forecast from F0-PUB plus an
+*interval width* from the conformal UQ layer and returns a crisp alert
+level in ``[0, 4]`` that discretises into the four operational
+categories
 
     GREEN  ≤ 1 < YELLOW ≤ 2 < ORANGE ≤ 3 < RED
 
 The rule base is deliberately small (five rules) and hydrologically
-interpretable so it can be exported verbatim into the paper's Table X
-without needing further explanation to a reviewer.
+interpretable so it can be exported verbatim into the paper's rule
+table without needing further explanation to a reviewer.
 
 Design decisions
 ----------------

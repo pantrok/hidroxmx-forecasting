@@ -1,6 +1,6 @@
-"""Model stubs: forecaster F0/F1, parameter head H, differentiable routing.
+"""Models: forecaster F0/F1, parameter head H, differentiable routing.
 
-Modules to be filled in Milestone 2 (§12.2):
+Modules:
 
 - ``forecaster.py`` — encoder–decoder LSTM (F0) and Transformer/TFT variant.
 - ``physics.py`` — F1 = F0 + soft constraints (mass balance, non-negativity,

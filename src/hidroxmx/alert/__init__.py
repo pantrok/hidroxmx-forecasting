@@ -1,4 +1,4 @@
-"""Auditable Mamdani fuzzy alert layer (Milestone 5b)."""
+"""Auditable Mamdani fuzzy alert layer."""
 from .fuzzy import (
     CATEGORIES,
     FuzzyVariable,

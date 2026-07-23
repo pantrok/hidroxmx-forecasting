@@ -19,7 +19,7 @@ Two selection modes are exposed:
   contribute but the most similar dominate.
 
 The default mode is ``soft`` because it preserves the full data volume
-that lumped multi-station training already validated in Milestone 3.
+that lumped multi-station training (F0-PUB) already validated.
 """
 from __future__ import annotations
 

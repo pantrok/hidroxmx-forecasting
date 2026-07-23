@@ -1,7 +1,8 @@
-"""Tests for the data layer added in Milestone 2 (splits and windows).
+"""Tests for the data layer (splits and windows).
 
-Streams tests hit R2 and are exercised in the smoke script of Stage 11 rather
-than in the unit suite; here we only test what runs without network.
+Streams tests hit R2 and are exercised via a smoke run of
+``scripts/11_train_forecaster.py`` rather than in the unit suite;
+here we only test what runs without network.
 """
 from __future__ import annotations
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Stage 15 — post-hoc split-conformal UQ over Milestone-3 checkpoints.
+"""Post-hoc split-conformal uncertainty quantification over F0-PUB checkpoints.
 
 Wraps the F0-PUB point forecaster with prediction intervals that carry
 a finite-sample marginal-coverage guarantee. For each PUB fold produced
@@ -7,7 +7,7 @@ by ``scripts/12_train_multistation.py``:
 
 1. Restore the ``best.ckpt`` from R2 (or the local outputs/ mirror).
 2. Reconstruct the exact validation and test windows (same data
-   pipeline as stage 12, no re-training).
+   pipeline as the training script, no re-training).
 3. Generate denormalised point forecasts on val and test.
 4. Fit :class:`hidroxmx.uq.SplitConformal` on val absolute residuals
    at ``alpha=0.1`` (90 % nominal coverage), one quantile per horizon.
@@ -19,10 +19,9 @@ by ``scripts/12_train_multistation.py``:
 6. Save the per-fold manifest with all the UQ metrics and mirror to
    R2 / results/.
 
-Reuses the helpers of stage 12 to keep the data pipeline identical.
-This is deliberate: the paper's UQ layer must operate on exactly the
-model the point-forecast tables report, otherwise the reported
-coverage number cannot be trusted.
+Reuses the training-script helpers to keep the data pipeline identical:
+the UQ layer must operate on exactly the model the point-forecast tables
+report, otherwise the reported coverage number cannot be trusted.
 """
 from __future__ import annotations
 
@@ -179,7 +178,7 @@ def _run_conformal_fold(target_clave, stations_pool, *,
         click.echo(f"[15_uq] Insufficient val ({n_val}) or test ({n_test}) windows — skipping.")
         return {"target_clave": target_clave, "metrics": {}, "skipped": True}
 
-    # --- Restore the Milestone-3 checkpoint for this fold. ------------------
+    # --- Restore the F0-PUB checkpoint for this fold. -----------------------
     import torch
     from hidroxmx.models.forecaster import LSTMEncDecConfig, LSTMEncoderDecoder
 
@@ -292,7 +291,7 @@ def _run_conformal_fold(target_clave, stations_pool, *,
 @click.command()
 @click.option("--run-id", default="UQ-conformal-alto-lerma-sweep-01", show_default=True)
 @click.option("--base-run-id", default="F0pub-alto-lerma-sweep-01", show_default=True,
-              help="Milestone-3 sweep whose checkpoints supply the point forecast.")
+              help="F0-PUB sweep whose checkpoints supply the point forecast.")
 @click.option("--basin", default="Alto Lerma", show_default=True)
 @click.option("--holdout", default="*", show_default=True)
 @click.option("--alpha", default=DEFAULT_ALPHA, show_default=True, type=float,

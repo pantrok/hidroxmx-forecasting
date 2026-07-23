@@ -1,20 +1,19 @@
 #!/usr/bin/env python
-"""Stage 19 — paper master figure with paired-bootstrap CIs.
+"""Master paper figure with paired-bootstrap CIs.
 
 Assembles a three-panel forest plot that summarises the paper's
 central claims with the 95 % confidence intervals produced by
 :mod:`scripts.18_bootstrap_analysis`:
 
-- **Panel (a)** — Milestone 3: Δ NSE median (F0-PUB − persistence) per
-  basin × horizon. Shows where F0-PUB significantly outperforms the
-  naive baseline and where it is null.
-- **Panel (b)** — Milestone 4: Δ NSE median per mechanism × horizon on
-  Alto Lerma. Every CI straddles zero → visually confirms the null
-  result of Path A.
-- **Panel (c)** — Milestone 5c: Δ Value @ C/L=0.2 median (fuzzy best
-  cutoff − baseline threshold) per basin × horizon. Kill-condition
-  vertical line at +0.05 highlights when Path B provides operational
-  value.
+- **Panel (a)** — F0-PUB vs persistence: Δ NSE median per basin ×
+  horizon. Shows where F0-PUB significantly outperforms the naive
+  baseline and where it is null.
+- **Panel (b)** — mechanism vs lumped baseline: Δ NSE median per
+  mechanism × horizon on Alto Lerma. Every CI straddles zero →
+  visually confirms the null result of Path A.
+- **Panel (c)** — fuzzy alert vs simple-threshold baseline: Δ Value @
+  C/L=0.2 median per basin × horizon. Kill-condition vertical line at
+  +0.05 highlights when Path B provides operational value.
 
 Reads the three CSV tables from ``results/tables/`` (or R2 with
 ``--from-r2``). Renders at J. Hydrology submission spec via
@@ -126,8 +125,8 @@ def _rows_m4(df: pd.DataFrame) -> list[dict]:
             if len(m) == 0:
                 continue
             r = m.iloc[0].to_dict()
-            # Neither M4 statistic reports kill_cleared (mechanism should
-            # not beat lumped). Use the significance flag instead.
+            # Mechanism bootstrap does not report kill_cleared (mechanism
+            # is not expected to beat lumped). Use the significance flag.
             r["kill_cleared"] = False
             r["label"] = f"{mech} · h={h}d"
             rows.append(r)
@@ -192,7 +191,7 @@ def main(tables_dir: str, from_r2: bool, out: str, upload_to_r2: bool):
     _plot_forest(
         axes[1], rows_m4,
         x_label="Δ NSE median (mechanism − lumped) on Alto Lerma, 95 % CI",
-        kill_threshold=0.0,  # no kill threshold on M4; we want CI-crosses-0
+        kill_threshold=0.0,  # no positive kill threshold on mechanism; CI-crosses-0 is the signal
         title="(b) Mechanism-guided transfer vs lumped baseline (Alto Lerma); "
               "every CI straddles zero → null result",
     )

@@ -20,8 +20,8 @@ manifest that this project ships as :file:`estaciones_seleccionadas_hidrometrica
 
 Extra attributes (drainage area, mean slope, land cover) are not in
 the CONAGUA catalogue and would require joining with INEGI or
-HydroBASINS. They are TODO for a Milestone-4b extension when Path A
-needs an even stronger physical prior.
+HydroBASINS. They are left for a future extension when Path A needs
+an even stronger physical prior.
 """
 from __future__ import annotations
 

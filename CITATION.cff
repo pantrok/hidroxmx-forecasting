@@ -2,10 +2,10 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "hidroxmx-forecasting: probabilistic streamflow forecasting and predictive digital twin for Mexican pilot basins"
 abstract: >-
-  Model, training and evaluation code for the Paper-2 experiments of the
-  HidroXAI-MX project (streamflow/level forecasting, mechanism-governed
-  transfer, calibrated uncertainty → fuzzy alerting, and a scoped
-  predictive/assimilation-ready digital-twin loop). Input data are consumed
+  Model, training and evaluation code for the HidroXAI-MX project:
+  streamflow/level forecasting, mechanism-governed transfer to ungauged
+  sub-basins, calibrated uncertainty → fuzzy alerting, and a scoped
+  predictive/assimilation-ready digital-twin loop. Input data are consumed
   from the sibling repository hidroxai-mx (Zenodo snapshot v2026.06, DOI
   10.5281/zenodo.21231601); no data is versioned inside this repository.
 type: software

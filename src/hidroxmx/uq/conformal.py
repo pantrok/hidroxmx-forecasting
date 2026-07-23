@@ -17,14 +17,14 @@ probability at least
 
 on any exchangeable test point, per Lei et al. (2018).
 
-The Milestone-3 F0-PUB validation window is the natural calibration set:
-it never entered training, sits between train and test in time, and
-already has denormalised predictions available through the same
-inference pipeline that produced the test-set metrics.
+The F0-PUB validation window is the natural calibration set: it never
+entered training, sits between train and test in time, and already has
+denormalised predictions available through the same inference pipeline
+that produced the test-set metrics.
 
 This module is intentionally 40 lines of NumPy — the paper's
 contribution is not the UQ engine itself but its downstream use by the
-Mamdani fuzzy alert layer (Milestone 5b).
+Mamdani fuzzy alert layer.
 
 References
 ----------

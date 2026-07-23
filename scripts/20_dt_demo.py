@@ -248,6 +248,7 @@ def _run_station(basin, clave, base_run_id, *,
 
     # 5. What-if scenarios — apply each perturbation, run model, compare.
     scenario_summary: dict[str, dict[str, float]] = {}
+    scenario_forecasts: dict[str, np.ndarray] = {}
     click.echo(f"[20_dt] What-if scenarios (mean forecast shift, m3/s):")
     for scen_name in SCENARIO_LIBRARY:
         perturbed_x = apply_scenario(
@@ -260,6 +261,7 @@ def _run_station(basin, clave, base_run_id, *,
         with torch.no_grad():
             per_pred = model(torch.from_numpy(perturbed_x).to(device)).cpu().numpy()
         per_pred_m3s = denorm(per_pred)
+        scenario_forecasts[scen_name] = per_pred_m3s
         delta = per_pred_m3s - y_pred_m3s
         row_summary = {}
         parts = []
@@ -302,12 +304,19 @@ def _run_station(basin, clave, base_run_id, *,
     for p in published:
         click.echo(f"[20_dt]   -> git: {p.as_posix()}")
 
-    # Save raw arrays for the paper's Fig. 6 (hydrograph + fan)
+    # Save raw + assimilated + what-if arrays for the paper's DT figure.
     arrays_path = out_dir / "forecast_arrays.npz"
-    np.savez(arrays_path,
-             y_true=y_true_m3s, y_raw=y_pred_m3s, y_assim=assim_pred,
-             horizons=np.array(horizons))
+    np.savez(
+        arrays_path,
+        y_true=y_true_m3s, y_raw=y_pred_m3s, y_assim=assim_pred,
+        horizons=np.array(horizons),
+        **{f"whatif__{name}": arr for name, arr in scenario_forecasts.items()},
+    )
     click.echo(f"[20_dt]   -> arrays: {arrays_path.as_posix()}")
+    if upload_to_r2:
+        prefix_r2 = os.environ.get("R2_PAPER2_PREFIX", "paper2") + f"/runs/{fold_id}"
+        r2.upload_file(f"{prefix_r2}/forecast_arrays.npz", arrays_path)
+        click.echo(f"[20_dt]   -> r2://{r2.bucket}/{prefix_r2}/forecast_arrays.npz")
 
     del model
     gc.collect()

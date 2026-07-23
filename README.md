@@ -42,7 +42,7 @@ hidroxmx-forecasting/
 │   ├── alert/       # Mamdani fuzzy inference system, rule export
 │   ├── twin/        # innovation-persistence assimilation, what-if scenarios
 │   ├── eval/        # metrics registry, ROC / cost-loss, paired bootstrap CIs
-│   ├── viz/         # J. Hydrology figure spec (dpi, size, palette, save_figure)
+│   ├── viz/         # publication-quality figure helpers (dpi, size, palette, save_figure)
 │   ├── coverage/    # HydroRIVERS / Flood Hub / GloFAS coverage overlays
 │   └── io/          # R2 client, checkpoint save/restore, run manifest, seeding
 ├── scripts/
@@ -97,40 +97,23 @@ Any GPU timeout / disconnect costs at most `checkpoint_every_n_steps`.
 
 ## Reproducing the figures
 
-All figures are re-generated from the CSV tables and per-run manifests on
-R2. The four CPU-only figure scripts finish in a couple of minutes each:
+Figures are not versioned in git — each script re-renders them locally
+from the CSV tables and per-run manifests on R2. The CPU-only scripts
+finish in a couple of minutes each:
 
 ```bash
-python -u scripts/22_basin_inclusion.py                              # Fig. 2
+python -u scripts/22_basin_inclusion.py
 python -u scripts/20_figure_pub_summary.py --run-id F0pub-<basin>-sweep-01 \
-    --basin-label "<Basin>" --out results/figures/fig_3_pub_summary_<basin>
-python -u scripts/21_figure_cross_basin.py                           # Fig. 4
-python -u scripts/19_paper_master_figure.py --from-r2                # Fig. 5
-python -u scripts/21_dt_paper_figure.py --from-r2                    # Fig. 6
+    --basin-label "<Basin>" --out results/figures/pub_summary_<basin>
+python -u scripts/21_figure_cross_basin.py
+python -u scripts/19_paper_master_figure.py --from-r2
+python -u scripts/21_dt_paper_figure.py --from-r2
 ```
 
-Every script prints the R2 keys it fetches and mirrors the rendered
-figure back to `paper2/figures/` on R2 when `--upload-to-r2` is passed.
-
-## Figure export policy
-
-Every figure in this repository is produced through
-`hidroxmx.viz.save_figure`, which writes each artefact at the exact
-resolution the *Journal of Hydrology* (Elsevier) submission guide
-requires:
-
-| kind          | dpi  | typical use                                        |
-|---------------|-----:|----------------------------------------------------|
-| `halftone`    |  300 | choropleths, heatmaps, satellite composites        |
-| `combination` |  500 | plots with lines + fill, most maps and hydrographs |
-| `line`        | 1000 | pure line art (schematics, bar charts, boxplots)   |
-
-Column widths follow the Elsevier layout: 90 mm (single), 140 mm (1.5),
-190 mm (double); use `hidroxmx.viz.figure_size(column=...)`. Every call
-writes one TIFF at the required dpi, one vector PDF, and one PNG
-preview in the same directory. The default categorical palette is the
-Wong (2011) 8-colour colour-blind-accessible set; sequential defaults
-are `viridis` and `cividis`.
+Every script prints the R2 keys it fetches and writes TIFF, PDF and
+PNG variants of the same figure into `results/figures/`. Column
+widths, dpi and colour palette are documented inline in
+`src/hidroxmx/viz/journal.py`.
 
 ## Compute policy
 

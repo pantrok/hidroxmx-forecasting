@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Render the per-basin PUB summary figure at J. Hydrology spec.
+"""Render the per-basin PUB summary figure at publication spec.
 
 Pulls the per-fold manifests of one basin from R2 (authoritative source
 for run artefacts) and renders a two-panel figure:

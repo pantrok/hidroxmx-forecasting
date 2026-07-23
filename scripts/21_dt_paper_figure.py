@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Paper figure for the scoped predictive digital twin.
 
-Assembles a 2×2 grid at J. Hydrology submission spec:
+Assembles a 2×2 grid at publication spec:
 
 - **Row 1**: 1-day-ahead hydrograph slice comparing observed streamflow,
   raw F0-PUB forecast and innovation-persistence-assimilated forecast.

@@ -17,6 +17,9 @@
 *.h5
 *.hdf5
 
+# --- Rendered figures (kept local; scripts regenerate from R2 manifests) ---
+/results/figures/
+
 # --- Secrets ---
 .env
 .env.local

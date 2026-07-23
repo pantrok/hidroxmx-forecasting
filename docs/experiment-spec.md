@@ -1,6 +1,6 @@
 # Experimental design specification
 
-**HidroXAI-MX · IPN grant IND-2026-0335 · target: *Journal of Hydrology*, SI "AI-driven digital twins for hydrological systems"**
+**HidroXAI-MX · IPN grant IND-2026-0335**
 
 This file is the runnable blueprint for the modelling code in this
 repository. It fixes *what to build, what to compare, and what would

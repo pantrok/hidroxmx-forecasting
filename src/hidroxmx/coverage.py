@@ -129,7 +129,7 @@ def plot_coverage_map(
     kind: str = "combination",
     column: str = "double",
 ):
-    """Render the coverage map (Figure 1) at J. Hydrology submission spec.
+    """Render the coverage map (Figure 1) at publication spec.
 
     Saves TIFF (500 dpi for combination), PDF (vector), and PNG (500 dpi
     for preview) in one pass through :func:`hidroxmx.viz.save_figure`.

@@ -16,8 +16,7 @@ central claims with the 95 % confidence intervals produced by
   +0.05 highlights when Path B provides operational value.
 
 Reads the three CSV tables from ``results/tables/`` (or R2 with
-``--from-r2``). Renders at J. Hydrology submission spec via
-:mod:`hidroxmx.viz`.
+``--from-r2``). Renders at publication spec via :mod:`hidroxmx.viz`.
 """
 from __future__ import annotations
 

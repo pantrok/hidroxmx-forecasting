@@ -146,8 +146,9 @@ def _panel_lines(ax, agg_by_basin: dict[str, dict]):
     ax.set_ylabel("NSE (Nash–Sutcliffe efficiency)")
     ax.set_title("(a) Mean NSE by basin and horizon (± 1 SD shaded)",
                  loc="left", fontsize=8.5)
-    ax.legend(loc="lower left", frameon=True, framealpha=0.9,
-              fontsize=6, ncol=2, columnspacing=1.0)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.16),
+              frameon=True, framealpha=0.9, fontsize=6, ncol=2,
+              columnspacing=1.0, handlelength=2.2, borderaxespad=0.0)
 
 
 def _panel_heatmap(ax, agg_by_basin: dict[str, dict]):
@@ -259,7 +260,7 @@ def main(run_ids: str, basin_labels: str, out: str, upload_to_r2: bool):
     _panel_heatmap(ax_b, agg_by_basin)
     fig.suptitle("F0-PUB vs persistence across four Mexican pilot basins",
                  fontsize=10, fontweight="bold", y=0.995)
-    fig.tight_layout(pad=1.1, w_pad=2.5, rect=(0, 0, 1, 0.96))
+    fig.tight_layout(pad=1.1, w_pad=2.5, rect=(0, 0.10, 1, 0.96))
 
     stem = Path(out)
     written = save_figure(

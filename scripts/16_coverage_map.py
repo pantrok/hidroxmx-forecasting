@@ -57,15 +57,17 @@ from hidroxmx.io import RunManifest, dump_manifest, r2_from_env, seed_everything
               help="Canonical GeoJSON / shapefile of Flood Hub gauged reaches.")
 @click.option("--glofas-reaches", type=click.Path(exists=True), default=None,
               help="Canonical GeoJSON / shapefile of GloFAS reaches.")
-@click.option("--out-dir", type=click.Path(), default="outputs/coverage",
+@click.option("--out-dir", type=click.Path(), default="results/figures",
               show_default=True,
-              help="Local directory for Figure 1, the blind-tributary CSV and the summary JSON.")
+              help="Local directory for Figure 1 (TIFF/PDF/PNG at publication spec).")
+@click.option("--tables-dir", type=click.Path(), default="results/tables",
+              show_default=True,
+              help="Local directory for the blind-tributary CSV, coverage summary and manifest.")
 @click.option("--cache-dir", type=click.Path(), default="cache",
               show_default=True,
               help="Local cache for HydroRIVERS (downloaded once).")
 @click.option("--upload-to-r2", is_flag=True,
               help="Mirror the local artefacts under {R2_PAPER2_PREFIX}/coverage/.")
-@click.option("--dpi", default=300, show_default=True, type=int)
 @click.option("--buffer-m", default=500.0, show_default=True, type=float,
               help="Metres of tolerance around every reach when testing intersection.")
 @click.option("--seed", default=20260606, show_default=True, type=int)
@@ -75,9 +77,9 @@ def main(
     flood_hub_reaches,
     glofas_reaches,
     out_dir,
+    tables_dir,
     cache_dir,
     upload_to_r2,
-    dpi,
     buffer_m,
     seed,
 ):
@@ -85,8 +87,10 @@ def main(
     seed_everything(seed)
 
     out_dir = Path(out_dir)
+    tables_dir = Path(tables_dir)
     cache_dir = Path(cache_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    tables_dir.mkdir(parents=True, exist_ok=True)
     cache_dir.mkdir(parents=True, exist_ok=True)
 
     # ------------------------------------------------------------------ #
@@ -152,21 +156,23 @@ def main(
     # ------------------------------------------------------------------ #
     # 4. Persist artefacts (Fig. 1, blind CSV, summary JSON, manifest)
     # ------------------------------------------------------------------ #
-    fig_path = out_dir / "fig1_coverage_map.png"
-    csv_path = out_dir / "blind_tributaries.csv"
-    json_path = out_dir / "coverage_summary.json"
-    per_path = out_dir / "coverage_per_subbasin.csv"
-    manifest_path = out_dir / "manifest.json"
+    fig_stem = out_dir / "fig_1_coverage_map"
+    csv_path = tables_dir / "blind_tributaries.csv"
+    json_path = tables_dir / "coverage_summary.json"
+    per_path = tables_dir / "coverage_per_subbasin.csv"
+    manifest_path = tables_dir / "coverage_manifest.json"
 
-    click.echo(f"[16_coverage_map] Rendering Figure 1 → {fig_path}")
-    plot_coverage_map(
+    click.echo(f"[16_coverage_map] Rendering Figure 1 → {fig_stem}.[tif,pdf,png]")
+    written = plot_coverage_map(
         subbasins,
         result.per_subbasin,
-        fig_path,
+        fig_stem,
         flood_hub_reaches=fh_layer,
         glofas_reaches=gl_layer,
-        dpi=dpi,
     )
+    for p in written:
+        click.echo(f"[16_coverage_map]   wrote {p.as_posix()}  "
+                   f"({p.stat().st_size / 1024:.1f} KB)")
     result.per_subbasin.to_csv(per_path, index=False)
     result.blind_tributaries.to_csv(csv_path, index=False)
     json_path.write_text(json.dumps({
@@ -183,7 +189,6 @@ def main(
             "flood_hub_reaches": str(flood_hub_reaches),
             "glofas_reaches": str(glofas_reaches),
             "buffer_m": buffer_m,
-            "dpi": dpi,
             "seed": seed,
             "proxy_thresholds": result.proxy_thresholds,
         },
@@ -200,10 +205,17 @@ def main(
     if upload_to_r2:
         click.echo("[16_coverage_map] Uploading artefacts to R2 …")
         r2 = r2_from_env()
-        prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + f"/coverage/{run_id}"
-        for local in (fig_path, per_path, csv_path, json_path, manifest_path):
-            r2.upload_file(f"{prefix}/{local.name}", local)
-            click.echo(f"[16_coverage_map]   → r2://{r2.bucket}/{prefix}/{local.name}")
+        coverage_prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + f"/coverage/{run_id}"
+        figures_prefix = os.environ.get("R2_PAPER2_PREFIX", "paper2") + "/figures"
+        # Figure gets mirrored to paper2/figures/ (all three formats) so it
+        # sits next to the other paper figures; run artefacts go under
+        # paper2/coverage/{run_id}/ for reproducibility.
+        for local in written:
+            r2.upload_file(f"{figures_prefix}/{local.name}", local)
+            click.echo(f"[16_coverage_map]   → r2://{r2.bucket}/{figures_prefix}/{local.name}")
+        for local in (per_path, csv_path, json_path, manifest_path):
+            r2.upload_file(f"{coverage_prefix}/{local.name}", local)
+            click.echo(f"[16_coverage_map]   → r2://{r2.bucket}/{coverage_prefix}/{local.name}")
 
     click.echo("[16_coverage_map] Done.")
 

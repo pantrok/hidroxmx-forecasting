@@ -200,14 +200,34 @@ def main(tables_dir: str, from_r2: bool, out: str, upload_to_r2: bool):
         kill_threshold=KILL_M5c,
         title="(c) Fuzzy uncertainty-aware alerting vs simple-threshold baseline",
     )
-    for ax in axes:
-        handles, labels = ax.get_legend_handles_labels()
-        if handles:
-            ax.legend(loc="lower right", frameon=True, fontsize=6.5)
+    # Shade the ±0.05 practical-null band on the mechanism panel so a
+    # reader immediately sees which CIs sit inside "no material effect".
+    axes[1].axvspan(-0.05, 0.05, color="0.93", zorder=0)
+
+    # One figure-level legend under all panels (no per-axes legend on
+    # top of the whiskers, no legend inside panel (a) obscuring the
+    # Medio Balsas rows).
+    from matplotlib.lines import Line2D
+    legend_handles = [
+        Line2D([0], [0], color=WONG_PALETTE[3], lw=2.4, marker="o",
+               markeredgecolor="black", markeredgewidth=0.5,
+               label="CI-low ≥ +0.05 (kill threshold cleared)"),
+        Line2D([0], [0], color=WONG_PALETTE[5], lw=2.4, marker="o",
+               markeredgecolor="black", markeredgewidth=0.5,
+               label="Significant, kill not cleared"),
+        Line2D([0], [0], color="#8A8A8A", lw=2.4, marker="o",
+               markeredgecolor="black", markeredgewidth=0.5,
+               label="Not significant"),
+        Line2D([0], [0], color="black", lw=0.9, label="Zero"),
+        Line2D([0], [0], color="#A11", lw=1.1, ls="--",
+               label="+0.05 kill threshold"),
+    ]
+    fig.legend(handles=legend_handles, loc="lower center", ncol=3,
+               fontsize=8, frameon=False, bbox_to_anchor=(0.5, 0.005))
 
     fig.suptitle("Paired-bootstrap 95 % confidence intervals for the three core comparisons",
                  fontsize=10.5, fontweight="bold", y=0.995)
-    fig.tight_layout(pad=1.1, h_pad=1.5, rect=(0, 0, 1, 0.98))
+    fig.subplots_adjust(left=0.24, right=0.975, top=0.965, bottom=0.075)
 
     stem = Path(out)
     written = save_figure(

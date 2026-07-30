@@ -1,0 +1,27 @@
+# Registered metrics (see src/hidroxmx/eval/metrics.py).
+# Each key must exist in ``hidroxmx.eval.METRICS``.
+
+deterministic:
+  - nse
+  - kge
+  - rmse
+  - pbias
+  - ehf
+  - peak_timing_error
+
+probabilistic:
+  - empirical_coverage
+  - mean_interval_width
+  - crps_sample
+
+decision_frontier:
+  - brier_score
+  - pod_far
+  - value_cost_loss
+  - lead_time_at
+
+# Cost / loss ratios evaluated for the Value curve of Path B (§5.4).
+cost_ratios: [0.05, 0.10, 0.20, 0.30, 0.50]
+
+# Alert thresholds (quantiles of forecast level per station) for POD/FAR curves.
+alert_quantiles: [0.90, 0.95, 0.99]

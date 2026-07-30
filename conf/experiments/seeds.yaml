@@ -1,0 +1,11 @@
+# Seeds are pinned so every reported number can be reproduced from git + config.
+default_seed: 20260707
+per_stage:
+  build_signatures:  20260707
+  train_forecaster:  20260101
+  param_head:        20260202
+  donor_matching:    20260303
+  uq:                20260404
+  fuzzy_alert:       20260505
+  coverage_map:      20260606
+  evaluate:          20260707

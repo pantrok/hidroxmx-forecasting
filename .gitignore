@@ -50,8 +50,5 @@ notebooks/scratch/
 .DS_Store
 Thumbs.db
 
-# --- Claude Code (local allowlist of the current user) ---
-/.claude/settings.local.json
-
 # --- MS Office lock files ---
 ~$*

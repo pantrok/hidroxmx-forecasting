@@ -1,0 +1,161 @@
+variant,basin,h,n,T,bca_low,bca_high,class,main_class,changed
+Main,Alto Lerma,1,12,-0.00789835164835162,-0.24519230769230776,0.32590909090909087,Not cleared,Not cleared,False
+S1 corrected,Alto Lerma,1,12,-0.00789835164835162,-0.21849864735373822,0.30125,Not cleared,Not cleared,False
+S2 YELLOW,Alto Lerma,1,12,-0.26525349650349656,-0.5853365384615383,0.2709615384615385,Not cleared,Not cleared,False
+S1+S2 YELLOW,Alto Lerma,1,12,-0.26044580419580426,-0.5853365384615383,0.22619989146859662,Not cleared,Not cleared,False
+S2 ORANGE,Alto Lerma,1,12,-0.300847902097902,-0.6009615384615385,-0.052884615384615474,Not cleared,Not cleared,False
+S1+S2 ORANGE,Alto Lerma,1,12,-0.300847902097902,-0.6009615384615385,-0.04807692307692307,Not cleared,Not cleared,False
+S2 RED,Alto Lerma,1,12,-0.44471153846153844,-0.7283249158249159,-0.16562499999999994,Not cleared,Not cleared,False
+S1+S2 RED,Alto Lerma,1,12,-0.44471153846153844,-0.7283249158249159,-0.16562499999999994,Not cleared,Not cleared,False
+Main,Alto Lerma,2,12,0.32502331002331003,0.16089743589743583,0.55,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1 corrected,Alto Lerma,2,12,0.32752331002331,0.16056910569105698,0.55,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 YELLOW,Alto Lerma,2,12,0.08843240093240085,-0.3317307692307692,0.3602884615384616,Encouraging but under-powered signal,"Cleared, BCa-robust",True
+S1+S2 YELLOW,Alto Lerma,2,12,0.12025058275058259,-0.29068153631101984,0.3713907630624453,Encouraging but under-powered signal,"Cleared, BCa-robust",True
+S2 ORANGE,Alto Lerma,2,12,-0.1250957375957375,-0.42202380952380936,0.2325320512820513,Not cleared,"Cleared, BCa-robust",True
+S1+S2 ORANGE,Alto Lerma,2,12,-0.1250957375957375,-0.42202380952380936,0.2325320512820513,Not cleared,"Cleared, BCa-robust",True
+S2 RED,Alto Lerma,2,12,-0.2592948717948718,-0.48686679174484054,-0.15625,Not cleared,"Cleared, BCa-robust",True
+S1+S2 RED,Alto Lerma,2,12,-0.2592948717948718,-0.48686679174484054,-0.15625,Not cleared,"Cleared, BCa-robust",True
+Main,Alto Lerma,3,12,0.19831730769230776,-0.057692307692307654,0.4100000000000001,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1 corrected,Alto Lerma,3,12,0.19831730769230776,-0.05806381118881121,0.41564045718080767,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 YELLOW,Alto Lerma,3,12,0.09377185314685316,-0.20227272727272733,0.38553113553113544,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1+S2 YELLOW,Alto Lerma,3,12,0.09604458041958047,-0.1943301656508629,0.39437500000000003,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 ORANGE,Alto Lerma,3,12,-0.060697115384615224,-0.28761904761904766,0.21894230769230777,Not cleared,Encouraging but under-powered signal,True
+S1+S2 ORANGE,Alto Lerma,3,12,-0.060697115384615224,-0.27761904761904765,0.2268284444599649,Not cleared,Encouraging but under-powered signal,True
+S2 RED,Alto Lerma,3,12,-0.25480769230769224,-0.4534965034965035,-0.05999999999999997,Not cleared,Encouraging but under-powered signal,True
+S1+S2 RED,Alto Lerma,3,12,-0.25480769230769224,-0.4534965034965035,-0.05999999999999997,Not cleared,Encouraging but under-powered signal,True
+Main,Alto Lerma,5,12,0.3754137428836223,0.1402565389764184,0.7084575942717134,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1 corrected,Alto Lerma,5,12,0.3754137428836223,0.1388888888888889,0.705084072553952,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 YELLOW,Alto Lerma,5,12,0.272142014611894,0.0583583083583083,0.6391881661196667,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1+S2 YELLOW,Alto Lerma,5,12,0.2792224341923137,0.06543872793872796,0.6423551348250143,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 ORANGE,Alto Lerma,5,12,0.06809209627626146,-0.26785714285714307,0.333245068184827,Encouraging but under-powered signal,"Cleared, BCa-robust",True
+S1+S2 ORANGE,Alto Lerma,5,12,0.06809209627626146,-0.22921245421245426,0.333245068184827,Encouraging but under-powered signal,"Cleared, BCa-robust",True
+S2 RED,Alto Lerma,5,12,-0.060025817555938096,-0.28434065934065933,0.0,Not cleared,"Cleared, BCa-robust",True
+S1+S2 RED,Alto Lerma,5,12,-0.060025817555938096,-0.28434065934065933,0.0,Not cleared,"Cleared, BCa-robust",True
+Main,Alto Lerma,7,12,0.1939102564102565,0.03645833333333347,0.5920329670329672,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1 corrected,Alto Lerma,7,12,0.1939102564102565,0.03645833333333347,0.6007326007326007,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 YELLOW,Alto Lerma,7,12,0.1939102564102565,0.03238636363636364,0.5920329670329672,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1+S2 YELLOW,Alto Lerma,7,12,0.1939102564102565,0.03645833333333347,0.6007326007326007,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 ORANGE,Alto Lerma,7,12,-0.02804487179487178,-0.3414027149321267,0.10496794871794873,Not cleared,Encouraging but under-powered signal,True
+S1+S2 ORANGE,Alto Lerma,7,12,-0.02804487179487178,-0.3414027149321267,0.10496794871794873,Not cleared,Encouraging but under-powered signal,True
+S2 RED,Alto Lerma,7,12,-0.04887820512820513,-0.18582251082251078,0.0,Not cleared,Encouraging but under-powered signal,True
+S1+S2 RED,Alto Lerma,7,12,-0.04887820512820513,-0.18582251082251078,0.0,Not cleared,Encouraging but under-powered signal,True
+Main,Valle de México,1,10,-0.005303030303030254,-0.48992537313432855,0.36111111111111116,Not cleared,Not cleared,False
+S1 corrected,Valle de México,1,10,0.14193548387096772,-0.11867057673509282,0.38888888888888895,Encouraging but under-powered signal,Not cleared,True
+S2 YELLOW,Valle de México,1,10,-0.26113749434644973,-0.9289038677579844,0.15174129353233828,Not cleared,Not cleared,False
+S1+S2 YELLOW,Valle de México,1,10,-0.03159203980099512,-0.531692096976524,0.38888888888888895,Not cleared,Not cleared,False
+S2 ORANGE,Valle de México,1,10,-0.08030303030303029,-0.7335849056603774,0.31111111111111117,Not cleared,Not cleared,False
+S1+S2 ORANGE,Valle de México,1,10,0.055555555555555525,-0.2413978494623657,0.31111111111111117,Encouraging but under-powered signal,Not cleared,True
+S2 RED,Valle de México,1,10,-0.16666666666666669,-0.6000000000000001,0.14999999999999994,Not cleared,Not cleared,False
+S1+S2 RED,Valle de México,1,10,-0.16666666666666669,-0.6000000000000001,0.14999999999999994,Not cleared,Not cleared,False
+Main,Valle de México,2,10,0.04166666666666666,-0.3886792452830189,0.25555555555555537,Not cleared,Not cleared,False
+S1 corrected,Valle de México,2,10,0.1527777777777777,0.031810035842293805,0.6469641026302068,Encouraging but under-powered signal,Not cleared,True
+S2 YELLOW,Valle de México,2,10,-0.006060606060606068,-0.5164065180102916,0.25555555555555537,Not cleared,Not cleared,False
+S1+S2 YELLOW,Valle de México,2,10,0.04166666666666666,-0.4136792452830189,0.25555555555555537,Not cleared,Not cleared,False
+S2 ORANGE,Valle de México,2,10,-0.006060606060606068,-0.4136792452830189,0.1008909853249475,Not cleared,Not cleared,False
+S1+S2 ORANGE,Valle de México,2,10,0.044444444444444405,-0.10000000000000006,0.15094339622641506,Not cleared,Not cleared,False
+S2 RED,Valle de México,2,10,0.016666666666666642,-0.42658247108947056,0.10681818181818187,Not cleared,Not cleared,False
+S1+S2 RED,Valle de México,2,10,0.016666666666666642,-0.42658247108947056,0.10681818181818187,Not cleared,Not cleared,False
+Main,Valle de México,3,10,0.016666666666666642,-0.29333333333333345,0.3027777777777778,Not cleared,Not cleared,False
+S1 corrected,Valle de México,3,10,0.10672043010752683,0.0,0.55,Encouraging but under-powered signal,Not cleared,True
+S2 YELLOW,Valle de México,3,10,-0.07499999999999997,-0.4700000000000001,0.40000000000000013,Not cleared,Not cleared,False
+S1+S2 YELLOW,Valle de México,3,10,0.016666666666666642,-0.4771113447315517,0.4509433962264152,Not cleared,Not cleared,False
+S2 ORANGE,Valle de México,3,10,-0.05000000000000003,-0.2781132075471697,0.125,Not cleared,Not cleared,False
+S1+S2 ORANGE,Valle de México,3,10,0.013888888888888881,-0.1149462365591399,0.16037735849056595,Not cleared,Not cleared,False
+S2 RED,Valle de México,3,10,0.0,,,Not defined,Not cleared,True
+S1+S2 RED,Valle de México,3,10,0.0,,,Not defined,Not cleared,True
+Main,Valle de México,5,10,0.0,,,Not defined,Not defined,False
+S1 corrected,Valle de México,5,10,0.0,,,Not defined,Not defined,False
+S2 YELLOW,Valle de México,5,10,-0.07385620915032684,-0.4338709677419354,0.09669811320754715,Not cleared,Not defined,True
+S1+S2 YELLOW,Valle de México,5,10,-0.06944444444444452,-0.45087976539589436,0.20283018867924535,Not cleared,Not defined,True
+S2 ORANGE,Valle de México,5,10,-0.01944444444444448,-0.12045454545454523,0.13030026374518155,Not cleared,Not defined,True
+S1+S2 ORANGE,Valle de México,5,10,0.0,,,Not defined,Not defined,False
+S2 RED,Valle de México,5,10,0.0,,,Not defined,Not defined,False
+S1+S2 RED,Valle de México,5,10,0.0,,,Not defined,Not defined,False
+Main,Valle de México,7,10,0.0,,,Not defined,Not defined,False
+S1 corrected,Valle de México,7,10,0.0,,,Not defined,Not defined,False
+S2 YELLOW,Valle de México,7,10,-0.041666666666666644,-0.3181818181818182,0.02272727272727271,Not cleared,Not defined,True
+S1+S2 YELLOW,Valle de México,7,10,-0.041666666666666644,-0.3181818181818182,0.0911458333333333,Not cleared,Not defined,True
+S2 ORANGE,Valle de México,7,10,0.0,,,Not defined,Not defined,False
+S1+S2 ORANGE,Valle de México,7,10,0.0,,,Not defined,Not defined,False
+S2 RED,Valle de México,7,10,0.0,,,Not defined,Not defined,False
+S1+S2 RED,Valle de México,7,10,0.0,,,Not defined,Not defined,False
+Main,Bajo Pánuco,1,5,-0.04278846153846161,-0.1718749999999999,0.13888888888888884,Not cleared,Not cleared,False
+S1 corrected,Bajo Pánuco,1,5,0.04583858764186621,-0.046875,0.12295081967213106,Not cleared,Not cleared,False
+S2 YELLOW,Bajo Pánuco,1,5,-0.04278846153846161,-0.21153846153846156,0.13888888888888884,Not cleared,Not cleared,False
+S1+S2 YELLOW,Bajo Pánuco,1,5,0.04583858764186621,-0.13461538461538458,0.12295081967213106,Not cleared,Not cleared,False
+S2 ORANGE,Bajo Pánuco,1,5,-0.09487179487179498,-0.18852459016393458,-0.08461538461538465,Not cleared,Not cleared,False
+S1+S2 ORANGE,Bajo Pánuco,1,5,-0.09487179487179498,-0.18852459016393458,-0.007692307692307776,Not cleared,Not cleared,False
+S2 RED,Bajo Pánuco,1,5,-0.45965166908563143,-0.7615384615384616,-0.3825394370553666,Not cleared,Not cleared,False
+S1+S2 RED,Bajo Pánuco,1,5,-0.4282051282051284,-0.5197351828499371,-0.07812499999999989,Not cleared,Not cleared,False
+Main,Bajo Pánuco,2,5,0.11874999999999991,-0.09375,0.22499999999999987,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1 corrected,Bajo Pánuco,2,5,0.16190476190476166,-0.03125000000000011,0.22499999999999987,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 YELLOW,Bajo Pánuco,2,5,0.11874999999999991,-0.09375,0.22499999999999987,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1+S2 YELLOW,Bajo Pánuco,2,5,0.16190476190476166,-0.037878787878787956,0.22499999999999987,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 ORANGE,Bajo Pánuco,2,5,0.02499999999999991,-0.28981481481481497,0.19444444444444453,Not cleared,Encouraging but under-powered signal,True
+S1+S2 ORANGE,Bajo Pánuco,2,5,0.07424242424242411,-0.2157407407407409,0.19444444444444453,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 RED,Bajo Pánuco,2,5,-0.4,-0.6363636363636364,-0.1875,Not cleared,Encouraging but under-powered signal,True
+S1+S2 RED,Bajo Pánuco,2,5,-0.4,-0.6363636363636364,-0.125,Not cleared,Encouraging but under-powered signal,True
+Main,Bajo Pánuco,3,5,0.15739484396200815,0.10447761194029859,0.23076923076923062,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1 corrected,Bajo Pánuco,3,5,0.20217096336499313,0.14545454545454534,0.23076923076923062,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 YELLOW,Bajo Pánuco,3,5,0.12008141112618725,0.0671641791044777,0.23076923076923062,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1+S2 YELLOW,Bajo Pánuco,3,5,0.17232021709633644,0.11940298507462688,0.23076923076923062,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 ORANGE,Bajo Pánuco,3,5,0.09232954545454525,-0.2727272727272727,0.2038461538461538,Encouraging but under-powered signal,"Cleared, BCa-robust",True
+S1+S2 ORANGE,Bajo Pánuco,3,5,0.09232954545454525,-0.2727272727272727,0.2038461538461538,Encouraging but under-powered signal,"Cleared, BCa-robust",True
+S2 RED,Bajo Pánuco,3,5,-0.45454545454545464,-0.5074626865671642,-0.26363636363636356,Not cleared,"Cleared, BCa-robust",True
+S1+S2 RED,Bajo Pánuco,3,5,-0.45454545454545464,-0.5074626865671642,-0.22727272727272715,Not cleared,"Cleared, BCa-robust",True
+Main,Bajo Pánuco,5,5,0.2461180124223602,0.125,0.25000000000000006,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1 corrected,Bajo Pánuco,5,5,0.24296675191815864,0.12053571428571419,0.253623188405797,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 YELLOW,Bajo Pánuco,5,5,0.2461180124223602,0.125,0.25000000000000006,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1+S2 YELLOW,Bajo Pánuco,5,5,0.24296675191815864,0.12053571428571419,0.253623188405797,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 ORANGE,Bajo Pánuco,5,5,-0.04852484472049695,-0.1911764705882354,0.21739130434782605,Not cleared,"Cleared, BCa-robust",True
+S1+S2 ORANGE,Bajo Pánuco,5,5,-0.052989130434782594,-0.1911764705882354,0.21739130434782605,Not cleared,"Cleared, BCa-robust",True
+S2 RED,Bajo Pánuco,5,5,-0.2717391304347826,-0.2941176470588236,-0.05357142857142853,Not cleared,"Cleared, BCa-robust",True
+S1+S2 RED,Bajo Pánuco,5,5,-0.2717391304347826,-0.2941176470588236,-0.05357142857142853,Not cleared,"Cleared, BCa-robust",True
+Main,Bajo Pánuco,7,5,0.2719298245614036,0.07894736842105265,0.31081081081081086,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1 corrected,Bajo Pánuco,7,5,0.2719298245614036,0.07894736842105265,0.31081081081081086,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 YELLOW,Bajo Pánuco,7,5,0.2719298245614036,0.07894736842105265,0.31081081081081086,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S1+S2 YELLOW,Bajo Pánuco,7,5,0.2719298245614036,0.07894736842105265,0.31081081081081086,"Cleared, BCa-robust","Cleared, BCa-robust",False
+S2 ORANGE,Bajo Pánuco,7,5,-0.03508771929824542,-0.21052631578947362,0.2635135135135135,Not cleared,"Cleared, BCa-robust",True
+S1+S2 ORANGE,Bajo Pánuco,7,5,-0.03508771929824542,-0.21052631578947362,0.2635135135135135,Not cleared,"Cleared, BCa-robust",True
+S2 RED,Bajo Pánuco,7,5,-0.15789473684210512,-0.2763157894736843,0.0,Not cleared,"Cleared, BCa-robust",True
+S1+S2 RED,Bajo Pánuco,7,5,-0.15789473684210512,-0.2763157894736843,0.0,Not cleared,"Cleared, BCa-robust",True
+Main,Medio Balsas,1,11,0.13095238095238088,-0.01785714285714296,0.675925925925926,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1 corrected,Medio Balsas,1,11,0.13095238095238088,-0.01785714285714296,0.675925925925926,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 YELLOW,Medio Balsas,1,11,0.043650793650793815,-0.16326530612244905,0.26785714285714285,Not cleared,Encouraging but under-powered signal,True
+S1+S2 YELLOW,Medio Balsas,1,11,0.043650793650793815,-0.33333333333333326,0.2499999999999999,Not cleared,Encouraging but under-powered signal,True
+S2 ORANGE,Medio Balsas,1,11,0.01984126984126995,-0.1091269841269841,0.1944444444444444,Not cleared,Encouraging but under-powered signal,True
+S1+S2 ORANGE,Medio Balsas,1,11,0.01984126984126995,-0.1091269841269841,0.1944444444444444,Not cleared,Encouraging but under-powered signal,True
+S2 RED,Medio Balsas,1,11,-0.119047619047619,-0.2857142857142858,0.0,Not cleared,Encouraging but under-powered signal,True
+S1+S2 RED,Medio Balsas,1,11,-0.119047619047619,-0.2857142857142858,0.0,Not cleared,Encouraging but under-powered signal,True
+Main,Medio Balsas,2,11,0.12441643323996267,-0.00793650793650792,0.28846153846153844,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S1 corrected,Medio Balsas,2,11,0.13912231559290392,-0.0009920634920634053,0.28846153846153844,Encouraging but under-powered signal,Encouraging but under-powered signal,False
+S2 YELLOW,Medio Balsas,2,11,-0.00793650793650792,-0.336734693877551,0.2296380090497736,Not cleared,Encouraging but under-powered signal,True
+S1+S2 YELLOW,Medio Balsas,2,11,-0.00793650793650792,-0.309948979591837,0.2296380090497736,Not cleared,Encouraging but under-powered signal,True
+S2 ORANGE,Medio Balsas,2,11,-0.00793650793650792,-0.24999999999999992,0.07936507936507939,Not cleared,Encouraging but under-powered signal,True
+S1+S2 ORANGE,Medio Balsas,2,11,-0.00793650793650792,-0.24999999999999992,0.07936507936507939,Not cleared,Encouraging but under-powered signal,True
+S2 RED,Medio Balsas,2,11,-0.00793650793650792,-0.1875,0.0,Not cleared,Encouraging but under-powered signal,True
+S1+S2 RED,Medio Balsas,2,11,-0.00793650793650792,-0.1875,0.0,Not cleared,Encouraging but under-powered signal,True
+Main,Medio Balsas,3,10,0.0625,,,Not defined,Not defined,False
+S1 corrected,Medio Balsas,3,10,0.07031249999999986,0.0,0.22158588435374152,Encouraging but under-powered signal,Not defined,True
+S2 YELLOW,Medio Balsas,3,10,0.040178571428571355,-0.1640950144573489,0.22683035714285713,Not cleared,Not defined,True
+S1+S2 YELLOW,Medio Balsas,3,10,0.040178571428571355,-0.19387755102040835,0.23079861111111108,Not cleared,Not defined,True
+S2 ORANGE,Medio Balsas,3,10,0.0,,,Not defined,Not defined,False
+S1+S2 ORANGE,Medio Balsas,3,10,0.0,,,Not defined,Not defined,False
+S2 RED,Medio Balsas,3,10,0.0,,,Not defined,Not defined,False
+S1+S2 RED,Medio Balsas,3,10,0.0,,,Not defined,Not defined,False
+Main,Medio Balsas,5,10,0.0,,,Not defined,Not defined,False
+S1 corrected,Medio Balsas,5,10,0.0,,,Not defined,Not defined,False
+S2 YELLOW,Medio Balsas,5,10,-0.008928571428571418,-0.42187499999999994,0.21614583333333337,Not cleared,Not defined,True
+S1+S2 YELLOW,Medio Balsas,5,10,-0.008928571428571418,-0.40625000000000006,0.21614583333333337,Not cleared,Not defined,True
+S2 ORANGE,Medio Balsas,5,10,0.0,,,Not defined,Not defined,False
+S1+S2 ORANGE,Medio Balsas,5,10,0.0,,,Not defined,Not defined,False
+S2 RED,Medio Balsas,5,10,0.0,,,Not defined,Not defined,False
+S1+S2 RED,Medio Balsas,5,10,0.0,,,Not defined,Not defined,False
+Main,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False
+S1 corrected,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False
+S2 YELLOW,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False
+S1+S2 YELLOW,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False
+S2 ORANGE,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False
+S1+S2 ORANGE,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False
+S2 RED,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False
+S1+S2 RED,Medio Balsas,7,10,0.0,,,Not defined,Not defined,False

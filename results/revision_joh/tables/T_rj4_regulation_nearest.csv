@@ -1,0 +1,45 @@
+scope,comparison,h,stratum,n,median_delta_nse
+All,F0-PUB - persistence,5,not regulated,34,0.311171549249843
+All,F0-PUB - persistence,7,not regulated,34,0.38099066265856674
+All,F0-PUB - persistence,5,regulated,12,0.19523476112832916
+All,F0-PUB - persistence,7,regulated,12,0.19933379655602335
+All,F0-PUB - persistence,5,no reach,4,-0.17913348327245515
+All,F0-PUB - persistence,7,no reach,4,-0.20590234896471254
+Alto Lerma,F0-PUB - persistence,5,not regulated,8,0.12951116290808595
+Alto Lerma,F0-PUB - persistence,7,not regulated,8,0.1691623747323469
+Alto Lerma,F0-PUB - persistence,5,regulated,5,-0.05567636547482513
+Alto Lerma,F0-PUB - persistence,7,regulated,5,-0.023931470967455293
+Alto Lerma,F0-PUB - persistence,5,no reach,1,-0.2073125316306521
+Alto Lerma,F0-PUB - persistence,7,no reach,1,-0.1769347423825952
+Valle de México,F0-PUB - persistence,5,regulated,6,0.3619294883604429
+Valle de México,F0-PUB - persistence,7,regulated,6,0.42004157083614907
+Valle de México,F0-PUB - persistence,5,not regulated,10,0.28380006305440875
+Valle de México,F0-PUB - persistence,7,not regulated,10,0.23117326609338357
+Bajo Pánuco,F0-PUB - persistence,5,not regulated,5,0.3130002310084762
+Bajo Pánuco,F0-PUB - persistence,7,not regulated,5,0.3858818654209819
+Bajo Pánuco,F0-PUB - persistence,5,no reach,1,-0.4868979390536845
+Bajo Pánuco,F0-PUB - persistence,7,no reach,1,-0.48172704639373254
+Bajo Pánuco,F0-PUB - persistence,5,regulated,1,0.4324090629390507
+Bajo Pánuco,F0-PUB - persistence,7,regulated,1,0.29570586459552783
+Medio Balsas,F0-PUB - persistence,5,not regulated,11,0.8958931679434888
+Medio Balsas,F0-PUB - persistence,7,not regulated,11,0.8288338071452984
+Medio Balsas,F0-PUB - persistence,5,no reach,2,-0.12756545931307833
+Medio Balsas,F0-PUB - persistence,7,no reach,2,-0.15560886138162133
+Alto Lerma,S-SIG t=1.0 - lumped,5,not regulated,8,0.003212867215475923
+Alto Lerma,S-SIG t=1.0 - lumped,7,not regulated,8,0.0031027773964241168
+Alto Lerma,S-SIG t=1.0 - lumped,5,regulated,5,0.0026995473931170633
+Alto Lerma,S-SIG t=1.0 - lumped,7,regulated,5,0.005720371433883709
+Alto Lerma,S-SIG t=1.0 - lumped,5,no reach,1,-0.035905811228065354
+Alto Lerma,S-SIG t=1.0 - lumped,7,no reach,1,-0.09871924431622137
+Alto Lerma,S-SIG t=0.3 - lumped,5,not regulated,8,-0.005962138290116714
+Alto Lerma,S-SIG t=0.3 - lumped,7,not regulated,8,-0.014348362267973647
+Alto Lerma,S-SIG t=0.3 - lumped,5,regulated,5,-0.0023639262756190993
+Alto Lerma,S-SIG t=0.3 - lumped,7,regulated,5,-0.0010193808039239416
+Alto Lerma,S-SIG t=0.3 - lumped,5,no reach,1,-0.08261212977353516
+Alto Lerma,S-SIG t=0.3 - lumped,7,no reach,1,-0.16094447982798266
+Alto Lerma,S-ATTR t=1.0 - lumped,5,not regulated,8,-0.003052889780358725
+Alto Lerma,S-ATTR t=1.0 - lumped,7,not regulated,8,-0.006893805676040199
+Alto Lerma,S-ATTR t=1.0 - lumped,5,regulated,5,-0.0027510040962240856
+Alto Lerma,S-ATTR t=1.0 - lumped,7,regulated,5,-0.0047358298016408895
+Alto Lerma,S-ATTR t=1.0 - lumped,5,no reach,1,-0.02625044189373571
+Alto Lerma,S-ATTR t=1.0 - lumped,7,no reach,1,-0.07618966468795696

@@ -1,0 +1,601 @@
+basis,method,band,basin,h,coverage_pct,folds,days
+clipped,original,<q50,Alto Lerma,1,98.25174118333955,9,2010
+clipped,original,<q50,Alto Lerma,2,98.25715114864676,9,2013
+clipped,original,<q50,Alto Lerma,3,96.25079639392288,9,2018
+clipped,original,<q50,Alto Lerma,5,95.32431195078108,9,2028
+clipped,original,<q50,Alto Lerma,7,95.54695025471653,9,2035
+clipped,original,<q50,Bajo Pánuco,1,98.53638425066997,6,813
+clipped,original,<q50,Bajo Pánuco,2,98.62002355599125,6,804
+clipped,original,<q50,Bajo Pánuco,3,98.26319285350642,6,794
+clipped,original,<q50,Bajo Pánuco,5,98.2677681615526,6,775
+clipped,original,<q50,Bajo Pánuco,7,92.15206591330512,6,757
+clipped,original,<q50,Medio Balsas,1,95.26245344314655,12,1468
+clipped,original,<q50,Medio Balsas,2,94.19445761260646,12,1469
+clipped,original,<q50,Medio Balsas,3,94.07750980239823,12,1471
+clipped,original,<q50,Medio Balsas,5,94.00678318516881,12,1468
+clipped,original,<q50,Medio Balsas,7,95.38545652927614,12,1467
+clipped,original,<q50,Valle de México,1,92.88547724609188,15,5003
+clipped,original,<q50,Valle de México,2,93.36586756578313,15,4999
+clipped,original,<q50,Valle de México,3,91.40779838871612,15,4996
+clipped,original,<q50,Valle de México,5,89.15757393599154,15,4998
+clipped,original,<q50,Valle de México,7,87.66228455431013,15,4993
+clipped,original,q50-q90,Alto Lerma,1,91.59418220090816,14,4655
+clipped,original,q50-q90,Alto Lerma,2,92.20452936025956,14,4652
+clipped,original,q50-q90,Alto Lerma,3,91.66006508530442,14,4646
+clipped,original,q50-q90,Alto Lerma,5,88.68817470190488,14,4633
+clipped,original,q50-q90,Alto Lerma,7,90.29351507568005,14,4624
+clipped,original,q50-q90,Bajo Pánuco,1,69.81877547043382,6,671
+clipped,original,q50-q90,Bajo Pánuco,2,83.36437749198424,6,671
+clipped,original,q50-q90,Bajo Pánuco,3,64.72089514659174,6,673
+clipped,original,q50-q90,Bajo Pánuco,5,59.411038313338615,6,679
+clipped,original,q50-q90,Bajo Pánuco,7,59.71934722904094,6,684
+clipped,original,q50-q90,Medio Balsas,1,91.57068177193578,12,1732
+clipped,original,q50-q90,Medio Balsas,2,91.86547010203535,12,1735
+clipped,original,q50-q90,Medio Balsas,3,91.67069699716562,12,1735
+clipped,original,q50-q90,Medio Balsas,5,91.9194203388857,12,1734
+clipped,original,q50-q90,Medio Balsas,7,92.14648320404231,12,1732
+clipped,original,q50-q90,Valle de México,1,77.15138364833855,15,2859
+clipped,original,q50-q90,Valle de México,2,77.08656955748184,15,2862
+clipped,original,q50-q90,Valle de México,3,78.52349250683052,15,2865
+clipped,original,q50-q90,Valle de México,5,80.89157371644673,15,2864
+clipped,original,q50-q90,Valle de México,7,80.1188756764475,15,2864
+clipped,original,q90-q95,Alto Lerma,1,52.77239845909458,13,324
+clipped,original,q90-q95,Alto Lerma,2,49.24719331426882,13,324
+clipped,original,q90-q95,Alto Lerma,3,44.3852340416863,13,323
+clipped,original,q90-q95,Alto Lerma,5,44.40043521767548,13,325
+clipped,original,q90-q95,Alto Lerma,7,42.59899727344975,13,327
+clipped,original,q90-q95,Bajo Pánuco,1,31.269753380434494,6,209
+clipped,original,q90-q95,Bajo Pánuco,2,33.565277315277314,6,213
+clipped,original,q90-q95,Bajo Pánuco,3,33.570750237416895,6,216
+clipped,original,q90-q95,Bajo Pánuco,5,38.493874045344626,6,218
+clipped,original,q90-q95,Bajo Pánuco,7,38.51693022424729,6,220
+clipped,original,q90-q95,Medio Balsas,1,63.78491922580506,11,246
+clipped,original,q90-q95,Medio Balsas,2,63.90481638604292,11,245
+clipped,original,q90-q95,Medio Balsas,3,54.58927510398098,11,247
+clipped,original,q90-q95,Medio Balsas,5,64.37845189352313,11,252
+clipped,original,q90-q95,Medio Balsas,7,61.47602806712704,11,256
+clipped,original,q90-q95,Valle de México,1,51.864769438184524,12,1015
+clipped,original,q90-q95,Valle de México,2,56.77918571733055,12,1016
+clipped,original,q90-q95,Valle de México,3,49.20457268175605,12,1016
+clipped,original,q90-q95,Valle de México,5,43.048872719191564,12,1019
+clipped,original,q90-q95,Valle de México,7,44.11921835148263,12,1023
+clipped,original,>=q95,Alto Lerma,1,34.745839853682995,12,300
+clipped,original,>=q95,Alto Lerma,2,32.459790209790214,12,300
+clipped,original,>=q95,Alto Lerma,3,31.53504134754134,12,302
+clipped,original,>=q95,Alto Lerma,5,24.58266006480292,12,303
+clipped,original,>=q95,Alto Lerma,7,19.62663725163725,12,303
+clipped,original,>=q95,Bajo Pánuco,1,23.02892711646191,5,204
+clipped,original,>=q95,Bajo Pánuco,2,26.535834535834535,5,209
+clipped,original,>=q95,Bajo Pánuco,3,20.632188706815572,5,214
+clipped,original,>=q95,Bajo Pánuco,5,19.072890025575447,5,225
+clipped,original,>=q95,Bajo Pánuco,7,11.168461694777484,5,236
+clipped,original,>=q95,Medio Balsas,1,18.26142449242753,11,246
+clipped,original,>=q95,Medio Balsas,2,17.585192585192583,11,243
+clipped,original,>=q95,Medio Balsas,3,14.099659863945579,10,239
+clipped,original,>=q95,Medio Balsas,5,3.9115646258503403,10,238
+clipped,original,>=q95,Medio Balsas,7,3.094055013309672,10,237
+clipped,original,>=q95,Valle de México,1,32.5900083891585,10,352
+clipped,original,>=q95,Valle de México,2,33.073216219846095,10,352
+clipped,original,>=q95,Valle de México,3,29.34295535346908,10,352
+clipped,original,>=q95,Valle de México,5,25.47800996370686,10,348
+clipped,original,>=q95,Valle de México,7,24.819832735961768,10,349
+clipped,original,>=q99,Alto Lerma,1,22.106782106782106,7,57
+clipped,original,>=q99,Alto Lerma,2,14.128787878787879,8,58
+clipped,original,>=q99,Alto Lerma,3,14.936868686868687,8,58
+clipped,original,>=q99,Alto Lerma,5,12.664141414141413,8,57
+clipped,original,>=q99,Alto Lerma,7,9.305555555555555,8,57
+clipped,original,>=q99,Bajo Pánuco,1,0.5,5,64
+clipped,original,>=q99,Bajo Pánuco,2,2.5,5,66
+clipped,original,>=q99,Bajo Pánuco,3,0.0,5,68
+clipped,original,>=q99,Bajo Pánuco,5,0.0,5,70
+clipped,original,>=q99,Bajo Pánuco,7,0.0,5,73
+clipped,original,>=q99,Medio Balsas,1,0.0,8,52
+clipped,original,>=q99,Medio Balsas,2,0.0,8,50
+clipped,original,>=q99,Medio Balsas,3,0.0,8,48
+clipped,original,>=q99,Medio Balsas,5,0.0,8,47
+clipped,original,>=q99,Medio Balsas,7,0.0,8,47
+clipped,original,>=q99,Valle de México,1,22.016339869281047,6,103
+clipped,original,>=q99,Valle de México,2,18.924836601307184,6,103
+clipped,original,>=q99,Valle de México,3,17.813725490196077,6,103
+clipped,original,>=q99,Valle de México,5,16.77777777777778,6,103
+clipped,original,>=q99,Valle de México,7,13.999999999999998,6,102
+clipped,log,<q50,Alto Lerma,1,94.06730876640061,9,2010
+clipped,log,<q50,Alto Lerma,2,91.49145481559457,9,2013
+clipped,log,<q50,Alto Lerma,3,90.6850265079186,9,2018
+clipped,log,<q50,Alto Lerma,5,91.32895461135503,9,2028
+clipped,log,<q50,Alto Lerma,7,89.07570890630352,9,2035
+clipped,log,<q50,Bajo Pánuco,1,95.6375968065887,6,813
+clipped,log,<q50,Bajo Pánuco,2,96.3119787490032,6,804
+clipped,log,<q50,Bajo Pánuco,3,90.71236739547751,6,794
+clipped,log,<q50,Bajo Pánuco,5,97.0421450755527,6,775
+clipped,log,<q50,Bajo Pánuco,7,90.25165645465701,6,757
+clipped,log,<q50,Medio Balsas,1,90.24831368419343,12,1468
+clipped,log,<q50,Medio Balsas,2,89.27453490113349,12,1469
+clipped,log,<q50,Medio Balsas,3,88.92652699621046,12,1471
+clipped,log,<q50,Medio Balsas,5,86.77532628051131,12,1468
+clipped,log,<q50,Medio Balsas,7,86.6188485536946,12,1467
+clipped,log,<q50,Valle de México,1,82.78772751765572,15,5003
+clipped,log,<q50,Valle de México,2,83.03086876743373,15,4999
+clipped,log,<q50,Valle de México,3,80.40216782913936,15,4996
+clipped,log,<q50,Valle de México,5,78.7625445473603,15,4998
+clipped,log,<q50,Valle de México,7,78.65274271833226,15,4993
+clipped,log,q50-q90,Alto Lerma,1,94.01494776932253,14,4655
+clipped,log,q50-q90,Alto Lerma,2,94.4868496583969,14,4652
+clipped,log,q50-q90,Alto Lerma,3,93.61959728662606,14,4646
+clipped,log,q50-q90,Alto Lerma,5,93.12174629361695,14,4633
+clipped,log,q50-q90,Alto Lerma,7,91.91802765527682,14,4624
+clipped,log,q50-q90,Bajo Pánuco,1,91.53919621540227,6,671
+clipped,log,q50-q90,Bajo Pánuco,2,91.85676415333135,6,671
+clipped,log,q50-q90,Bajo Pánuco,3,87.88366718707276,6,673
+clipped,log,q50-q90,Bajo Pánuco,5,86.14930653606083,6,679
+clipped,log,q50-q90,Bajo Pánuco,7,84.31805495717846,6,684
+clipped,log,q50-q90,Medio Balsas,1,91.12671546963966,12,1732
+clipped,log,q50-q90,Medio Balsas,2,90.81232485936717,12,1735
+clipped,log,q50-q90,Medio Balsas,3,90.85749041844488,12,1735
+clipped,log,q50-q90,Medio Balsas,5,91.14595016992753,12,1734
+clipped,log,q50-q90,Medio Balsas,7,92.60182929832341,12,1732
+clipped,log,q50-q90,Valle de México,1,77.04885872720229,15,2859
+clipped,log,q50-q90,Valle de México,2,76.55092124063117,15,2862
+clipped,log,q50-q90,Valle de México,3,78.30728476401669,15,2865
+clipped,log,q50-q90,Valle de México,5,79.78886635028176,15,2864
+clipped,log,q50-q90,Valle de México,7,79.50982057376258,15,2864
+clipped,log,q90-q95,Alto Lerma,1,77.09189249688737,13,324
+clipped,log,q90-q95,Alto Lerma,2,79.90045782048718,13,324
+clipped,log,q90-q95,Alto Lerma,3,79.07342071331722,13,323
+clipped,log,q90-q95,Alto Lerma,5,75.44737907649225,13,325
+clipped,log,q90-q95,Alto Lerma,7,75.18931560521807,13,327
+clipped,log,q90-q95,Bajo Pánuco,1,70.7951430234712,6,209
+clipped,log,q90-q95,Bajo Pánuco,2,69.27540052540053,6,213
+clipped,log,q90-q95,Bajo Pánuco,3,66.9278252611586,6,216
+clipped,log,q90-q95,Bajo Pánuco,5,61.94398058368647,6,218
+clipped,log,q90-q95,Bajo Pánuco,7,60.48627862652253,6,220
+clipped,log,q90-q95,Medio Balsas,1,71.04841050086341,11,246
+clipped,log,q90-q95,Medio Balsas,2,69.89689944320733,11,245
+clipped,log,q90-q95,Medio Balsas,3,67.01772628243216,11,247
+clipped,log,q90-q95,Medio Balsas,5,70.18180416061308,11,252
+clipped,log,q90-q95,Medio Balsas,7,67.96248013700081,11,256
+clipped,log,q90-q95,Valle de México,1,66.29588379873437,12,1015
+clipped,log,q90-q95,Valle de México,2,64.46090401396819,12,1016
+clipped,log,q90-q95,Valle de México,3,63.633683619603545,12,1016
+clipped,log,q90-q95,Valle de México,5,59.93739116012936,12,1019
+clipped,log,q90-q95,Valle de México,7,60.858209646925545,12,1023
+clipped,log,>=q95,Alto Lerma,1,68.69059281314183,12,300
+clipped,log,>=q95,Alto Lerma,2,69.1962481962482,12,300
+clipped,log,>=q95,Alto Lerma,3,66.45494782994783,12,302
+clipped,log,>=q95,Alto Lerma,5,60.2967006538435,12,303
+clipped,log,>=q95,Alto Lerma,7,59.8768661893662,12,303
+clipped,log,>=q95,Bajo Pánuco,1,64.6774403123769,5,204
+clipped,log,>=q95,Bajo Pánuco,2,61.92580567580568,5,209
+clipped,log,>=q95,Bajo Pánuco,3,53.021500887172536,5,214
+clipped,log,>=q95,Bajo Pánuco,5,42.81451711119231,5,225
+clipped,log,>=q95,Bajo Pánuco,7,34.09967486283276,5,236
+clipped,log,>=q95,Medio Balsas,1,33.62310322796645,11,246
+clipped,log,>=q95,Medio Balsas,2,28.197870057113754,11,243
+clipped,log,>=q95,Medio Balsas,3,25.317006802721092,10,239
+clipped,log,>=q95,Medio Balsas,5,27.129039115646258,10,238
+clipped,log,>=q95,Medio Balsas,7,25.235838281801016,10,237
+clipped,log,>=q95,Valle de México,1,59.279450716815184,10,352
+clipped,log,>=q95,Valle de México,2,60.98205421679038,10,352
+clipped,log,>=q95,Valle de México,3,59.417589240347176,10,352
+clipped,log,>=q95,Valle de México,5,52.99162450227575,10,348
+clipped,log,>=q95,Valle de México,7,48.76903762482511,10,349
+clipped,log,>=q99,Alto Lerma,1,69.04761904761905,7,57
+clipped,log,>=q99,Alto Lerma,2,60.83333333333334,8,58
+clipped,log,>=q99,Alto Lerma,3,47.91666666666667,8,58
+clipped,log,>=q99,Alto Lerma,5,47.5,8,57
+clipped,log,>=q99,Alto Lerma,7,45.6439393939394,8,57
+clipped,log,>=q99,Bajo Pánuco,1,22.000000000000004,5,64
+clipped,log,>=q99,Bajo Pánuco,2,18.855534709193247,5,66
+clipped,log,>=q99,Bajo Pánuco,3,11.071428571428573,5,68
+clipped,log,>=q99,Bajo Pánuco,5,3.6363636363636362,5,70
+clipped,log,>=q99,Bajo Pánuco,7,2.608695652173913,5,73
+clipped,log,>=q99,Medio Balsas,1,9.659090909090908,8,52
+clipped,log,>=q99,Medio Balsas,2,4.772727272727273,8,50
+clipped,log,>=q99,Medio Balsas,3,0.0,8,48
+clipped,log,>=q99,Medio Balsas,5,0.0,8,47
+clipped,log,>=q99,Medio Balsas,7,0.0,8,47
+clipped,log,>=q99,Valle de México,1,53.771241830065364,6,103
+clipped,log,>=q99,Valle de México,2,55.04084967320261,6,103
+clipped,log,>=q99,Valle de México,3,54.624183006535944,6,103
+clipped,log,>=q99,Valle de México,5,49.73856209150327,6,103
+clipped,log,>=q99,Valle de México,7,44.38502673796791,6,102
+clipped,aci,<q50,Alto Lerma,1,97.86579637277096,9,2010
+clipped,aci,<q50,Alto Lerma,2,97.89175999530949,9,2013
+clipped,aci,<q50,Alto Lerma,3,96.00548508015972,9,2018
+clipped,aci,<q50,Alto Lerma,5,95.86750567666213,9,2028
+clipped,aci,<q50,Alto Lerma,7,95.30316663816924,9,2035
+clipped,aci,<q50,Bajo Pánuco,1,99.0555125003588,6,813
+clipped,aci,<q50,Bajo Pánuco,2,99.06427089764598,6,804
+clipped,aci,<q50,Bajo Pánuco,3,99.25912005218277,6,794
+clipped,aci,<q50,Bajo Pánuco,5,99.1388483009254,6,775
+clipped,aci,<q50,Bajo Pánuco,7,93.48327677290698,6,757
+clipped,aci,<q50,Medio Balsas,1,95.64442102131167,12,1468
+clipped,aci,<q50,Medio Balsas,2,94.13746375450141,12,1469
+clipped,aci,<q50,Medio Balsas,3,94.59858233013433,12,1471
+clipped,aci,<q50,Medio Balsas,5,94.3713799742043,12,1468
+clipped,aci,<q50,Medio Balsas,7,93.90533346340708,12,1467
+clipped,aci,<q50,Valle de México,1,91.55535886991491,15,5003
+clipped,aci,<q50,Valle de México,2,91.17737803804383,15,4999
+clipped,aci,<q50,Valle de México,3,90.8640771461331,15,4996
+clipped,aci,<q50,Valle de México,5,90.72625386927768,15,4998
+clipped,aci,<q50,Valle de México,7,90.51683033157974,15,4993
+clipped,aci,q50-q90,Alto Lerma,1,91.32485866814825,14,4655
+clipped,aci,q50-q90,Alto Lerma,2,92.01760356010132,14,4652
+clipped,aci,q50-q90,Alto Lerma,3,91.27807673783212,14,4646
+clipped,aci,q50-q90,Alto Lerma,5,89.14308779671146,14,4633
+clipped,aci,q50-q90,Alto Lerma,7,89.79849698165648,14,4624
+clipped,aci,q50-q90,Bajo Pánuco,1,91.60449700914972,6,671
+clipped,aci,q50-q90,Bajo Pánuco,2,90.40285164552515,6,671
+clipped,aci,q50-q90,Bajo Pánuco,3,89.8562648794847,6,673
+clipped,aci,q50-q90,Bajo Pánuco,5,88.26149202792277,6,679
+clipped,aci,q50-q90,Bajo Pánuco,7,90.26230792095411,6,684
+clipped,aci,q50-q90,Medio Balsas,1,92.59058137177455,12,1732
+clipped,aci,q50-q90,Medio Balsas,2,93.29401550025051,12,1735
+clipped,aci,q50-q90,Medio Balsas,3,92.84677131419812,12,1735
+clipped,aci,q50-q90,Medio Balsas,5,92.45658396223732,12,1734
+clipped,aci,q50-q90,Medio Balsas,7,92.52877902181642,12,1732
+clipped,aci,q50-q90,Valle de México,1,75.36736371987013,15,2859
+clipped,aci,q50-q90,Valle de México,2,74.92413404063524,15,2862
+clipped,aci,q50-q90,Valle de México,3,76.35993025347442,15,2865
+clipped,aci,q50-q90,Valle de México,5,76.7075120746998,15,2864
+clipped,aci,q50-q90,Valle de México,7,76.80188253666844,15,2864
+clipped,aci,q90-q95,Alto Lerma,1,51.02708667442748,13,324
+clipped,aci,q90-q95,Alto Lerma,2,49.922268289799945,13,324
+clipped,aci,q90-q95,Alto Lerma,3,47.26094749401694,13,323
+clipped,aci,q90-q95,Alto Lerma,5,46.250934270893275,13,325
+clipped,aci,q90-q95,Alto Lerma,7,46.18912823789294,13,327
+clipped,aci,q90-q95,Bajo Pánuco,1,53.752156598131826,6,209
+clipped,aci,q90-q95,Bajo Pánuco,2,52.54375254375253,6,213
+clipped,aci,q90-q95,Bajo Pánuco,3,56.766381766381755,6,216
+clipped,aci,q90-q95,Bajo Pánuco,5,58.18072314395843,6,218
+clipped,aci,q90-q95,Bajo Pánuco,7,58.84898299532445,6,220
+clipped,aci,q90-q95,Medio Balsas,1,68.0535377803455,11,246
+clipped,aci,q90-q95,Medio Balsas,2,68.67968754232834,11,245
+clipped,aci,q90-q95,Medio Balsas,3,61.106407209348376,11,247
+clipped,aci,q90-q95,Medio Balsas,5,66.49875573560264,11,252
+clipped,aci,q90-q95,Medio Balsas,7,66.12661700327074,11,256
+clipped,aci,q90-q95,Valle de México,1,53.90874609541684,12,1015
+clipped,aci,q90-q95,Valle de México,2,56.58142594845169,12,1016
+clipped,aci,q90-q95,Valle de México,3,47.71065462650413,12,1016
+clipped,aci,q90-q95,Valle de México,5,45.43874628495036,12,1019
+clipped,aci,q90-q95,Valle de México,7,44.51529182357816,12,1023
+clipped,aci,>=q95,Alto Lerma,1,41.31343892128206,12,300
+clipped,aci,>=q95,Alto Lerma,2,35.13714063714063,12,300
+clipped,aci,>=q95,Alto Lerma,3,34.945103507603505,12,302
+clipped,aci,>=q95,Alto Lerma,5,27.571427249998674,12,303
+clipped,aci,>=q95,Alto Lerma,7,20.314040126540124,12,303
+clipped,aci,>=q95,Bajo Pánuco,1,29.3759732036874,5,204
+clipped,aci,>=q95,Bajo Pánuco,2,33.64502164502164,5,209
+clipped,aci,>=q95,Bajo Pánuco,3,28.88351946560902,5,214
+clipped,aci,>=q95,Bajo Pánuco,5,26.90415296553404,5,225
+clipped,aci,>=q95,Bajo Pánuco,7,20.89588836957258,5,236
+clipped,aci,>=q95,Medio Balsas,1,19.408588709500563,11,246
+clipped,aci,>=q95,Medio Balsas,2,20.2354193425622,11,243
+clipped,aci,>=q95,Medio Balsas,3,18.09943310657596,10,239
+clipped,aci,>=q95,Medio Balsas,5,8.773384353741497,10,238
+clipped,aci,>=q95,Medio Balsas,7,6.049489795918368,10,237
+clipped,aci,>=q95,Valle de México,1,39.57483159618159,10,352
+clipped,aci,>=q95,Valle de México,2,38.91440084797815,10,352
+clipped,aci,>=q95,Valle de México,3,33.6127609425006,10,352
+clipped,aci,>=q95,Valle de México,5,28.660535154753052,10,348
+clipped,aci,>=q95,Valle de México,7,27.14230476811122,10,349
+clipped,aci,>=q99,Alto Lerma,1,22.265512265512264,7,57
+clipped,aci,>=q99,Alto Lerma,2,15.820707070707071,8,58
+clipped,aci,>=q99,Alto Lerma,3,16.464646464646464,8,58
+clipped,aci,>=q99,Alto Lerma,5,10.99747474747475,8,57
+clipped,aci,>=q99,Alto Lerma,7,5.277777777777778,8,57
+clipped,aci,>=q99,Bajo Pánuco,1,4.5,5,64
+clipped,aci,>=q99,Bajo Pánuco,2,5.365853658536586,5,66
+clipped,aci,>=q99,Bajo Pánuco,3,4.761904761904762,5,68
+clipped,aci,>=q99,Bajo Pánuco,5,4.545454545454546,5,70
+clipped,aci,>=q99,Bajo Pánuco,7,5.217391304347826,5,73
+clipped,aci,>=q99,Medio Balsas,1,0.0,8,52
+clipped,aci,>=q99,Medio Balsas,2,0.0,8,50
+clipped,aci,>=q99,Medio Balsas,3,0.0,8,48
+clipped,aci,>=q99,Medio Balsas,5,0.0,8,47
+clipped,aci,>=q99,Medio Balsas,7,0.0,8,47
+clipped,aci,>=q99,Valle de México,1,24.905228758169937,6,103
+clipped,aci,>=q99,Valle de México,2,21.42483660130719,6,103
+clipped,aci,>=q99,Valle de México,3,22.480392156862745,6,103
+clipped,aci,>=q99,Valle de México,5,17.888888888888886,6,103
+clipped,aci,>=q99,Valle de México,7,13.999999999999998,6,102
+raw,original,<q50,Alto Lerma,1,98.25174118333955,9,2010
+raw,original,<q50,Alto Lerma,2,98.25715114864676,9,2013
+raw,original,<q50,Alto Lerma,3,96.25079639392288,9,2018
+raw,original,<q50,Alto Lerma,5,95.32431195078108,9,2028
+raw,original,<q50,Alto Lerma,7,95.54695025471653,9,2035
+raw,original,<q50,Bajo Pánuco,1,98.53638425066997,6,813
+raw,original,<q50,Bajo Pánuco,2,98.62002355599125,6,804
+raw,original,<q50,Bajo Pánuco,3,98.26319285350642,6,794
+raw,original,<q50,Bajo Pánuco,5,98.2677681615526,6,775
+raw,original,<q50,Bajo Pánuco,7,92.15206591330512,6,757
+raw,original,<q50,Medio Balsas,1,95.2612221586706,12,1465
+raw,original,<q50,Medio Balsas,2,94.1932088613577,12,1466
+raw,original,<q50,Medio Balsas,3,94.07624321003833,12,1468
+raw,original,<q50,Medio Balsas,5,94.00678318516881,12,1465
+raw,original,<q50,Medio Balsas,7,95.38545652927614,12,1464
+raw,original,<q50,Valle de México,1,92.79155951092692,14,4355
+raw,original,<q50,Valle de México,2,93.22141748596357,14,4351
+raw,original,<q50,Valle de México,3,91.0141085923902,14,4348
+raw,original,<q50,Valle de México,5,88.70975890211866,14,4349
+raw,original,<q50,Valle de México,7,87.07038094981688,14,4344
+raw,original,q50-q90,Alto Lerma,1,91.59418220090816,14,4655
+raw,original,q50-q90,Alto Lerma,2,92.20452936025956,14,4652
+raw,original,q50-q90,Alto Lerma,3,91.66006508530442,14,4646
+raw,original,q50-q90,Alto Lerma,5,88.68817470190488,14,4633
+raw,original,q50-q90,Alto Lerma,7,90.29351507568005,14,4624
+raw,original,q50-q90,Bajo Pánuco,1,69.81877547043382,6,671
+raw,original,q50-q90,Bajo Pánuco,2,83.36437749198424,6,671
+raw,original,q50-q90,Bajo Pánuco,3,64.72089514659174,6,673
+raw,original,q50-q90,Bajo Pánuco,5,59.411038313338615,6,679
+raw,original,q50-q90,Bajo Pánuco,7,59.71934722904094,6,684
+raw,original,q50-q90,Medio Balsas,1,91.5515406069613,12,1733
+raw,original,q50-q90,Medio Balsas,2,91.85007365385317,12,1736
+raw,original,q50-q90,Medio Balsas,3,91.76659646806509,12,1736
+raw,original,q50-q90,Medio Balsas,5,91.89342509230222,12,1735
+raw,original,q50-q90,Medio Balsas,7,92.1128810535047,12,1733
+raw,original,q50-q90,Valle de México,1,80.9921930036546,15,3476
+raw,original,q50-q90,Valle de México,2,80.7312619354788,15,3479
+raw,original,q50-q90,Valle de México,3,82.23842362039709,15,3482
+raw,original,q50-q90,Valle de México,5,84.24399574389467,15,3482
+raw,original,q50-q90,Valle de México,7,83.47845998803822,15,3482
+raw,original,q90-q95,Alto Lerma,1,52.77239845909458,13,324
+raw,original,q90-q95,Alto Lerma,2,49.24719331426882,13,324
+raw,original,q90-q95,Alto Lerma,3,44.3852340416863,13,323
+raw,original,q90-q95,Alto Lerma,5,44.40043521767548,13,325
+raw,original,q90-q95,Alto Lerma,7,42.59899727344975,13,327
+raw,original,q90-q95,Bajo Pánuco,1,31.269753380434494,6,209
+raw,original,q90-q95,Bajo Pánuco,2,33.565277315277314,6,213
+raw,original,q90-q95,Bajo Pánuco,3,33.570750237416895,6,216
+raw,original,q90-q95,Bajo Pánuco,5,38.493874045344626,6,218
+raw,original,q90-q95,Bajo Pánuco,7,38.51693022424729,6,220
+raw,original,q90-q95,Medio Balsas,1,63.97431316519901,11,248
+raw,original,q90-q95,Medio Balsas,2,63.90481638604292,11,247
+raw,original,q90-q95,Medio Balsas,3,54.08422459893048,11,249
+raw,original,q90-q95,Medio Balsas,5,64.44158320665446,11,254
+raw,original,q90-q95,Medio Balsas,7,61.60229069338967,11,258
+raw,original,q90-q95,Valle de México,1,54.47214123305631,12,1045
+raw,original,q90-q95,Valle de México,2,58.63655751220234,12,1046
+raw,original,q90-q95,Valle de México,3,49.63245729714066,12,1046
+raw,original,q90-q95,Valle de México,5,45.53605220637105,12,1049
+raw,original,q90-q95,Valle de México,7,46.93973117199546,12,1053
+raw,original,>=q95,Alto Lerma,1,34.745839853682995,12,300
+raw,original,>=q95,Alto Lerma,2,32.459790209790214,12,300
+raw,original,>=q95,Alto Lerma,3,31.53504134754134,12,302
+raw,original,>=q95,Alto Lerma,5,24.58266006480292,12,303
+raw,original,>=q95,Alto Lerma,7,19.62663725163725,12,303
+raw,original,>=q95,Bajo Pánuco,1,23.02892711646191,5,204
+raw,original,>=q95,Bajo Pánuco,2,26.535834535834535,5,209
+raw,original,>=q95,Bajo Pánuco,3,20.632188706815572,5,214
+raw,original,>=q95,Bajo Pánuco,5,19.072890025575447,5,225
+raw,original,>=q95,Bajo Pánuco,7,11.168461694777484,5,236
+raw,original,>=q95,Medio Balsas,1,18.26142449242753,11,246
+raw,original,>=q95,Medio Balsas,2,17.585192585192583,11,243
+raw,original,>=q95,Medio Balsas,3,14.099659863945579,10,239
+raw,original,>=q95,Medio Balsas,5,3.9115646258503403,10,238
+raw,original,>=q95,Medio Balsas,7,3.094055013309672,10,237
+raw,original,>=q95,Valle de México,1,37.36778616693628,10,353
+raw,original,>=q95,Valle de México,2,37.52124489368122,10,353
+raw,original,>=q95,Valle de México,3,29.34295535346908,10,353
+raw,original,>=q95,Valle de México,5,25.47800996370686,10,349
+raw,original,>=q95,Valle de México,7,24.819832735961768,10,350
+raw,original,>=q99,Alto Lerma,1,22.106782106782106,7,57
+raw,original,>=q99,Alto Lerma,2,14.128787878787879,8,58
+raw,original,>=q99,Alto Lerma,3,14.936868686868687,8,58
+raw,original,>=q99,Alto Lerma,5,12.664141414141413,8,57
+raw,original,>=q99,Alto Lerma,7,9.305555555555555,8,57
+raw,original,>=q99,Bajo Pánuco,1,0.5,5,64
+raw,original,>=q99,Bajo Pánuco,2,2.5,5,66
+raw,original,>=q99,Bajo Pánuco,3,0.0,5,68
+raw,original,>=q99,Bajo Pánuco,5,0.0,5,70
+raw,original,>=q99,Bajo Pánuco,7,0.0,5,73
+raw,original,>=q99,Medio Balsas,1,0.0,8,52
+raw,original,>=q99,Medio Balsas,2,0.0,8,50
+raw,original,>=q99,Medio Balsas,3,0.0,8,48
+raw,original,>=q99,Medio Balsas,5,0.0,8,47
+raw,original,>=q99,Medio Balsas,7,0.0,8,47
+raw,original,>=q99,Valle de México,1,20.905228758169937,6,103
+raw,original,>=q99,Valle de México,2,16.369281045751634,6,103
+raw,original,>=q99,Valle de México,3,17.813725490196077,6,103
+raw,original,>=q99,Valle de México,5,16.77777777777778,6,103
+raw,original,>=q99,Valle de México,7,13.999999999999998,6,102
+raw,log,<q50,Alto Lerma,1,94.06730876640061,9,2010
+raw,log,<q50,Alto Lerma,2,91.49145481559457,9,2013
+raw,log,<q50,Alto Lerma,3,90.6850265079186,9,2018
+raw,log,<q50,Alto Lerma,5,91.32895461135503,9,2028
+raw,log,<q50,Alto Lerma,7,89.07570890630352,9,2035
+raw,log,<q50,Bajo Pánuco,1,95.6375968065887,6,813
+raw,log,<q50,Bajo Pánuco,2,96.3119787490032,6,804
+raw,log,<q50,Bajo Pánuco,3,90.71236739547751,6,794
+raw,log,<q50,Bajo Pánuco,5,97.0421450755527,6,775
+raw,log,<q50,Bajo Pánuco,7,90.25165645465701,6,757
+raw,log,<q50,Medio Balsas,1,90.57795316409889,12,1465
+raw,log,<q50,Medio Balsas,2,89.61217345305776,12,1466
+raw,log,<q50,Medio Balsas,3,89.26994944135292,12,1468
+raw,log,<q50,Medio Balsas,5,87.13503823892209,12,1465
+raw,log,<q50,Medio Balsas,7,86.61470215829434,12,1464
+raw,log,<q50,Valle de México,1,88.69389853168195,14,4355
+raw,log,<q50,Valle de México,2,88.9916603283961,14,4351
+raw,log,<q50,Valle de México,3,86.17678882670084,14,4348
+raw,log,<q50,Valle de México,5,84.38329856318131,14,4349
+raw,log,<q50,Valle de México,7,84.26112092438045,14,4344
+raw,log,q50-q90,Alto Lerma,1,94.01494776932253,14,4655
+raw,log,q50-q90,Alto Lerma,2,94.4868496583969,14,4652
+raw,log,q50-q90,Alto Lerma,3,93.61959728662606,14,4646
+raw,log,q50-q90,Alto Lerma,5,93.12174629361695,14,4633
+raw,log,q50-q90,Alto Lerma,7,91.91802765527682,14,4624
+raw,log,q50-q90,Bajo Pánuco,1,91.53919621540227,6,671
+raw,log,q50-q90,Bajo Pánuco,2,91.85676415333135,6,671
+raw,log,q50-q90,Bajo Pánuco,3,87.88366718707276,6,673
+raw,log,q50-q90,Bajo Pánuco,5,86.14930653606083,6,679
+raw,log,q50-q90,Bajo Pánuco,7,84.31805495717846,6,684
+raw,log,q50-q90,Medio Balsas,1,91.12109228693313,12,1733
+raw,log,q50-q90,Medio Balsas,2,90.79712155132769,12,1736
+raw,log,q50-q90,Medio Balsas,3,90.8450707495104,12,1736
+raw,log,q50-q90,Medio Balsas,5,91.12631207446324,12,1735
+raw,log,q50-q90,Medio Balsas,7,92.57853123871968,12,1733
+raw,log,q50-q90,Valle de México,1,80.53231853013668,15,3476
+raw,log,q50-q90,Valle de México,2,80.06210913610835,15,3479
+raw,log,q50-q90,Valle de México,3,81.65015809785223,15,3482
+raw,log,q50-q90,Valle de México,5,83.058816454531,15,3482
+raw,log,q50-q90,Valle de México,7,82.76149780894274,15,3482
+raw,log,q90-q95,Alto Lerma,1,77.09189249688737,13,324
+raw,log,q90-q95,Alto Lerma,2,79.90045782048718,13,324
+raw,log,q90-q95,Alto Lerma,3,79.07342071331722,13,323
+raw,log,q90-q95,Alto Lerma,5,75.44737907649225,13,325
+raw,log,q90-q95,Alto Lerma,7,75.18931560521807,13,327
+raw,log,q90-q95,Bajo Pánuco,1,70.7951430234712,6,209
+raw,log,q90-q95,Bajo Pánuco,2,69.27540052540053,6,213
+raw,log,q90-q95,Bajo Pánuco,3,66.9278252611586,6,216
+raw,log,q90-q95,Bajo Pánuco,5,61.94398058368647,6,218
+raw,log,q90-q95,Bajo Pánuco,7,60.48627862652253,6,220
+raw,log,q90-q95,Medio Balsas,1,71.04841050086341,11,248
+raw,log,q90-q95,Medio Balsas,2,69.89689944320733,11,247
+raw,log,q90-q95,Medio Balsas,3,67.01772628243216,11,249
+raw,log,q90-q95,Medio Balsas,5,70.18180416061308,11,254
+raw,log,q90-q95,Medio Balsas,7,67.96248013700081,11,258
+raw,log,q90-q95,Valle de México,1,66.13562738847796,12,1045
+raw,log,q90-q95,Valle de México,2,64.70128862935282,12,1046
+raw,log,q90-q95,Valle de México,3,64.5150938760138,12,1046
+raw,log,q90-q95,Valle de México,5,60.25790398064218,12,1049
+raw,log,q90-q95,Valle de México,7,61.17872246743836,12,1053
+raw,log,>=q95,Alto Lerma,1,68.69059281314183,12,300
+raw,log,>=q95,Alto Lerma,2,69.0359917859918,12,300
+raw,log,>=q95,Alto Lerma,3,66.29469141969143,12,302
+raw,log,>=q95,Alto Lerma,5,60.13644424358709,12,303
+raw,log,>=q95,Alto Lerma,7,59.71660977910979,12,303
+raw,log,>=q95,Bajo Pánuco,1,63.693833754999865,5,204
+raw,log,>=q95,Bajo Pánuco,2,60.338504088504095,5,209
+raw,log,>=q95,Bajo Pánuco,3,51.79073165640331,5,214
+raw,log,>=q95,Bajo Pánuco,5,41.944951893801,5,225
+raw,log,>=q95,Bajo Pánuco,7,33.559134322292216,5,236
+raw,log,>=q95,Medio Balsas,1,33.42967963028754,11,246
+raw,log,>=q95,Medio Balsas,2,28.197870057113754,11,243
+raw,log,>=q95,Medio Balsas,3,25.317006802721092,10,239
+raw,log,>=q95,Medio Balsas,5,27.129039115646258,10,238
+raw,log,>=q95,Medio Balsas,7,25.235838281801016,10,237
+raw,log,>=q95,Valle de México,1,58.83500627237075,10,353
+raw,log,>=q95,Valle de México,2,60.537609772345924,10,353
+raw,log,>=q95,Valle de México,3,59.195367018124955,10,353
+raw,log,>=q95,Valle de México,5,47.76940228005353,10,349
+raw,log,>=q95,Valle de México,7,48.76903762482511,10,350
+raw,log,>=q99,Alto Lerma,1,69.04761904761905,7,57
+raw,log,>=q99,Alto Lerma,2,60.41666666666667,8,58
+raw,log,>=q99,Alto Lerma,3,47.5,8,58
+raw,log,>=q99,Alto Lerma,5,47.083333333333336,8,57
+raw,log,>=q99,Alto Lerma,7,45.22727272727273,8,57
+raw,log,>=q99,Bajo Pánuco,1,20.5,5,64
+raw,log,>=q99,Bajo Pánuco,2,16.416510318949342,5,66
+raw,log,>=q99,Bajo Pánuco,3,9.166666666666666,5,68
+raw,log,>=q99,Bajo Pánuco,5,2.272727272727273,5,70
+raw,log,>=q99,Bajo Pánuco,7,1.7391304347826086,5,73
+raw,log,>=q99,Medio Balsas,1,8.522727272727273,8,52
+raw,log,>=q99,Medio Balsas,2,4.772727272727273,8,50
+raw,log,>=q99,Medio Balsas,3,0.0,8,48
+raw,log,>=q99,Medio Balsas,5,0.0,8,47
+raw,log,>=q99,Medio Balsas,7,0.0,8,47
+raw,log,>=q99,Valle de México,1,51.549019607843135,6,103
+raw,log,>=q99,Valle de México,2,52.81862745098038,6,103
+raw,log,>=q99,Valle de México,3,53.51307189542484,6,103
+raw,log,>=q99,Valle de México,5,31.960784313725487,6,103
+raw,log,>=q99,Valle de México,7,44.38502673796791,6,102
+raw,aci,<q50,Alto Lerma,1,97.86579637277096,9,2010
+raw,aci,<q50,Alto Lerma,2,97.89175999530949,9,2013
+raw,aci,<q50,Alto Lerma,3,96.00548508015972,9,2018
+raw,aci,<q50,Alto Lerma,5,95.86750567666213,9,2028
+raw,aci,<q50,Alto Lerma,7,95.30316663816924,9,2035
+raw,aci,<q50,Bajo Pánuco,1,99.0555125003588,6,813
+raw,aci,<q50,Bajo Pánuco,2,99.06427089764598,6,804
+raw,aci,<q50,Bajo Pánuco,3,99.25912005218277,6,794
+raw,aci,<q50,Bajo Pánuco,5,99.1388483009254,6,775
+raw,aci,<q50,Bajo Pánuco,7,93.48327677290698,6,757
+raw,aci,<q50,Medio Balsas,1,95.64072716788378,12,1465
+raw,aci,<q50,Medio Balsas,2,94.1349662520039,12,1466
+raw,aci,<q50,Medio Balsas,3,94.59731573777442,12,1468
+raw,aci,<q50,Medio Balsas,5,94.37007653311983,12,1465
+raw,aci,<q50,Medio Balsas,7,93.90533346340708,12,1464
+raw,aci,<q50,Valle de México,1,91.41960263361317,14,4355
+raw,aci,<q50,Valle de México,2,91.04213981739572,14,4351
+raw,aci,<q50,Valle de México,3,90.63945636417297,14,4348
+raw,aci,<q50,Valle de México,5,90.45496103432649,14,4349
+raw,aci,<q50,Valle de México,7,90.2260642756761,14,4344
+raw,aci,q50-q90,Alto Lerma,1,91.32485866814825,14,4655
+raw,aci,q50-q90,Alto Lerma,2,92.01760356010132,14,4652
+raw,aci,q50-q90,Alto Lerma,3,91.27807673783212,14,4646
+raw,aci,q50-q90,Alto Lerma,5,89.14308779671146,14,4633
+raw,aci,q50-q90,Alto Lerma,7,89.79849698165648,14,4624
+raw,aci,q50-q90,Bajo Pánuco,1,91.60449700914972,6,671
+raw,aci,q50-q90,Bajo Pánuco,2,90.40285164552515,6,671
+raw,aci,q50-q90,Bajo Pánuco,3,89.8562648794847,6,673
+raw,aci,q50-q90,Bajo Pánuco,5,88.26149202792277,6,679
+raw,aci,q50-q90,Bajo Pánuco,7,90.26230792095411,6,684
+raw,aci,q50-q90,Medio Balsas,1,92.56274475539627,12,1733
+raw,aci,q50-q90,Medio Balsas,2,93.26984702578335,12,1736
+raw,aci,q50-q90,Medio Balsas,3,92.93875579244995,12,1736
+raw,aci,q50-q90,Medio Balsas,5,92.43257137400215,12,1735
+raw,aci,q50-q90,Medio Balsas,7,92.49708042457826,12,1733
+raw,aci,q50-q90,Valle de México,1,80.04674813395668,15,3476
+raw,aci,q50-q90,Valle de México,2,79.37567301914078,15,3479
+raw,aci,q50-q90,Valle de México,3,81.10178131143525,15,3482
+raw,aci,q50-q90,Valle de México,5,82.86750470138178,15,3482
+raw,aci,q50-q90,Valle de México,7,82.3735940512842,15,3482
+raw,aci,q90-q95,Alto Lerma,1,51.02708667442748,13,324
+raw,aci,q90-q95,Alto Lerma,2,49.922268289799945,13,324
+raw,aci,q90-q95,Alto Lerma,3,47.26094749401694,13,323
+raw,aci,q90-q95,Alto Lerma,5,46.250934270893275,13,325
+raw,aci,q90-q95,Alto Lerma,7,46.18912823789294,13,327
+raw,aci,q90-q95,Bajo Pánuco,1,53.752156598131826,6,209
+raw,aci,q90-q95,Bajo Pánuco,2,52.54375254375253,6,213
+raw,aci,q90-q95,Bajo Pánuco,3,56.766381766381755,6,216
+raw,aci,q90-q95,Bajo Pánuco,5,58.18072314395843,6,218
+raw,aci,q90-q95,Bajo Pánuco,7,58.84898299532445,6,220
+raw,aci,q90-q95,Medio Balsas,1,68.30606303287075,11,248
+raw,aci,q90-q95,Medio Balsas,2,68.74281885545965,11,247
+raw,aci,q90-q95,Medio Balsas,3,60.601356704297885,11,249
+raw,aci,q90-q95,Medio Balsas,5,66.6881496749966,11,254
+raw,aci,q90-q95,Medio Balsas,7,66.31601094266469,11,258
+raw,aci,q90-q95,Valle de México,1,55.44881019798095,12,1045
+raw,aci,q90-q95,Valle de México,2,56.78495158947733,12,1046
+raw,aci,q90-q95,Valle de México,3,48.24751360086311,12,1046
+raw,aci,q90-q95,Valle de México,5,46.93874628495036,12,1049
+raw,aci,q90-q95,Valle de México,7,48.41913797742432,12,1053
+raw,aci,>=q95,Alto Lerma,1,41.31343892128206,12,300
+raw,aci,>=q95,Alto Lerma,2,35.13714063714063,12,300
+raw,aci,>=q95,Alto Lerma,3,34.945103507603505,12,302
+raw,aci,>=q95,Alto Lerma,5,27.571427249998674,12,303
+raw,aci,>=q95,Alto Lerma,7,20.314040126540124,12,303
+raw,aci,>=q95,Bajo Pánuco,1,27.736628941392315,5,204
+raw,aci,>=q95,Bajo Pánuco,2,31.74025974025974,5,209
+raw,aci,>=q95,Bajo Pánuco,3,27.345057927147483,5,214
+raw,aci,>=q95,Bajo Pánuco,5,24.005602240896362,5,225
+raw,aci,>=q95,Bajo Pánuco,7,18.19318566686988,5,236
+raw,aci,>=q95,Medio Balsas,1,19.408588709500563,11,246
+raw,aci,>=q95,Medio Balsas,2,20.2354193425622,11,243
+raw,aci,>=q95,Medio Balsas,3,18.09943310657596,10,239
+raw,aci,>=q95,Medio Balsas,5,8.773384353741497,10,238
+raw,aci,>=q95,Medio Balsas,7,6.049489795918368,10,237
+raw,aci,>=q95,Valle de México,1,44.24508249223894,10,353
+raw,aci,>=q95,Valle de México,2,43.362429521813276,10,353
+raw,aci,>=q95,Valle de México,3,33.6127609425006,10,353
+raw,aci,>=q95,Valle de México,5,28.55300827303262,10,349
+raw,aci,>=q95,Valle de México,7,27.03477788639079,10,350
+raw,aci,>=q99,Alto Lerma,1,22.265512265512264,7,57
+raw,aci,>=q99,Alto Lerma,2,15.820707070707071,8,58
+raw,aci,>=q99,Alto Lerma,3,16.464646464646464,8,58
+raw,aci,>=q99,Alto Lerma,5,10.99747474747475,8,57
+raw,aci,>=q99,Alto Lerma,7,5.277777777777778,8,57
+raw,aci,>=q99,Bajo Pánuco,1,2.0,5,64
+raw,aci,>=q99,Bajo Pánuco,2,2.4390243902439024,5,66
+raw,aci,>=q99,Bajo Pánuco,3,2.380952380952381,5,68
+raw,aci,>=q99,Bajo Pánuco,5,0.0,5,70
+raw,aci,>=q99,Bajo Pánuco,7,0.8695652173913043,5,73
+raw,aci,>=q99,Medio Balsas,1,0.0,8,52
+raw,aci,>=q99,Medio Balsas,2,0.0,8,50
+raw,aci,>=q99,Medio Balsas,3,0.0,8,48
+raw,aci,>=q99,Medio Balsas,5,0.0,8,47
+raw,aci,>=q99,Medio Balsas,7,0.0,8,47
+raw,aci,>=q99,Valle de México,1,23.46078431372549,6,103
+raw,aci,>=q99,Valle de México,2,18.86928104575163,6,103
+raw,aci,>=q99,Valle de México,3,22.480392156862745,6,103
+raw,aci,>=q99,Valle de México,5,17.555555555555554,6,103
+raw,aci,>=q99,Valle de México,7,13.666666666666666,6,102

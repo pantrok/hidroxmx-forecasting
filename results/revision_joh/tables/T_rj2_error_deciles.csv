@@ -1,0 +1,401 @@
+basin,h,decile,median_abs_r_over_q95,window
+Alto Lerma,1,10,0.24560114944956235,calibration
+Alto Lerma,1,7,0.013856164550097408,calibration
+Alto Lerma,1,8,0.029504907178728796,calibration
+Alto Lerma,1,9,0.07774172656496502,calibration
+Alto Lerma,1,6,0.00715025843657195,calibration
+Alto Lerma,1,5,0.004432398101915999,calibration
+Alto Lerma,1,4,0.0027763284188040993,calibration
+Alto Lerma,1,1,0.004295916546625289,calibration
+Alto Lerma,1,2,0.004457879282765842,calibration
+Alto Lerma,1,3,0.00711950214956431,calibration
+Alto Lerma,2,8,0.03893704928309567,calibration
+Alto Lerma,2,9,0.12362077530534385,calibration
+Alto Lerma,2,10,0.3341963311784507,calibration
+Alto Lerma,2,7,0.017860824023850173,calibration
+Alto Lerma,2,6,0.010925603450778474,calibration
+Alto Lerma,2,5,0.006475926168678923,calibration
+Alto Lerma,2,4,0.004268451089441783,calibration
+Alto Lerma,2,1,0.0069757723914725435,calibration
+Alto Lerma,2,2,0.0062040481550086814,calibration
+Alto Lerma,2,3,0.007822681932600585,calibration
+Alto Lerma,3,8,0.052016708011748514,calibration
+Alto Lerma,3,9,0.15080092208726065,calibration
+Alto Lerma,3,10,0.401031580858131,calibration
+Alto Lerma,3,7,0.019017214217057463,calibration
+Alto Lerma,3,6,0.014754902715559999,calibration
+Alto Lerma,3,5,0.009759432595224582,calibration
+Alto Lerma,3,4,0.004753331969758229,calibration
+Alto Lerma,3,1,0.009640076778542912,calibration
+Alto Lerma,3,2,0.008386471641383,calibration
+Alto Lerma,3,3,0.00935721547638356,calibration
+Alto Lerma,5,10,0.49098953093388076,calibration
+Alto Lerma,5,9,0.2009297337191255,calibration
+Alto Lerma,5,8,0.056724510987209265,calibration
+Alto Lerma,5,7,0.02225573301425569,calibration
+Alto Lerma,5,6,0.02098133254391319,calibration
+Alto Lerma,5,5,0.014610008714440261,calibration
+Alto Lerma,5,4,0.006063207921451469,calibration
+Alto Lerma,5,1,0.017312273889745104,calibration
+Alto Lerma,5,2,0.01254398126288184,calibration
+Alto Lerma,5,3,0.009828250551611618,calibration
+Alto Lerma,7,10,0.5915516144128526,calibration
+Alto Lerma,7,9,0.22886012281690324,calibration
+Alto Lerma,7,8,0.0692256291548487,calibration
+Alto Lerma,7,7,0.024366379705978217,calibration
+Alto Lerma,7,6,0.02366623204131316,calibration
+Alto Lerma,7,5,0.018190271300103342,calibration
+Alto Lerma,7,4,0.009193149162456392,calibration
+Alto Lerma,7,1,0.02155998554507055,calibration
+Alto Lerma,7,2,0.015332818394653287,calibration
+Alto Lerma,7,3,0.011058305097824819,calibration
+Valle de México,1,1,0.014079814525265438,calibration
+Valle de México,1,2,0.01262950978307762,calibration
+Valle de México,1,3,0.013505920357660415,calibration
+Valle de México,1,10,0.08207148896195486,calibration
+Valle de México,1,4,0.015636758005427975,calibration
+Valle de México,1,5,0.017632504925131798,calibration
+Valle de México,1,6,0.0177324838670691,calibration
+Valle de México,1,7,0.017696892690783877,calibration
+Valle de México,1,8,0.024646301881982646,calibration
+Valle de México,1,9,0.03246678289273351,calibration
+Valle de México,2,1,0.021340257787235112,calibration
+Valle de México,2,2,0.01608391918372693,calibration
+Valle de México,2,3,0.017565985520680748,calibration
+Valle de México,2,10,0.11073067540028056,calibration
+Valle de México,2,4,0.019614260710160352,calibration
+Valle de México,2,5,0.022992734912483402,calibration
+Valle de México,2,6,0.020850910754443317,calibration
+Valle de México,2,7,0.020284280864470594,calibration
+Valle de México,2,8,0.030558120762507607,calibration
+Valle de México,2,9,0.039675583112027984,calibration
+Valle de México,3,1,0.027168613035892394,calibration
+Valle de México,3,2,0.018751968145070796,calibration
+Valle de México,3,3,0.0215736910318717,calibration
+Valle de México,3,10,0.1272714608593991,calibration
+Valle de México,3,4,0.021333812299757504,calibration
+Valle de México,3,5,0.026351566377438997,calibration
+Valle de México,3,6,0.02410762570798397,calibration
+Valle de México,3,7,0.021051156979340773,calibration
+Valle de México,3,8,0.031219957730708976,calibration
+Valle de México,3,9,0.04037850926593174,calibration
+Valle de México,5,1,0.038468571624551445,calibration
+Valle de México,5,2,0.021557408341210192,calibration
+Valle de México,5,3,0.024051405489444733,calibration
+Valle de México,5,10,0.15813032181186837,calibration
+Valle de México,5,4,0.027688573707233776,calibration
+Valle de México,5,5,0.03088857498637006,calibration
+Valle de México,5,6,0.030417052599099964,calibration
+Valle de México,5,7,0.03059512625137965,calibration
+Valle de México,5,8,0.03683617392301182,calibration
+Valle de México,5,9,0.04402309762857234,calibration
+Valle de México,7,1,0.04913569252350037,calibration
+Valle de México,7,2,0.02651448113792533,calibration
+Valle de México,7,3,0.03258648018042247,calibration
+Valle de México,7,10,0.18477957638733752,calibration
+Valle de México,7,4,0.03093630075454712,calibration
+Valle de México,7,5,0.03386649622677671,calibration
+Valle de México,7,6,0.039109511253161304,calibration
+Valle de México,7,7,0.03584646451386898,calibration
+Valle de México,7,8,0.04223084419908165,calibration
+Valle de México,7,9,0.043660897450006855,calibration
+Bajo Pánuco,1,7,0.009632489374247865,calibration
+Bajo Pánuco,1,9,0.05065593118843061,calibration
+Bajo Pánuco,1,10,0.1310513428903766,calibration
+Bajo Pánuco,1,8,0.018805371233164475,calibration
+Bajo Pánuco,1,6,0.007085701836355752,calibration
+Bajo Pánuco,1,5,0.006586540526013851,calibration
+Bajo Pánuco,1,4,0.005327770205746694,calibration
+Bajo Pánuco,1,3,0.005619041914801929,calibration
+Bajo Pánuco,1,2,0.00525157029600275,calibration
+Bajo Pánuco,1,1,0.004743769518230616,calibration
+Bajo Pánuco,2,7,0.013803514870986876,calibration
+Bajo Pánuco,2,9,0.05236954568387985,calibration
+Bajo Pánuco,2,10,0.1587879176618745,calibration
+Bajo Pánuco,2,8,0.024284392248265993,calibration
+Bajo Pánuco,2,6,0.008460371087172503,calibration
+Bajo Pánuco,2,5,0.009851989664185972,calibration
+Bajo Pánuco,2,4,0.006354746239688978,calibration
+Bajo Pánuco,2,3,0.007359850996343354,calibration
+Bajo Pánuco,2,2,0.006034420752237415,calibration
+Bajo Pánuco,2,1,0.00553745260078182,calibration
+Bajo Pánuco,3,7,0.01832659921898939,calibration
+Bajo Pánuco,3,9,0.059886008136686035,calibration
+Bajo Pánuco,3,10,0.1738878676568376,calibration
+Bajo Pánuco,3,8,0.02793874103838498,calibration
+Bajo Pánuco,3,6,0.009856042377204586,calibration
+Bajo Pánuco,3,5,0.01389193332050565,calibration
+Bajo Pánuco,3,4,0.009445158220267197,calibration
+Bajo Pánuco,3,3,0.009499081337478515,calibration
+Bajo Pánuco,3,2,0.007285521202342795,calibration
+Bajo Pánuco,3,1,0.00735795884790404,calibration
+Bajo Pánuco,5,9,0.06313394432716302,calibration
+Bajo Pánuco,5,10,0.18587713884594462,calibration
+Bajo Pánuco,5,8,0.03269732645309202,calibration
+Bajo Pánuco,5,7,0.022333355652399606,calibration
+Bajo Pánuco,5,6,0.017241371590459957,calibration
+Bajo Pánuco,5,5,0.01805462444613204,calibration
+Bajo Pánuco,5,4,0.01040391026524531,calibration
+Bajo Pánuco,5,3,0.0137473232101664,calibration
+Bajo Pánuco,5,2,0.008525586111566166,calibration
+Bajo Pánuco,5,1,0.00974244785521483,calibration
+Bajo Pánuco,7,9,0.07310406979048743,calibration
+Bajo Pánuco,7,8,0.036522433439407406,calibration
+Bajo Pánuco,7,7,0.027872779845267877,calibration
+Bajo Pánuco,7,6,0.021383802356514436,calibration
+Bajo Pánuco,7,5,0.02148408596283357,calibration
+Bajo Pánuco,7,4,0.013900487161176204,calibration
+Bajo Pánuco,7,10,0.2256083644216984,calibration
+Bajo Pánuco,7,3,0.015739587721910097,calibration
+Bajo Pánuco,7,2,0.008498910171948103,calibration
+Bajo Pánuco,7,1,0.011061738017607762,calibration
+Medio Balsas,1,9,0.11033056971768812,calibration
+Medio Balsas,1,7,0.03528218062958893,calibration
+Medio Balsas,1,8,0.06005555286739338,calibration
+Medio Balsas,1,10,0.3346307117813637,calibration
+Medio Balsas,1,5,0.011183789799630417,calibration
+Medio Balsas,1,6,0.018165878345093284,calibration
+Medio Balsas,1,3,0.00762577167295686,calibration
+Medio Balsas,1,4,0.009688040627066906,calibration
+Medio Balsas,1,1,0.010234790667205446,calibration
+Medio Balsas,1,2,0.006898161136831739,calibration
+Medio Balsas,2,9,0.12595351861447704,calibration
+Medio Balsas,2,7,0.04129200567052725,calibration
+Medio Balsas,2,8,0.07729055476681163,calibration
+Medio Balsas,2,10,0.3846141718937891,calibration
+Medio Balsas,2,5,0.01418673092050008,calibration
+Medio Balsas,2,6,0.030003158418752566,calibration
+Medio Balsas,2,3,0.00775020296980695,calibration
+Medio Balsas,2,4,0.010227410613283049,calibration
+Medio Balsas,2,1,0.011881794305535343,calibration
+Medio Balsas,2,2,0.007725577377393603,calibration
+Medio Balsas,3,7,0.045150663412133966,calibration
+Medio Balsas,3,9,0.11790356363819889,calibration
+Medio Balsas,3,8,0.08207083975793159,calibration
+Medio Balsas,3,10,0.39491159311062496,calibration
+Medio Balsas,3,5,0.018474651224372987,calibration
+Medio Balsas,3,6,0.03396120618574008,calibration
+Medio Balsas,3,3,0.00847977835957597,calibration
+Medio Balsas,3,4,0.01087486743927002,calibration
+Medio Balsas,3,1,0.013546818929321924,calibration
+Medio Balsas,3,2,0.008245931753466145,calibration
+Medio Balsas,5,7,0.05281735095678981,calibration
+Medio Balsas,5,9,0.13055198046625877,calibration
+Medio Balsas,5,8,0.08921020038187716,calibration
+Medio Balsas,5,10,0.4476223917136599,calibration
+Medio Balsas,5,5,0.019765773239391084,calibration
+Medio Balsas,5,6,0.03814354884924463,calibration
+Medio Balsas,5,4,0.011553028514874305,calibration
+Medio Balsas,5,3,0.010966092452446615,calibration
+Medio Balsas,5,1,0.015449178075442542,calibration
+Medio Balsas,5,2,0.009560954888928202,calibration
+Medio Balsas,7,9,0.12681960027310238,calibration
+Medio Balsas,7,8,0.08921675595752268,calibration
+Medio Balsas,7,10,0.4930837904119325,calibration
+Medio Balsas,7,7,0.05805216624996355,calibration
+Medio Balsas,7,5,0.019580736503816913,calibration
+Medio Balsas,7,6,0.03820398870831279,calibration
+Medio Balsas,7,4,0.013991972295249382,calibration
+Medio Balsas,7,3,0.011926781356861586,calibration
+Medio Balsas,7,1,0.02286866229131667,calibration
+Medio Balsas,7,2,0.012193172366888744,calibration
+Alto Lerma,1,10,0.19967332020463058,test
+Alto Lerma,1,8,0.0271415106601778,test
+Alto Lerma,1,9,0.05637900888320556,test
+Alto Lerma,1,1,0.0021926180907805735,test
+Alto Lerma,1,2,0.0020150970418139225,test
+Alto Lerma,1,7,0.010945632632171277,test
+Alto Lerma,1,3,0.0014081312341418467,test
+Alto Lerma,1,4,0.0022075231039935896,test
+Alto Lerma,1,5,0.0048653310918395296,test
+Alto Lerma,1,6,0.007377467611911613,test
+Alto Lerma,2,10,0.28622607282754997,test
+Alto Lerma,2,8,0.03456143844769533,test
+Alto Lerma,2,9,0.09489590786169937,test
+Alto Lerma,2,1,0.0032783766242321577,test
+Alto Lerma,2,2,0.0029631034056976126,test
+Alto Lerma,2,7,0.015128005224540102,test
+Alto Lerma,2,3,0.002211106348720896,test
+Alto Lerma,2,4,0.002472137559400775,test
+Alto Lerma,2,5,0.006746404717563773,test
+Alto Lerma,2,6,0.009395965799156272,test
+Alto Lerma,3,9,0.11082238384655543,test
+Alto Lerma,3,10,0.32790580273013925,test
+Alto Lerma,3,8,0.03802679049843191,test
+Alto Lerma,3,1,0.005139000040386905,test
+Alto Lerma,3,2,0.003536704617076249,test
+Alto Lerma,3,7,0.02188967026601281,test
+Alto Lerma,3,3,0.0025584819793168984,test
+Alto Lerma,3,4,0.003362057318662828,test
+Alto Lerma,3,5,0.009655061909501078,test
+Alto Lerma,3,6,0.01104105949758458,test
+Alto Lerma,5,10,0.4206194274730642,test
+Alto Lerma,5,9,0.13748000490857834,test
+Alto Lerma,5,1,0.007527476672026066,test
+Alto Lerma,5,2,0.004563615884376398,test
+Alto Lerma,5,7,0.03186908224816321,test
+Alto Lerma,5,3,0.0028012984780308122,test
+Alto Lerma,5,4,0.004540264391028404,test
+Alto Lerma,5,5,0.011672473225382556,test
+Alto Lerma,5,6,0.011604743573301617,test
+Alto Lerma,5,8,0.05118124199283545,test
+Alto Lerma,7,10,0.49431990507338464,test
+Alto Lerma,7,9,0.16354726893561225,test
+Alto Lerma,7,1,0.010246116988655078,test
+Alto Lerma,7,2,0.006070051624971841,test
+Alto Lerma,7,7,0.036903286505064636,test
+Alto Lerma,7,3,0.004132609215698071,test
+Alto Lerma,7,4,0.005427988487528815,test
+Alto Lerma,7,5,0.014216525285524723,test
+Alto Lerma,7,6,0.013759401318445073,test
+Alto Lerma,7,8,0.0764546066868057,test
+Valle de México,1,1,0.016470425147523976,test
+Valle de México,1,10,0.1112792451502913,test
+Valle de México,1,2,0.0151381087677452,test
+Valle de México,1,3,0.011872596587048824,test
+Valle de México,1,4,0.014268660409486704,test
+Valle de México,1,5,0.013746152685051437,test
+Valle de México,1,6,0.020001411161741617,test
+Valle de México,1,7,0.024795616807585415,test
+Valle de México,1,8,0.03305837555621716,test
+Valle de México,1,9,0.04428728495079919,test
+Valle de México,2,1,0.02654585127153662,test
+Valle de México,2,10,0.14491701418636765,test
+Valle de México,2,2,0.02556238506791058,test
+Valle de México,2,3,0.019925538184763777,test
+Valle de México,2,4,0.01821407862007618,test
+Valle de México,2,5,0.018576904200017452,test
+Valle de México,2,6,0.027764064148275633,test
+Valle de México,2,7,0.03074081324194504,test
+Valle de México,2,8,0.038073708613713585,test
+Valle de México,2,9,0.05820268428228984,test
+Valle de México,3,1,0.03919251221047956,test
+Valle de México,3,10,0.16230065375566483,test
+Valle de México,3,2,0.03704046194077075,test
+Valle de México,3,3,0.022731963054914223,test
+Valle de México,3,4,0.022688607756279358,test
+Valle de México,3,5,0.022754463367164135,test
+Valle de México,3,6,0.030245317604019006,test
+Valle de México,3,7,0.035376494727506286,test
+Valle de México,3,8,0.04488794230930086,test
+Valle de México,3,9,0.06360719184545416,test
+Valle de México,5,1,0.06194314810419583,test
+Valle de México,5,10,0.2003731692849016,test
+Valle de México,5,2,0.04727367688111417,test
+Valle de México,5,3,0.02685541515810448,test
+Valle de México,5,4,0.025796139826236516,test
+Valle de México,5,5,0.024935120444936232,test
+Valle de México,5,6,0.04005213957998388,test
+Valle de México,5,7,0.04339092909564582,test
+Valle de México,5,8,0.05475079355064345,test
+Valle de México,5,9,0.07248923430840175,test
+Valle de México,7,1,0.07275035022757947,test
+Valle de México,7,10,0.21678654830736624,test
+Valle de México,7,2,0.05253988016293802,test
+Valle de México,7,3,0.028651639819145203,test
+Valle de México,7,4,0.029318854212760925,test
+Valle de México,7,5,0.028853487013410662,test
+Valle de México,7,6,0.04603124023259764,test
+Valle de México,7,7,0.049473072658078265,test
+Valle de México,7,8,0.0566493459045887,test
+Valle de México,7,9,0.09336340203722698,test
+Bajo Pánuco,1,3,0.0053852221990215,test
+Bajo Pánuco,1,2,0.004662553968197533,test
+Bajo Pánuco,1,4,0.00839322289518923,test
+Bajo Pánuco,1,1,0.006080413174908924,test
+Bajo Pánuco,1,7,0.023419192362287677,test
+Bajo Pánuco,1,5,0.011913863587700359,test
+Bajo Pánuco,1,9,0.13792773538578915,test
+Bajo Pánuco,1,8,0.05613044582360026,test
+Bajo Pánuco,1,6,0.014675246146794609,test
+Bajo Pánuco,1,10,0.48237382063014106,test
+Bajo Pánuco,2,3,0.0058682387617465075,test
+Bajo Pánuco,2,2,0.005199698462878374,test
+Bajo Pánuco,2,4,0.008209466060099773,test
+Bajo Pánuco,2,1,0.006492416562802026,test
+Bajo Pánuco,2,7,0.031549004295297715,test
+Bajo Pánuco,2,5,0.010173483141765721,test
+Bajo Pánuco,2,9,0.2009135169286871,test
+Bajo Pánuco,2,8,0.08144935969842332,test
+Bajo Pánuco,2,6,0.0165883699537452,test
+Bajo Pánuco,2,10,0.6330152818459394,test
+Bajo Pánuco,3,3,0.007977470823452617,test
+Bajo Pánuco,3,2,0.007167602621679679,test
+Bajo Pánuco,3,4,0.008391522379866952,test
+Bajo Pánuco,3,1,0.008813066749027884,test
+Bajo Pánuco,3,7,0.046496822266184394,test
+Bajo Pánuco,3,5,0.013947163341189202,test
+Bajo Pánuco,3,9,0.24219640505709883,test
+Bajo Pánuco,3,8,0.10560884001361594,test
+Bajo Pánuco,3,6,0.016111330176426908,test
+Bajo Pánuco,3,10,0.7440388696864775,test
+Bajo Pánuco,5,2,0.009123071580406443,test
+Bajo Pánuco,5,3,0.010865442674168752,test
+Bajo Pánuco,5,4,0.010893836916502092,test
+Bajo Pánuco,5,1,0.010769092748720607,test
+Bajo Pánuco,5,7,0.05558312827698053,test
+Bajo Pánuco,5,5,0.0146207690699057,test
+Bajo Pánuco,5,9,0.28625510409258637,test
+Bajo Pánuco,5,8,0.1365197127348264,test
+Bajo Pánuco,5,6,0.02249384889740813,test
+Bajo Pánuco,5,10,0.97574538074337,test
+Bajo Pánuco,7,3,0.01492044104560133,test
+Bajo Pánuco,7,4,0.012533353873191575,test
+Bajo Pánuco,7,2,0.010800944620263365,test
+Bajo Pánuco,7,1,0.012456154296191829,test
+Bajo Pánuco,7,7,0.08208266244023663,test
+Bajo Pánuco,7,5,0.019622344518899628,test
+Bajo Pánuco,7,9,0.33903103088842573,test
+Bajo Pánuco,7,8,0.192708805441323,test
+Bajo Pánuco,7,6,0.03276051305192597,test
+Bajo Pánuco,7,10,1.17110597834185,test
+Medio Balsas,1,2,0.009207938239214654,test
+Medio Balsas,1,4,0.010951469099618562,test
+Medio Balsas,1,6,0.022042887966807298,test
+Medio Balsas,1,5,0.02165089754558798,test
+Medio Balsas,1,9,0.13065454107888574,test
+Medio Balsas,1,7,0.03423626297259093,test
+Medio Balsas,1,10,0.5012985823870977,test
+Medio Balsas,1,1,0.009789795499639434,test
+Medio Balsas,1,3,0.012937260837089725,test
+Medio Balsas,1,8,0.052245352588744895,test
+Medio Balsas,2,2,0.012257013794494283,test
+Medio Balsas,2,4,0.013743120910856901,test
+Medio Balsas,2,6,0.022755291298768403,test
+Medio Balsas,2,5,0.027015151047125097,test
+Medio Balsas,2,9,0.16234893121050964,test
+Medio Balsas,2,7,0.03544073241792066,test
+Medio Balsas,2,10,0.5579423490726008,test
+Medio Balsas,2,1,0.013169465720900327,test
+Medio Balsas,2,3,0.016490762381948534,test
+Medio Balsas,2,8,0.06346103675238116,test
+Medio Balsas,3,2,0.01377698379630168,test
+Medio Balsas,3,4,0.017106780509473125,test
+Medio Balsas,3,6,0.02808565080026923,test
+Medio Balsas,3,5,0.03393891300062862,test
+Medio Balsas,3,9,0.16189313615455145,test
+Medio Balsas,3,7,0.04459523838481537,test
+Medio Balsas,3,10,0.5737206167805756,test
+Medio Balsas,3,1,0.01637405682425675,test
+Medio Balsas,3,3,0.015413640016365906,test
+Medio Balsas,3,8,0.06800856523663831,test
+Medio Balsas,5,2,0.016032620291169572,test
+Medio Balsas,5,4,0.01865470028948582,test
+Medio Balsas,5,5,0.03581799492255262,test
+Medio Balsas,5,6,0.03222024682257496,test
+Medio Balsas,5,9,0.17217945790670813,test
+Medio Balsas,5,7,0.05050530079750691,test
+Medio Balsas,5,10,0.64039328106348,test
+Medio Balsas,5,1,0.020767406405430164,test
+Medio Balsas,5,3,0.01791955658374607,test
+Medio Balsas,5,8,0.0748045273248662,test
+Medio Balsas,7,2,0.017722693206579453,test
+Medio Balsas,7,4,0.02087838356552784,test
+Medio Balsas,7,6,0.03588609945538264,test
+Medio Balsas,7,8,0.06732902035089708,test
+Medio Balsas,7,7,0.049467833455236844,test
+Medio Balsas,7,5,0.043968168926319176,test
+Medio Balsas,7,10,0.6648629345231172,test
+Medio Balsas,7,1,0.025553214487694105,test
+Medio Balsas,7,9,0.1903346861822376,test
+Medio Balsas,7,3,0.021722244674909564,test

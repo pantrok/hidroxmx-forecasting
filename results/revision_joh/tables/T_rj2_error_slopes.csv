@@ -1,0 +1,41 @@
+basin,h,window,median_slope,folds
+Alto Lerma,1,calibration,1.4097137544514373,14
+Alto Lerma,2,calibration,1.4280246323897146,14
+Alto Lerma,3,calibration,1.2058373614931128,14
+Alto Lerma,5,calibration,0.9690631899387792,14
+Alto Lerma,7,calibration,0.8970236807993094,14
+Valle de México,1,calibration,2.457249329954368,20
+Valle de México,2,calibration,2.461129980743757,20
+Valle de México,3,calibration,2.4014192974046065,20
+Valle de México,5,calibration,2.339579709485311,20
+Valle de México,7,calibration,2.252090933637925,20
+Bajo Pánuco,1,calibration,1.3100442480377117,6
+Bajo Pánuco,2,calibration,1.2943723205932942,6
+Bajo Pánuco,3,calibration,1.1391378053515746,6
+Bajo Pánuco,5,calibration,1.1081911348663556,6
+Bajo Pánuco,7,calibration,1.1546443666249528,6
+Medio Balsas,1,calibration,1.819556863398731,12
+Medio Balsas,2,calibration,1.8034057502277894,12
+Medio Balsas,3,calibration,1.7622398118314822,12
+Medio Balsas,5,calibration,1.6515090687440064,12
+Medio Balsas,7,calibration,1.589671844692996,12
+Alto Lerma,1,test,1.2895482839723944,14
+Alto Lerma,2,test,1.2361493533303562,14
+Alto Lerma,3,test,1.1912905513323908,14
+Alto Lerma,5,test,1.231853219143937,14
+Alto Lerma,7,test,1.2183246099095364,14
+Valle de México,1,test,1.1408289184208549,16
+Valle de México,2,test,0.9965004256694963,16
+Valle de México,3,test,0.9107700885914709,16
+Valle de México,5,test,0.06501111711327208,16
+Valle de México,7,test,0.36091523458485514,16
+Bajo Pánuco,1,test,1.1989194025536487,6
+Bajo Pánuco,2,test,1.2090334038374293,6
+Bajo Pánuco,3,test,1.2600774272979676,6
+Bajo Pánuco,5,test,1.3991131476774314,6
+Bajo Pánuco,7,test,1.3294662196531246,6
+Medio Balsas,1,test,1.9010176548885704,12
+Medio Balsas,2,test,1.5422363104853312,12
+Medio Balsas,3,test,1.4301485379332242,12
+Medio Balsas,5,test,1.4117878152329113,12
+Medio Balsas,7,test,1.293959533367922,12

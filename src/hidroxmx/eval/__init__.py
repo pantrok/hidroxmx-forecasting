@@ -1,6 +1,8 @@
 """Evaluation utilities: metrics registry, decision-frontier tools, figures."""
 from .bootstrap import (
+    BCaResult,
     PairedBootstrapResult,
+    paired_bca,
     paired_bootstrap,
     paired_bootstrap_kill_check,
 )
@@ -22,6 +24,7 @@ from .metrics import (
 )
 
 __all__ = [
+    "BCaResult",
     "METRICS",
     "PairedBootstrapResult",
     "brier_score",
@@ -32,6 +35,7 @@ __all__ = [
     "lead_time_at",
     "mean_interval_width",
     "nse",
+    "paired_bca",
     "paired_bootstrap",
     "paired_bootstrap_kill_check",
     "pbias",

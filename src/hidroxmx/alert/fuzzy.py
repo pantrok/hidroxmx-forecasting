@@ -76,6 +76,27 @@ class TrapezoidalMF(MembershipFunction):
         return np.clip(np.minimum(np.minimum(left, flat), right), 0.0, 1.0)
 
 
+@dataclass(slots=True, frozen=True)
+class ShoulderTrapezoidalMF(MembershipFunction):
+    """Trapezoid whose vertical shoulders (``a == b`` or ``c == d``) keep full membership.
+
+    :class:`TrapezoidalMF` evaluates to 0 exactly at a vertical shoulder, so an input
+    clipped to the edge of its universe fires no rule. This variant is the sensitivity
+    analysis of the revision; the submitted results use :class:`TrapezoidalMF`.
+    """
+    a: float
+    b: float
+    c: float
+    d: float
+
+    def __call__(self, x):
+        x = np.asarray(x, dtype=float)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            left = np.where(x >= self.b, 1.0, (x - self.a) / (self.b - self.a))
+            right = np.where(x <= self.c, 1.0, (self.d - x) / (self.d - self.c))
+        return np.clip(np.minimum(left, right), 0.0, 1.0)
+
+
 # --------------------------------------------------------------------------- #
 # Fuzzy variables + rules
 # --------------------------------------------------------------------------- #
@@ -175,7 +196,7 @@ ORANGE_MAX = 3.0
 # RED > ORANGE_MAX
 
 
-def build_alert_fis() -> MamdaniFIS:
+def build_alert_fis(corrected: bool = False) -> MamdaniFIS:
     """Return the flood-alert FIS the paper reports (basin-agnostic).
 
     Inputs
@@ -187,29 +208,33 @@ def build_alert_fis() -> MamdaniFIS:
     ------
     ``alert_level`` : crisp score in ``[0, 4]`` — GREEN/YELLOW/ORANGE/RED
     partition thresholds at 1, 2, 3.
+
+    ``corrected=True`` swaps the trapezoids for :class:`ShoulderTrapezoidalMF`,
+    so forecasts clipped to the edge of a universe still fire their rules.
     """
+    trapezoid = ShoulderTrapezoidalMF if corrected else TrapezoidalMF
     flow = FuzzyVariable(
         name="flow_ratio", universe_min=0.0, universe_max=3.0,
         mfs={
-            "LOW":  TrapezoidalMF(0.0, 0.0, 0.4, 0.8),
+            "LOW":  trapezoid(0.0, 0.0, 0.4, 0.8),
             "MID":  TriangularMF(0.5, 1.0, 1.5),
-            "HIGH": TrapezoidalMF(1.2, 1.7, 3.0, 3.0),
+            "HIGH": trapezoid(1.2, 1.7, 3.0, 3.0),
         },
     )
     width = FuzzyVariable(
         name="width_ratio", universe_min=0.0, universe_max=2.0,
         mfs={
-            "NARROW": TrapezoidalMF(0.0, 0.0, 0.2, 0.5),
-            "WIDE":   TrapezoidalMF(0.3, 0.6, 2.0, 2.0),
+            "NARROW": trapezoid(0.0, 0.0, 0.2, 0.5),
+            "WIDE":   trapezoid(0.3, 0.6, 2.0, 2.0),
         },
     )
     alert = FuzzyVariable(
         name="alert_level", universe_min=0.0, universe_max=4.0,
         mfs={
-            "GREEN":  TrapezoidalMF(0.0, 0.0, 0.5, 1.2),
+            "GREEN":  trapezoid(0.0, 0.0, 0.5, 1.2),
             "YELLOW": TriangularMF(0.8, 1.5, 2.2),
             "ORANGE": TriangularMF(1.8, 2.5, 3.2),
-            "RED":    TrapezoidalMF(2.8, 3.5, 4.0, 4.0),
+            "RED":    trapezoid(2.8, 3.5, 4.0, 4.0),
         },
     )
     rules = [

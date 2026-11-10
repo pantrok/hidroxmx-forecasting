@@ -171,7 +171,8 @@ DEFAULT_FORMATS: tuple[str, ...] = ("tif", "pdf", "png")
 def save_figure(fig: "plt.Figure", path_stem: str | Path, *,
                 kind: str = "combination",
                 formats: Iterable[str] = DEFAULT_FORMATS,
-                metadata: dict | None = None) -> list[Path]:
+                metadata: dict | None = None,
+                dpi: int | None = None) -> list[Path]:
     """Save ``fig`` at the resolution the journal requires for ``kind``.
 
     Parameters
@@ -185,12 +186,13 @@ def save_figure(fig: "plt.Figure", path_stem: str | Path, *,
         PNG so every submission requirement is met in one call.
     metadata : optional dict passed to matplotlib as figure metadata
         (respected for PDF; ignored for other formats).
+    dpi : optional raster resolution that overrides the one of ``kind``.
 
     Returns the list of written paths.
     """
     if kind not in FIGURE_KINDS:
         raise ValueError(f"unknown kind={kind!r}; choose from {sorted(FIGURE_KINDS)}")
-    dpi = FIGURE_KINDS[kind].dpi
+    dpi = dpi or FIGURE_KINDS[kind].dpi
     stem = Path(path_stem)
     stem.parent.mkdir(parents=True, exist_ok=True)
 

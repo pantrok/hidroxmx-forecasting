@@ -43,8 +43,8 @@ from hidroxmx.viz import (  # noqa: E402
 SCENARIO_ORDER = ("precip_+20pct", "precip_-20pct",
                    "temp_+2C", "temp_-2C", "dry_out_14d")
 SCENARIO_LABELS = {
-    "precip_+20pct": "precip +20 %",
-    "precip_-20pct": "precip −20 %",
+    "precip_+20pct": "precip +20%",
+    "precip_-20pct": "precip −20%",
     "temp_+2C":       "temp +2 °C",
     "temp_-2C":       "temp −2 °C",
     "dry_out_14d":    "dry-out 14 d",
@@ -83,7 +83,7 @@ def _panel_hydrograph(ax, data, title: str, slice_len: int = 90):
     ax.set_ylabel("Streamflow (m³/s)")
     ax.set_xlabel("Test day (last %d shown)" % slice_len)
     ax.set_title(title, loc="left", fontsize=9)
-    ax.legend(loc="upper right", frameon=True, fontsize=6.5)
+    ax.legend(loc="upper right", frameon=True, fontsize=7)
     ax.grid(alpha=0.3)
 
 
@@ -104,7 +104,7 @@ def _panel_whatif(ax, data, title: str, slice_len: int = 90):
     ax.set_ylabel("Streamflow (m³/s)")
     ax.set_xlabel("Test day (last %d shown)" % slice_len)
     ax.set_title(title, loc="left", fontsize=9)
-    ax.legend(loc="upper right", frameon=True, fontsize=6.0, ncol=2)
+    ax.legend(loc="upper right", frameon=True, fontsize=7, ncol=2)
     ax.grid(alpha=0.3)
 
 
@@ -122,9 +122,11 @@ def _panel_whatif(ax, data, title: str, slice_len: int = 90):
               help="Number of trailing test days plotted per panel.")
 @click.option("--out", default="results/figures/fig_6_dt_demo",
               show_default=True, help="Output stem (no extension).")
+@click.option("--dpi", default=None, type=int,
+              help="Raster resolution; defaults to the journal value for this figure kind.")
 @click.option("--upload-to-r2", is_flag=True,
               help="Mirror the figure to R2 under paper2/figures/.")
-def main(run_id, stations, basins, arrays_dir, from_r2, slice_len, out, upload_to_r2):
+def main(run_id, stations, basins, arrays_dir, from_r2, slice_len, out, dpi, upload_to_r2):
     load_dotenv(override=False)
     r2 = r2_from_env() if (from_r2 or upload_to_r2) else None
 
@@ -174,7 +176,7 @@ def main(run_id, stations, basins, arrays_dir, from_r2, slice_len, out, upload_t
 
     stem = Path(out)
     written = save_figure(
-        fig, stem, kind="combination",
+        fig, stem, kind="combination", dpi=dpi,
         metadata={
             "Title": "Scoped predictive digital twin",
             "Author": "Daniel Sánchez-Ruiz",

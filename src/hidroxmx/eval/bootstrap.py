@@ -31,6 +31,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+from scipy.stats import norm
 
 
 DEFAULT_N_BOOT = 10_000
@@ -133,6 +134,112 @@ def paired_bootstrap(a: np.ndarray, b: np.ndarray, *,
         ci_level=ci, statistic=statistic,
         significant=significant,
     )
+
+
+@dataclass(slots=True, frozen=True)
+class BCaResult:
+    """Percentile and BCa limits of one paired comparison."""
+    n: int
+    estimate: float
+    pct_low: float
+    pct_high: float
+    bca_low: float               # NaN when ``defined`` is False
+    bca_high: float
+    z0: float
+    acceleration: float
+    defined: bool
+    reason: str                  # why the BCa limits are undefined, else ""
+
+
+_ESTIMATORS = ("difference_of_medians", "median_of_differences")
+_TIE_TOL = 1e-12
+
+
+def _paired_estimate(a: np.ndarray, b: np.ndarray, estimator: str) -> np.ndarray:
+    """Estimator along the last axis, so it serves one sample or many replicates."""
+    if estimator == "difference_of_medians":
+        return np.median(a, axis=-1) - np.median(b, axis=-1)
+    if estimator == "median_of_differences":
+        return np.median(a - b, axis=-1)
+    raise ValueError(f"unknown estimator {estimator!r}; choose from {_ESTIMATORS}")
+
+
+def paired_bca(a: np.ndarray, b: np.ndarray, *,
+               estimator: str = "difference_of_medians",
+               n_boot: int = DEFAULT_N_BOOT,
+               ci: float = DEFAULT_CI,
+               seed: int = DEFAULT_SEED) -> BCaResult:
+    """Bias-corrected and accelerated interval for a paired comparison.
+
+    Draws the same resampling indices as :func:`paired_bootstrap`, so with
+    ``difference_of_medians`` the percentile limits match it exactly. The bias
+    correction uses the mid-rank share of replicates below the estimate, which
+    keeps it finite when a small sample makes the bootstrap distribution
+    discrete. The acceleration comes from the delete-one paired jackknife.
+
+    The limits are undefined, and flagged with ``defined=False``, when
+    ``n < 3``, when all jackknife values are equal, when that share is 0 or 1,
+    or when the acceleration pushes the BCa formula past its pole.
+    """
+    if estimator not in _ESTIMATORS:
+        raise ValueError(f"unknown estimator {estimator!r}; choose from {_ESTIMATORS}")
+    if not (0 < ci < 1):
+        raise ValueError(f"ci must be in (0, 1), got {ci}")
+    a = np.asarray(a, dtype=float)
+    b = np.asarray(b, dtype=float)
+    if a.shape != b.shape or a.ndim != 1:
+        raise ValueError(f"expected two 1-D arrays of equal length, got {a.shape}, {b.shape}")
+    finite = np.isfinite(a) & np.isfinite(b)
+    a, b = a[finite], b[finite]
+    n = int(a.size)
+    nan = float("nan")
+    if n == 0:
+        return BCaResult(0, nan, nan, nan, nan, nan, nan, nan, False, "no finite pairs")
+    estimate = float(_paired_estimate(a, b, estimator))
+    if n < 2:
+        return BCaResult(n, estimate, nan, nan, nan, nan, nan, nan, False, "n < 3")
+
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, n, size=(n_boot, n))
+    replicates = _paired_estimate(a[idx], b[idx], estimator)
+    lo_q = (1.0 - ci) / 2.0
+    hi_q = 1.0 - lo_q
+    pct_low = float(np.quantile(replicates, lo_q))
+    pct_high = float(np.quantile(replicates, hi_q))
+
+    def undefined(z0: float, accel: float, reason: str) -> BCaResult:
+        return BCaResult(n, estimate, pct_low, pct_high, nan, nan, z0, accel, False, reason)
+
+    if n < 3:
+        return undefined(nan, nan, "n < 3")
+
+    below = float(np.mean(replicates < estimate - _TIE_TOL))
+    ties = float(np.mean(np.abs(replicates - estimate) <= _TIE_TOL))
+    share = below + 0.5 * ties
+    if share <= 0.0 or share >= 1.0:
+        return undefined(nan, nan, "all replicates on one side of the estimate")
+    z0 = float(norm.ppf(share))
+
+    keep = ~np.eye(n, dtype=bool)
+    jack = _paired_estimate(
+        np.broadcast_to(a, (n, n))[keep].reshape(n, n - 1),
+        np.broadcast_to(b, (n, n))[keep].reshape(n, n - 1),
+        estimator,
+    )
+    if float(np.ptp(jack)) <= _TIE_TOL:
+        return undefined(z0, nan, "all jackknife values are equal")
+    dev = jack.mean() - jack
+    accel = float(np.sum(dev ** 3) / (6.0 * np.sum(dev ** 2) ** 1.5))
+
+    limits = []
+    for q in (lo_q, hi_q):
+        z = z0 + float(norm.ppf(q))
+        denom = 1.0 - accel * z
+        if denom <= 0.0:
+            return undefined(z0, accel, "acceleration past the pole of the BCa formula")
+        limits.append(float(np.quantile(replicates, norm.cdf(z0 + z / denom))))
+    return BCaResult(n, estimate, pct_low, pct_high, limits[0], limits[1],
+                     z0, accel, True, "")
 
 
 def paired_bootstrap_kill_check(a: np.ndarray, b: np.ndarray, *,
